@@ -765,6 +765,8 @@
 .zeit-new-tag{ display:inline-block; font-size:.68rem; font-weight:600; color:var(--amber); background:#fff; border:1px solid var(--amber); border-radius:20px; padding:1px 8px; margin-left:8px; }
 .zeit-lern-progress{ font-size:.78rem; color:var(--ink-faint); margin-top:10px; }
 .zeit-lern-progress-big{ font-size:.9rem; color:var(--ink-dim); background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:14px 0 20px; }
+.quiz-card-featured{ border-color:var(--amber); background:var(--amber-soft); }
+.qc-badge{ display:inline-block; font-size:.7rem; font-weight:700; color:#fff; background:var(--amber); border-radius:20px; padding:1px 8px; margin-left:6px; vertical-align:middle; }
 </style>
 </head>
 <body>
@@ -1480,6 +1482,55 @@ async function loadPath(id){
 function pathKey(id){ return `path_${id}`; }
 function loadPathProg(id){ try { return JSON.parse(localStorage.getItem(pathKey(id))||'{}'); } catch { return {}; } }
 function savePathProg(id,p){ try { localStorage.setItem(pathKey(id), JSON.stringify(p)); } catch {} }
+
+/* Spaced Repetition für Wissenspfad-Stationen (stationsweise, globale Stations-ID als Schlüssel) */
+function loadWissenSR(){ try { return JSON.parse(localStorage.getItem('sr_wissen')||'{}'); } catch { return {}; } }
+function saveWissenSR(sr){ try { localStorage.setItem('sr_wissen', JSON.stringify(sr)); } catch {} }
+function seedWissenSR(stationId, grade){
+  const sr = loadWissenSR();
+  if (!sr[stationId]) { sr[stationId] = schedule(null, grade); saveWissenSR(sr); }
+}
+function gradeFromResult(correct, wrong){
+  if (wrong === 0) return 2;
+  if (correct >= wrong) return 1;
+  return 0;
+}
+/* Sammelt alle fälligen (oder noch nie bewerteten) Stationen aus bereits gemeisterten Pfaden */
+function collectDueWissenPool(){
+  const sr = loadWissenSR(); const t = todayNum();
+  const pool = [];
+  for (const pid in PATH_INLINE){
+    const path = PATH_INLINE[pid];
+    if (!path || !path.stationen) continue;
+    const prog = loadPathProg(pid);
+    path.stationen.forEach(st=>{
+      if (!prog[st.id] || !prog[st.id].done) return; // nur gemeisterte Stationen
+      const card = sr[st.id];
+      const due = !card || (card.due??0) <= t;
+      if (!due) return;
+      (st.uebungen||[]).forEach(ex=>{
+        pool.push(Object.assign({}, ex, { _stId: st.id, _pid: pid, _pfad: path.titel, _station: st.titel }));
+      });
+    });
+  }
+  return pool;
+}
+function countDueWissen(){
+  const sr = loadWissenSR(); const t = todayNum();
+  let due = 0, total = 0;
+  for (const pid in PATH_INLINE){
+    const path = PATH_INLINE[pid];
+    if (!path || !path.stationen) continue;
+    const prog = loadPathProg(pid);
+    path.stationen.forEach(st=>{
+      if (!prog[st.id] || !prog[st.id].done) return;
+      total++;
+      const card = sr[st.id];
+      if (!card || (card.due??0) <= t) due++;
+    });
+  }
+  return { due, total };
+}
 /* globale XP/Streak */
 function loadGlobal(){ try { return JSON.parse(localStorage.getItem('wissen_global')||'{}'); } catch { return {}; } }
 function saveGlobal(g){ try { localStorage.setItem('wissen_global', JSON.stringify(g)); } catch {} }
@@ -1653,6 +1704,16 @@ function showResult(ok, fb){
   btn.disabled = false;
   btn.classList.toggle('good', ok);
   if (ok) lessonState.correct++; else lessonState.wrong++;
+  if (lessonState.mode === 'review'){
+    const ex = lessonState.station.uebungen[lessonState.exIdx];
+    const stId = ex && ex._stId;
+    if (stId){
+      lessonState.stationStats = lessonState.stationStats || {};
+      const s = lessonState.stationStats[stId] || { correct:0, wrong:0 };
+      if (ok) s.correct++; else s.wrong++;
+      lessonState.stationStats[stId] = s;
+    }
+  }
   btn.onclick = () => { lessonState.exIdx++; lessonState.step++; renderLessonStep(); };
 }
 
@@ -1788,11 +1849,14 @@ function renderEx_order(ex){
 function finishStation(){
   const ls = lessonState;
   if (ls.mode === 'quiz') return finishMixQuiz();
+  if (ls.mode === 'review') return finishReviewQuiz();
   const prog = loadPathProg(curPath.id);
   const total = ls.correct + ls.wrong;
   const gained = ls.correct * 10 + (ls.wrong===0 ? 10 : 0); // Bonus für fehlerfrei
+  const wasAlreadyDone = !!(prog[ls.station.id] && prog[ls.station.id].done);
   prog[ls.station.id] = { done:true, best: Math.max(prog[ls.station.id]?.best||0, ls.correct) };
   savePathProg(curPath.id, prog);
+  if (!wasAlreadyDone) seedWissenSR(ls.station.id, gradeFromResult(ls.correct, ls.wrong));
   const g = loadGlobal(); g.xp = (g.xp||0) + gained; saveGlobal(g);
   bumpStreak();
 
@@ -2577,6 +2641,7 @@ function renderDashboard(){
   const main = document.getElementById('main');
   const crowns = countCrowns();
   const vocab = countVocabLearned();
+  const wissenDue = countDueWissen();
 
   // Fortschritt pro Bereich
   const cBy = crownsBySaeule();
@@ -2692,6 +2757,11 @@ function renderDashboard(){
           <span class="qc-title">Großes Quiz</span>
           <span class="qc-desc">20 Fragen quer durch Wissen &amp; Geschichte</span>
         </button>
+        <button class="quiz-card ${wissenDue.due>0?'quiz-card-featured':''}" id="dashReviewCard">
+          <span class="qc-ic"><svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">${ICONS.brain}</svg></span>
+          <span class="qc-title">Wiederholung${wissenDue.due>0?` <span class="qc-badge">${wissenDue.due}</span>`:''}</span>
+          <span class="qc-desc">${wissenDue.due>0?`${wissenDue.due} von ${wissenDue.total} gelernten Stationen fällig`:'Spaced Repetition über alle Wissenspfade'}</span>
+        </button>
         <button class="quiz-card" data-quiz="mixKNOW">
           <span class="qc-ic">${DASH_ICONS.know}</span>
           <span class="qc-title">Allgemeinwissen-Quiz</span>
@@ -2721,6 +2791,8 @@ function renderDashboard(){
   main.querySelectorAll('.quiz-card[data-quiz]').forEach(b=>{
     b.onclick = () => startMixQuiz(b.dataset.quiz);
   });
+  const reviewCard = document.getElementById('dashReviewCard');
+  if (reviewCard) reviewCard.onclick = () => startReviewQuiz();
   const megaCard = document.getElementById('dashMegaCard');
   if (megaCard) megaCard.onclick = () => openMegaOverview();
   const zeitCard = document.getElementById('dashZeitCard');
@@ -2798,6 +2870,69 @@ function collectQuizPool(filter){
     });
   }
   return pool;
+}
+
+/* ============ Wiederholung (Spaced Repetition über alle Wissenspfade) ============ */
+const WISSEN_REVIEW_CAP = 30; // max. Übungen pro Wiederholungssitzung
+
+function startReviewQuiz(){
+  let pool = collectDueWissenPool();
+  if (!pool.length){
+    const main = document.getElementById('main');
+    main.innerHTML = `<div class="lesson"><div class="path-done">
+      <div class="big">✅</div><h3>Alles erledigt!</h3>
+      <p>Aktuell ist nichts zur Wiederholung fällig. Schau später wieder vorbei.</p>
+      <div><button class="primary" id="qBack">Zurück</button></div>
+    </div></div>`;
+    document.getElementById('qBack').onclick = renderDashboard;
+    return;
+  }
+  shuffle(pool);
+  pool = pool.slice(0, WISSEN_REVIEW_CAP);
+  lessonState = {
+    mode:'review',
+    station: { titel:'Wiederholung', lektion:[], uebungen: pool },
+    phase:'exercise', lessonPage:0,
+    exIdx:0, correct:0, wrong:0,
+    steps: pool.length, step:0,
+    stationStats: {}
+  };
+  renderLessonStep();
+}
+
+function finishReviewQuiz(){
+  const ls = lessonState;
+  const total = ls.correct + ls.wrong;
+  const gained = ls.correct * 6; // etwas mehr als Mix-Quiz, da spaced-repetition-gestützt
+  const sr = loadWissenSR();
+  const statIds = Object.keys(ls.stationStats||{});
+  statIds.forEach(stId => {
+    const s = ls.stationStats[stId];
+    const grade = gradeFromResult(s.correct, s.wrong);
+    sr[stId] = schedule(sr[stId], grade);
+  });
+  saveWissenSR(sr);
+  if (gained > 0){
+    const g = loadGlobal(); g.xp = (g.xp||0) + gained; saveGlobal(g);
+    bumpStreak();
+  }
+  const pct = total ? Math.round(ls.correct/total*100) : 0;
+  const emoji = pct === 100 ? '🏆' : pct >= 60 ? '⭐' : '📚';
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="lesson"><div class="path-done">
+      <div class="big">${emoji}</div>
+      <h3>Wiederholung beendet!</h3>
+      <p>${ls.correct} von ${total} richtig (${pct}%) · ${statIds.length} Stationen aufgefrischt</p>
+      <div class="earned">
+        <div>XP<b>+${gained}</b></div>
+      </div>
+      <div>
+        <button class="primary" id="qAgain">Weiter wiederholen</button>
+        <button id="qHome">Zum Dashboard</button>
+      </div>
+    </div></div>`;
+  document.getElementById('qHome').onclick = renderDashboard;
+  document.getElementById('qAgain').onclick = startReviewQuiz;
 }
 
 function startMixQuiz(kind){
@@ -3101,6 +3236,16 @@ function megaSeqDone(full){
 document.getElementById('brandHome').onclick = renderDashboard;
 
 loadData().then(data => { render(data); renderDashboard(); });
+</script>
+<script>
+  // Registriert den Service Worker für Offline-Nutzung, sofern sw.js verfügbar ist
+  // (z. B. im GitHub-Pages-Repo neben index.html). Schlägt die Registrierung fehl
+  // (Datei fehlt, lokales Testen ohne Server etc.), bleibt die App normal online nutzbar.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
 </script>
 </body>
 </html>
