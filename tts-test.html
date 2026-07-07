@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTS-Test</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background:#f7f3ec; color:#2a2420; }
+  h1 { font-size: 20px; }
+  button { display:block; width:100%; padding:18px; margin:10px 0; font-size:18px; border:none; border-radius:12px; background:#3a5a4a; color:#fff; }
+  button:active { background:#2a4235; }
+  #log { margin-top:20px; padding:14px; background:#fffdf8; border-radius:10px; font-size:13px; white-space:pre-wrap; line-height:1.6; min-height:120px; border:1px solid #e0d8c8; }
+  .hint { font-size:13px; color:#6a6255; margin-top:8px; }
+</style>
+</head>
+<body>
+<h1>Sprachausgabe-Test</h1>
+<p class="hint">Jeder Knopf probiert eine andere Methode. Drücke sie der Reihe nach und schau, ob (und bei welchem) Ton kommt.</p>
+
+<button id="b1">1 · Einfachster Test ("hola", spanisch)</button>
+<button id="b2">2 · Ohne Sprachangabe ("test")</button>
+<button id="b3">3 · Deutsch ("hallo")</button>
+<button id="b4">4 · Mit expliziter Stimme (erste spanische)</button>
+<button id="b5">Stimmen auf diesem Gerät auflisten</button>
+
+<div id="log">Bereit. Warte auf Eingabe…</div>
+
+<script>
+const log = (m) => { document.getElementById('log').textContent = m + '\n\n' + document.getElementById('log').textContent; };
+
+function basicSpeak(text, lang, useVoice) {
+  if (!('speechSynthesis' in window)) { log('❌ speechSynthesis existiert nicht in diesem Browser'); return; }
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    if (lang) u.lang = lang;
+    u.volume = 1; u.rate = 1; u.pitch = 1;
+    if (useVoice) {
+      const voices = window.speechSynthesis.getVoices();
+      const v = voices.find(x => x.lang && x.lang.toLowerCase().startsWith('es'));
+      if (v) { u.voice = v; log('Verwende Stimme: ' + v.name + ' (' + v.lang + ')'); }
+      else log('Keine spanische Stimme gefunden, nutze Standard');
+    }
+    u.onstart = () => log('🔊 onstart — Ausgabe hat begonnen: "' + text + '"');
+    u.onend   = () => log('✅ onend — Ausgabe beendet: "' + text + '"');
+    u.onerror = (e) => log('❌ onerror: ' + (e && e.error ? e.error : 'unbekannt'));
+    window.speechSynthesis.speak(u);
+    log('→ speak() aufgerufen für "' + text + '" (lang=' + (lang||'—') + ')');
+  } catch(e) { log('❌ Exception: ' + e.message); }
+}
+
+document.getElementById('b1').onclick = () => basicSpeak('hola', 'es-ES', false);
+document.getElementById('b2').onclick = () => basicSpeak('test', '', false);
+document.getElementById('b3').onclick = () => basicSpeak('hallo', 'de-DE', false);
+document.getElementById('b4').onclick = () => basicSpeak('hola', 'es-ES', true);
+document.getElementById('b5').onclick = () => {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) { log('⚠️ getVoices() liefert 0 Stimmen (evtl. noch nicht geladen — nochmal drücken)'); return; }
+  const list = voices.map(v => v.lang + ' · ' + v.name).join('\n');
+  log('Gefundene Stimmen (' + voices.length + '):\n' + list);
+};
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => log('ℹ️ Stimmen wurden geladen (' + window.speechSynthesis.getVoices().length + ' Stück)');
+  log('speechSynthesis ist verfügbar. Stimmen aktuell: ' + window.speechSynthesis.getVoices().length);
+} else {
+  log('❌ speechSynthesis NICHT verfügbar in diesem Browser');
+}
+</script>
+</body>
+</html>
