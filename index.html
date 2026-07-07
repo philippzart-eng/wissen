@@ -1243,12 +1243,12 @@ function speakWord(text, isTarget){
     } catch(e) { __toast('Vorlesen fehlgeschlagen: ' + (e && e.message ? e.message : e)); }
   };
   try {
+    // WICHTIG: cancel() und speak() müssen synchron im selben Tastendruck-Handler bleiben.
+    // Ein setTimeout dazwischen lässt iOS die Berechtigung zur Sprachausgabe stillschweigend verweigern.
     if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
       window.speechSynthesis.cancel();
-      setTimeout(doSpeak, 60); // iOS: speak() direkt nach cancel() wird sonst manchmal verschluckt
-    } else {
-      doSpeak();
     }
+    doSpeak();
   } catch(e) { __toast('Vorlesen fehlgeschlagen: ' + (e && e.message ? e.message : e)); }
 }
 function speakIcon(){
