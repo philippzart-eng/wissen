@@ -22,6 +22,7 @@
 <button id="b3">3 · Deutsch ("hallo")</button>
 <button id="b4">4 · Mit expliziter Stimme (erste spanische)</button>
 <button id="b5">Stimmen auf diesem Gerät auflisten</button>
+<button id="b6" style="background:#7a4a2a">6 · MP3-METHODE (wie Quizlet!) — "hola" spanisch</button>
 
 <div id="log">Bereit. Warte auf Eingabe…</div>
 
@@ -57,6 +58,22 @@ document.getElementById('b5').onclick = () => {
   if (!voices.length) { log('⚠️ getVoices() liefert 0 Stimmen (evtl. noch nicht geladen — nochmal drücken)'); return; }
   const list = voices.map(v => v.lang + ' · ' + v.name).join('\n');
   log('Gefundene Stimmen (' + voices.length + '):\n' + list);
+};
+
+document.getElementById('b6').onclick = () => {
+  const text = 'hola', lang = 'es';
+  // Google-Translate-TTS liefert eine echte MP3. Direktaufruf scheitert an CORS,
+  // daher über einen öffentlichen CORS-Proxy (nur zum Testen!).
+  const googleUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=' + encodeURIComponent(text) + '&tl=' + lang;
+  const proxied = 'https://corsproxy.io/?url=' + encodeURIComponent(googleUrl);
+  log('→ Lade MP3 über Proxy…');
+  try {
+    const audio = new Audio(proxied);
+    audio.onplay = () => log('🔊 MP3 spielt ab!');
+    audio.onerror = (e) => log('❌ MP3-Fehler: ' + (audio.error ? audio.error.code + ' / ' + audio.error.message : 'unbekannt'));
+    audio.onended = () => log('✅ MP3 fertig abgespielt');
+    audio.play().then(() => log('→ play() akzeptiert')).catch(err => log('❌ play() abgelehnt: ' + err.message));
+  } catch(e) { log('❌ Exception: ' + e.message); }
 };
 
 if ('speechSynthesis' in window) {
