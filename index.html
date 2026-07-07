@@ -1246,8 +1246,10 @@ function speakWord(text, isTarget, _retry){
     try {
       const u = new SpeechSynthesisUtterance(text);
       u.lang = langCode;
-      const v = __pickVoice(langCode);
-      if (v) u.voice = v;
+      // Bewusst KEIN u.voice = ... : explizite Stimm-Zuweisung führt auf iOS/iPadOS
+      // manchmal zu lautlosem Fehlschlagen (onstart feuert, aber kein Ton kommt).
+      // u.lang allein lässt das Betriebssystem die passende Stimme selbst wählen.
+      const v = __pickVoice(langCode); // nur für Diagnose-Anzeige, wird nicht zugewiesen
       u.rate = 0.92;
       u.volume = 1;
       let started = false, settled = false;
