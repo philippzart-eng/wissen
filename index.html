@@ -1197,15 +1197,53 @@ function wireExit(){
 
 /* ---- Vorlesefunktion (Web Speech API) ---- */
 const LANG_SPEECH_CODE = { LANG_ES:'es-ES', LANG_SV:'sv-SE', LANG_FR:'fr-FR' };
+let __voicesCache = [];
+function __refreshVoices(){ try { __voicesCache = window.speechSynthesis.getVoices() || []; } catch(e){} }
+if ('speechSynthesis' in window) {
+  __refreshVoices();
+  window.speechSynthesis.onvoiceschanged = __refreshVoices;
+}
+function __pickVoice(langCode){
+  if (!__voicesCache.length) __refreshVoices();
+  const base = langCode.split('-')[0];
+  return __voicesCache.find(v => v.lang === langCode)
+      || __voicesCache.find(v => v.lang && v.lang.toLowerCase().startsWith(base))
+      || null;
+}
+function __toast(msg){
+  let t = document.getElementById('ttsToast');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'ttsToast';
+    t.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(30,26,20,.92);color:#fff;padding:9px 16px;border-radius:10px;font-family:ui-sans-serif,sans-serif;font-size:13px;z-index:9999;pointer-events:none;transition:opacity .3s;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.opacity = '1';
+  clearTimeout(t._h); t._h = setTimeout(()=>{ t.style.opacity='0'; }, 2200);
+}
 function speakWord(text, isTarget){
-  if (!('speechSynthesis' in window) || !text) return;
+  if (!text) return;
+  if (!('speechSynthesis' in window)) { __toast('Vorlesen wird von diesem Browser nicht unterstützt'); return; }
+  const langCode = isTarget ? (LANG_SPEECH_CODE[curLang.id] || 'de-DE') : 'de-DE';
+  const doSpeak = () => {
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = langCode;
+      const v = __pickVoice(langCode);
+      if (v) u.voice = v;
+      else __toast('Keine Stimme für ' + langCode + ' auf diesem Gerät installiert');
+      u.rate = 0.92;
+      u.onerror = () => __toast('Vorlesen fehlgeschlagen');
+      window.speechSynthesis.speak(u);
+    } catch(e) { __toast('Vorlesen fehlgeschlagen'); }
+  };
   try {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = isTarget ? (LANG_SPEECH_CODE[curLang.id] || 'de-DE') : 'de-DE';
-    u.rate = 0.92;
-    window.speechSynthesis.speak(u);
-  } catch(e) {}
+    if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+      window.speechSynthesis.cancel();
+      setTimeout(doSpeak, 60); // iOS: speak() direkt nach cancel() wird sonst manchmal verschluckt
+    } else {
+      doSpeak();
+    }
+  } catch(e) { __toast('Vorlesen fehlgeschlagen'); }
 }
 function speakIcon(){
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
