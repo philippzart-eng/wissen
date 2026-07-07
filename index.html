@@ -1202,6 +1202,20 @@ function __refreshVoices(){ try { __voicesCache = window.speechSynthesis.getVoic
 if ('speechSynthesis' in window) {
   __refreshVoices();
   window.speechSynthesis.onvoiceschanged = __refreshVoices;
+  // Aufwärm-Trick: iOS' Sprachengine startet manchmal beim allerersten Aufruf einer Seite
+  // nicht zuverlässig. Eine sehr leise "Stille"-Ansage direkt beim ersten Antippen der Seite
+  // aktiviert die Audio-Session vorab, sodass echte Ansagen danach zuverlässiger anlaufen.
+  const __primeTTS = () => {
+    try {
+      const u = new SpeechSynthesisUtterance(' ');
+      u.volume = 0.01; u.rate = 10;
+      window.speechSynthesis.speak(u);
+    } catch(e) {}
+    document.removeEventListener('touchend', __primeTTS, true);
+    document.removeEventListener('click', __primeTTS, true);
+  };
+  document.addEventListener('touchend', __primeTTS, true);
+  document.addEventListener('click', __primeTTS, true);
 }
 function __pickVoice(langCode){
   if (!__voicesCache.length) __refreshVoices();
@@ -1220,7 +1234,9 @@ function __toast(msg){
   t.textContent = msg; t.style.opacity = '1';
   clearTimeout(t._h); t._h = setTimeout(()=>{ t.style.opacity='0'; }, 2200);
 }
-function speakWord(text, isTarget){
+const MAX_TTS_RETRIES = 2;
+function speakWord(text, isTarget, _retry){
+  _retry = _retry || 0;
   if (!text) return;
   if (!('speechSynthesis' in window)) { __toast('❌ Web Speech API nicht verfügbar'); return; }
   const langCode = isTarget ? (LANG_SPEECH_CODE[curLang.id] || 'de-DE') : 'de-DE';
@@ -1233,17 +1249,23 @@ function speakWord(text, isTarget){
       if (v) u.voice = v;
       u.rate = 0.92;
       u.volume = 1;
-      let started = false;
-      u.onstart = () => { started = true; __toast('🔊 spielt: "' + text + '" (' + langCode + (v?', Stimme: '+v.name:', Systemstimme') + ')'); };
+      let started = false, settled = false;
+      const retryOrGiveUp = (reason) => {
+        if (settled) return; settled = true;
+        if (_retry < MAX_TTS_RETRIES) {
+          setTimeout(() => speakWord(text, isTarget, _retry + 1), 180);
+        } else {
+          __toast('⚠️ Vorlesen hat nach ' + (MAX_TTS_RETRIES+1) + ' Versuchen nicht geklappt (' + langCode + ', ' + nVoices + ' Stimmen). Bitte Stummschalter/Lautstärke prüfen.');
+        }
+      };
+      u.onstart = () => { started = true; settled = true; __toast('🔊 ' + text); };
       u.onerror = (ev) => {
         const err = ev && ev.error;
-        if (err === 'canceled' || err === 'interrupted') return;
-        __toast('❌ Fehler: ' + (err || 'unbekannt'));
+        if (err === 'canceled' || err === 'interrupted') { settled = true; return; }
+        retryOrGiveUp(err);
       };
-      u.onend = () => { if (!started) __toast('⚠️ Ansage beendet, ohne je zu starten — vermutlich Stummschalter aktiv (' + langCode + ', ' + nVoices + ' Stimmen gefunden)'); };
+      u.onend = () => { if (!started) retryOrGiveUp('kein Start'); };
       window.speechSynthesis.speak(u);
-      // Diagnose: bestätigt sofort, dass der Tastendruck ankam und speak() aufgerufen wurde
-      __toast('📤 Anfrage gesendet: ' + langCode + ' · ' + nVoices + ' Stimmen auf dem Gerät gefunden');
     } catch(e) { __toast('❌ Fehler: ' + (e && e.message ? e.message : e)); }
   };
   try {
