@@ -1442,7 +1442,6 @@ function renderMemory(){
 }
 
 function renderCard(){
-  if ('speechSynthesis' in window) { try { window.speechSynthesis.cancel(); } catch(e){} }
   const main = document.getElementById('main');
   if (session.idx >= session.queue.length){ return renderDone(); }
   const w = session.queue[session.idx];
