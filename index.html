@@ -1208,7 +1208,8 @@ if ('speechSynthesis' in window) {
   const __primeTTS = () => {
     try {
       const u = new SpeechSynthesisUtterance(' ');
-      u.volume = 0.01; u.rate = 10;
+      u.volume = 1; u.rate = 10; // volltönend, aber durch hohes Tempo praktisch nicht hörbar;
+      // ein sehr leiser Primer (volume nahe 0) kann die iOS-Audiosession dauerhaft auf leise "einfrieren"
       window.speechSynthesis.speak(u);
     } catch(e) {}
     document.removeEventListener('touchend', __primeTTS, true);
