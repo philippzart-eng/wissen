@@ -24,6 +24,7 @@
 <button id="b5">Stimmen auf diesem Gerät auflisten</button>
 <button id="b6" style="background:#7a4a2a">6 · MP3-METHODE (wie Quizlet!) — "hola" spanisch</button>
 <button id="b7" style="background:#2a4a7a">7 · DEIN WORKER (/tts) — "hola" spanisch</button>
+<button id="b8" style="background:#1a5a3a">8 · EXAKT WIE SPRICH — "hola" mit gesetzter Stimme</button>
 
 <div id="log">Bereit. Warte auf Eingabe…</div>
 
@@ -74,6 +75,34 @@ document.getElementById('b6').onclick = () => {
     audio.onerror = (e) => log('❌ MP3-Fehler: ' + (audio.error ? audio.error.code + ' / ' + audio.error.message : 'unbekannt'));
     audio.onended = () => log('✅ MP3 fertig abgespielt');
     audio.play().then(() => log('→ play() akzeptiert')).catch(err => log('❌ play() abgelehnt: ' + err.message));
+  } catch(e) { log('❌ Exception: ' + e.message); }
+};
+
+document.getElementById('b8').onclick = () => {
+  // Repliziert exakt die sprich.-Logik: Stimme explizit auswählen + zuweisen
+  const speakCode = 'es-ES';
+  if (!('speechSynthesis' in window)) { log('❌ speechSynthesis fehlt'); return; }
+  const vs = speechSynthesis.getVoices();
+  const pref = speakCode.toLowerCase();
+  const base = pref.split('-')[0];
+  const exact = vs.filter(v => v.lang.toLowerCase() === pref);
+  const loose = vs.filter(v => v.lang.toLowerCase().startsWith(base));
+  const pool = exact.length ? exact : loose;
+  const GOOD = /(enhanced|premium|neural|siri|natural|hd)/i;
+  const BAD  = /(compact|eloquence)/i;
+  const v = pool.find(x => GOOD.test(x.name)) || pool.find(x => !BAD.test(x.name)) || pool[0] || null;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance('hola');
+    u.lang = speakCode;
+    if (v) { u.voice = v; u.lang = v.lang || speakCode; log('Stimme gesetzt: ' + v.name + ' (' + v.lang + ')'); }
+    else log('⚠️ Keine passende Stimme im Pool gefunden');
+    u.rate = 0.95; u.pitch = 1.0;
+    u.onstart = () => log('🔊 onstart — spielt!');
+    u.onend = () => log('✅ onend');
+    u.onerror = (e) => log('❌ onerror: ' + (e && e.error));
+    speechSynthesis.speak(u);
+    log('→ speak() aufgerufen (exakt wie sprich.)');
   } catch(e) { log('❌ Exception: ' + e.message); }
 };
 
