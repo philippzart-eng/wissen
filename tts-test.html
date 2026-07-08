@@ -25,6 +25,7 @@
 <button id="b6" style="background:#7a4a2a">6 · MP3-METHODE (wie Quizlet!) — "hola" spanisch</button>
 <button id="b7" style="background:#2a4a7a">7 · DEIN WORKER (/tts) — "hola" spanisch</button>
 <button id="b8" style="background:#1a5a3a">8 · EXAKT WIE SPRICH — "hola" mit gesetzter Stimme</button>
+<button id="b9" style="background:#5a1a5a">9 · MIT resume()-TRICK — "hola" spanisch</button>
 
 <div id="log">Bereit. Warte auf Eingabe…</div>
 
@@ -75,6 +76,25 @@ document.getElementById('b6').onclick = () => {
     audio.onerror = (e) => log('❌ MP3-Fehler: ' + (audio.error ? audio.error.code + ' / ' + audio.error.message : 'unbekannt'));
     audio.onended = () => log('✅ MP3 fertig abgespielt');
     audio.play().then(() => log('→ play() akzeptiert')).catch(err => log('❌ play() abgelehnt: ' + err.message));
+  } catch(e) { log('❌ Exception: ' + e.message); }
+};
+
+document.getElementById('b9').onclick = () => {
+  if (!('speechSynthesis' in window)) { log('❌ speechSynthesis fehlt'); return; }
+  try {
+    // Safari-Kniff 1: cancel + resume, um die evtl. intern pausierte Engine zu wecken
+    speechSynthesis.cancel();
+    speechSynthesis.resume();
+    const u = new SpeechSynthesisUtterance('hola');
+    u.lang = 'es-ES';
+    u.rate = 1; u.pitch = 1; u.volume = 1;
+    u.onstart = () => log('🔊 onstart — spielt!');
+    u.onend = () => log('✅ onend');
+    u.onerror = (e) => log('❌ onerror: ' + (e && e.error));
+    speechSynthesis.speak(u);
+    // Safari-Kniff 2: kurz nach speak() nochmal resume() (WebKit pausiert manchmal sofort wieder)
+    setTimeout(() => { try { speechSynthesis.resume(); } catch(e){} }, 100);
+    log('→ speak() + resume() aufgerufen');
   } catch(e) { log('❌ Exception: ' + e.message); }
 };
 
