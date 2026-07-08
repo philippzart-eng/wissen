@@ -23,6 +23,7 @@
 <button id="b4">4 · Mit expliziter Stimme (erste spanische)</button>
 <button id="b5">Stimmen auf diesem Gerät auflisten</button>
 <button id="b6" style="background:#7a4a2a">6 · MP3-METHODE (wie Quizlet!) — "hola" spanisch</button>
+<button id="b7" style="background:#2a4a7a">7 · DEIN WORKER (/tts) — "hola" spanisch</button>
 
 <div id="log">Bereit. Warte auf Eingabe…</div>
 
@@ -74,6 +75,31 @@ document.getElementById('b6').onclick = () => {
     audio.onended = () => log('✅ MP3 fertig abgespielt');
     audio.play().then(() => log('→ play() akzeptiert')).catch(err => log('❌ play() abgelehnt: ' + err.message));
   } catch(e) { log('❌ Exception: ' + e.message); }
+};
+
+document.getElementById('b7').onclick = async () => {
+  const text = 'hola', lang = 'es';
+  const workerUrl = 'https://spring-water-f9f9.philipp-zart.workers.dev/tts';
+  log('→ Frage deinen Worker an (/tts)…');
+  try {
+    const r = await fetch(workerUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, lang, voice: '' })
+    });
+    log('→ Antwort: HTTP ' + r.status + ' (' + (r.headers.get('content-type')||'?') + ')');
+    if (!r.ok) { const t = await r.text(); log('❌ Worker-Fehler: ' + t.slice(0,200)); return; }
+    const blob = await r.blob();
+    log('→ Audio erhalten: ' + blob.size + ' Bytes, Typ ' + blob.type);
+    if (!blob.size) { log('❌ Leeres Audio zurückbekommen'); return; }
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.onplay = () => log('🔊 Worker-Audio spielt ab!');
+    audio.onerror = () => log('❌ Audio-Fehler ' + (audio.error?audio.error.code:'?'));
+    audio.onended = () => log('✅ fertig');
+    await audio.play();
+    log('→ play() akzeptiert');
+  } catch(e) { log('❌ Fehler: ' + e.message); }
 };
 
 if ('speechSynthesis' in window) {
