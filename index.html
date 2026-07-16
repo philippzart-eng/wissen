@@ -2708,11 +2708,12 @@ function showResult(ok, fb){
 /* Multiple Choice */
 function renderEx_mc(ex){
   const main = document.getElementById('main');
+  const order = shuffle(ex.optionen.map((_,i)=>i));
   main.innerHTML = `<div class="lesson">
     ${lessonProgressBar()}
     <div class="ex-q"><span class="small">Wähle die richtige Antwort</span>${ex.frage}</div>
     <div class="ex-options" id="exOpts">
-      ${ex.optionen.map((o,i)=>`<button class="ex-opt" data-i="${i}">${o}</button>`).join('')}
+      ${order.map(i=>`<button class="ex-opt" data-i="${i}">${ex.optionen[i]}</button>`).join('')}
     </div>
     ${exFooterCheck()}
   </div>`;
@@ -4918,7 +4919,7 @@ function renderSeqDisplay(){
   const seq = m.sequence; const n = s.typed.length;
   let html = `<span class="sd-prefix">${m.prefix||''}</span><span class="sd-ok">${seq.slice(0,n)}</span>`;
   if (s.errAt >= 0){ html += `<span class="sd-err">${seq[s.errAt]||'?'}</span>`; }
-  else if (n < seq.length){ html += `<span class="sd-cursor">${seq[n]}</span><span class="sd-rest">${seq.slice(n+1, n+40)}</span>`; }
+  else if (n < seq.length){ html += `<span class="sd-cursor">&nbsp;</span><span class="sd-rest">${'•'.repeat(Math.min(seq.length-n-1, 39))}</span>`; }
   box.innerHTML = html;
 }
 function megaSeqDone(full){
