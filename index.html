@@ -930,6 +930,47 @@
 
 <script>
 /* ============================================================
+   FX  —  Haptik & Sound (global, abschaltbar)
+   navigator.vibrate für haptisches Feedback, WebAudio für kurze
+   Klick-/Erfolgs-/Fehlertöne. Zwei Schalter im localStorage:
+     fx_haptik  ('1' default an)
+     fx_sound   ('0' default aus)
+   ============================================================ */
+const fx = (function(){
+  let haptik = (function(){ try { return localStorage.getItem('fx_haptik') !== '0'; } catch(e){ return true; } })();
+  let sound  = (function(){ try { return localStorage.getItem('fx_sound')  === '1'; } catch(e){ return false; } })();
+  let ac = null;
+  function ctx(){
+    if (!sound) return null;
+    try { if (!ac) ac = new (window.AudioContext||window.webkitAudioContext)(); if (ac.state==='suspended') ac.resume(); return ac; }
+    catch(e){ return null; }
+  }
+  function beep(freq, dur, type, vol){
+    const c = ctx(); if (!c) return;
+    try {
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = type||'sine'; o.frequency.value = freq;
+      g.gain.value = vol==null ? 0.05 : vol;
+      o.connect(g); g.connect(c.destination);
+      const t = c.currentTime;
+      g.gain.setValueAtTime(g.gain.value, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + (dur||0.09));
+      o.start(t); o.stop(t + (dur||0.09));
+    } catch(e){}
+  }
+  function vibe(p){ if (haptik && navigator.vibrate){ try { navigator.vibrate(p); } catch(e){} } }
+  return {
+    get haptik(){ return haptik; },
+    get sound(){ return sound; },
+    setHaptik(on){ haptik = !!on; try { localStorage.setItem('fx_haptik', on?'1':'0'); } catch(e){} if(on) vibe(15); },
+    setSound(on){ sound = !!on; try { localStorage.setItem('fx_sound', on?'1':'0'); } catch(e){} if(on){ ctx(); beep(660,0.08,'sine'); } },
+    tap(){ vibe(8); beep(880,0.05,'square',0.03); },
+    good(){ vibe(18); beep(660,0.07,'sine',0.05); setTimeout(()=>beep(990,0.10,'sine',0.05), 70); },
+    bad(){ vibe([0,30,40,30]); beep(200,0.16,'sawtooth',0.045); }
+  };
+})();
+
+/* ============================================================
    Daten-Loader
    Im Betrieb wird ./data/categories.json geladen.
    Für die Vorschau (file://, Artifact) dient INLINE_DATA als Fallback.
@@ -1223,11 +1264,21 @@ function renderThemes(crumbs){
         <div class="stat">Fällig<b style="color:var(--amber)">${totalDue}</b></div>
       </div>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px">
-      <label class="autospeak-toggle">
-        <input type="checkbox" id="autoSpeakChk" ${autoSpeak?'checked':''}>
-        <span>🔊 Auto-Vorlesen</span>
-      </label>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px;flex-wrap:wrap">
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <label class="autospeak-toggle">
+          <input type="checkbox" id="autoSpeakChk" ${autoSpeak?'checked':''}>
+          <span>🔊 Auto-Vorlesen</span>
+        </label>
+        <label class="autospeak-toggle">
+          <input type="checkbox" id="fxHaptikChk" ${fx.haptik?'checked':''}>
+          <span>📳 Vibration</span>
+        </label>
+        <label class="autospeak-toggle">
+          <input type="checkbox" id="fxSoundChk" ${fx.sound?'checked':''}>
+          <span>🔉 Töne</span>
+        </label>
+      </div>
       <div class="dir-toggle">
         <button class="${curDir==='de2ziel'?'on':''}" data-dir="de2ziel">DE → ${curData.kuerzel}</button>
         <button class="${curDir==='ziel2de'?'on':''}" data-dir="ziel2de">${curData.kuerzel} → DE</button>
@@ -1255,6 +1306,10 @@ function renderThemes(crumbs){
   });
   const asc = main.querySelector('#autoSpeakChk');
   if (asc) asc.onchange = () => setAutoSpeak(asc.checked);
+  const fhc = main.querySelector('#fxHaptikChk');
+  if (fhc) fhc.onchange = () => fx.setHaptik(fhc.checked);
+  const fsc = main.querySelector('#fxSoundChk');
+  if (fsc) fsc.onchange = () => fx.setSound(fsc.checked);
   main.querySelectorAll('.theme-card').forEach(c=>{
     c.onclick = () => pickMode(curData.themen[+c.dataset.theme], crumbs);
   });
@@ -2684,6 +2739,7 @@ function exFooterCheck(){
   </div>`;
 }
 function showResult(ok, fb){
+  if (ok) fx.good(); else fx.bad();
   const box = document.getElementById('exResult');
   box.innerHTML = `<div class="ex-result ${ok?'good':'bad'}">
     <b>${ok?'Richtig!':'Nicht ganz'}</b><span>${fb||''}</span></div>`;
@@ -4896,9 +4952,10 @@ function renderMegaSeq(){
       if (act === 'give'){ return megaSeqDone(false); }
       const d = b.dataset.d; const idx = s.typed.length;
       if (d === m.sequence[idx]){
+        fx.tap();
         s.typed += d; s.errAt = -1; renderSeqDisplay(); updateSeqProg();
         if (s.typed.length >= s.total) return setTimeout(()=>megaSeqDone(true), 350);
-      } else { s.errAt = idx; renderSeqDisplay(); setTimeout(()=>{ s.errAt=-1; renderSeqDisplay(); }, 600); }
+      } else { fx.bad(); s.errAt = idx; renderSeqDisplay(); setTimeout(()=>{ s.errAt=-1; renderSeqDisplay(); }, 600); }
     };
   });
   const keyHandler = (e) => {
@@ -4924,6 +4981,7 @@ function renderSeqDisplay(){
 }
 function megaSeqDone(full){
   const s = megaSession; const m = s.m; const got = s.typed.length;
+  if (full) fx.good(); else if (got/s.total >= 0.6) fx.tap(); else fx.bad();
   megaSaveResult(m.id, got, s.total);
   let xp = Math.floor(got/2) + (full ? 25 : 0);
   if (xp > 0){ const g = loadGlobal(); g.xp = (g.xp||0)+xp; saveGlobal(g); bumpStreak(); }
