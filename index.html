@@ -9425,16 +9425,41 @@ Regeln:
 ${bc ? '- Das Jahr liegt vor Christus: Lass in der Szene etwas rückwärts laufen oder rückwärts gehen. Das ist das Signal für v. Chr.\n' : ''}- Antworte nur mit der Szene, ohne Einleitung, ohne Anführungszeichen.`;
   const user = `Ereignis: ${item.text}${kx ? `\nHintergrund: ${kx[0]}` : ''}\nJahr: ${label}\nErstes Merkwort (${W.c1}): ${W.w1}\nZweites Merkwort (${W.c2}): ${W.w2}${old ? `\nBisherige Szene (bitte etwas ganz anderes): ${old}` : ''}`;
   try {
-    let t = await tutorCall(system, [{ role:'user', content:user }], 220);
+    let t = await zmCall(system, user);
     zmBump();
     t = t.replace(/^["„“»]+|["“”«]+$/g, '').replace(/\s+/g, ' ').trim();
     if (!t) throw new Error('leer');
     zmSet(item.id, t);
     if (document.body.contains(box)) box.innerHTML = zmInner(item);
   } catch(e){
-    const msg = e.message === 'nochat' ? 'Der Worker kennt den Endpunkt /chat noch nicht.' : !navigator.onLine ? 'Keine Internetverbindung. Du kannst die Szene auch selbst schreiben.' : 'Das hat gerade nicht geklappt. Versuch es gleich noch einmal.';
+    const msg = e.message === 'nochat' ? 'Der Worker kennt den Endpunkt /chat noch nicht.' : !navigator.onLine ? 'Keine Internetverbindung. Du kannst die Szene auch selbst schreiben.' : 'Das hat nicht geklappt. Technische Meldung: ' + String(e.message || e).slice(0, 220);
     if (document.body.contains(box)) box.innerHTML = zmInner(item, false, msg);
   }
+}
+/* Eigener Aufruf mit genauer Fehlermeldung und einem automatischen zweiten Versuch */
+async function zmCall(system, user){
+  let last;
+  for (let i = 0; i < 2; i++){
+    try {
+      const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const to = ctl ? setTimeout(() => ctl.abort(), 25000) : null;
+      const r = await fetch(TUTOR_ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ system, messages:[{ role:'user', content:user }], max_tokens: 300 }), signal: ctl ? ctl.signal : undefined });
+      if (to) clearTimeout(to);
+      const raw = await r.text();
+      let j = null; try { j = JSON.parse(raw); } catch(e){}
+      if (r.status === 404) throw new Error('nochat');
+      if (!r.ok) throw new Error('HTTP ' + r.status + (j ? ' ' + (j.error || '') + ' ' + (j.status || '') + ' ' + String(j.detail || '').slice(0, 150) : ' ' + raw.slice(0, 120)));
+      if (!j || typeof j.text !== 'string') throw new Error('Antwort ohne Text: ' + raw.slice(0, 120));
+      if (!j.text.trim()) throw new Error('leere Antwort');
+      return j.text;
+    } catch(e){
+      last = e;
+      if (e.message === 'nochat') break;
+      if (e.name === 'AbortError') last = new Error('Zeitüberschreitung');
+      await new Promise(res => setTimeout(res, 1200));
+    }
+  }
+  throw last;
 }
 function zmEdit(box, item){
   const W = zmWords(item);
