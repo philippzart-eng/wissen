@@ -1990,6 +1990,25 @@ body.tutor-open #tabbar{ display:none; }
 .wissen-tab .wt-grid .quiz-card:last-child:nth-child(odd){ grid-column:1 / -1; }
 @media (max-width:520px){ .wissen-tab .wt-grid .qc-desc{ display:none; } .wissen-tab .wt-grid .qc-title{ font-size:15px; } }
 @media (max-width:860px){ .zus-topbar.hub-top{ display:none; } }
+/* Tab-Leiste auch auf iPad und Computer (unten mittig über dem Inhalt) */
+@media (min-width:861px){
+  .tabbar{
+    display:grid; grid-template-columns:repeat(4,1fr); position:fixed; z-index:40;
+    width:min(480px, calc(100vw - var(--sidebar-w, 300px) - 40px));
+    left:calc(var(--sidebar-w, 300px) + (100vw - var(--sidebar-w, 300px)) / 2); transform:translateX(-50%);
+    bottom:max(18px, env(safe-area-inset-bottom));
+    padding:6px; border-radius:30px;
+    background:var(--glass-strong); -webkit-backdrop-filter:blur(26px) saturate(190%); backdrop-filter:blur(26px) saturate(190%);
+    border:1px solid var(--glass-line); box-shadow:inset 0 1px 0 var(--glass-edge), 0 12px 34px rgba(0,0,0,.16);
+    transition:transform .28s ease, opacity .2s ease;
+  }
+  .tabbar .tab{ border:0; background:transparent; display:grid; justify-items:center; gap:2px; padding:7px 0 6px; border-radius:24px; color:var(--ink-dim); cursor:pointer; font-size:12px; font-weight:600; -webkit-tap-highlight-color:transparent; }
+  .tabbar .tab svg{ width:25px; height:25px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+  .tabbar .tab.on{ color:var(--accent); background:color-mix(in srgb, var(--accent) 13%, transparent); }
+  .main{ padding-bottom:calc(120px + env(safe-area-inset-bottom)); }
+  body.in-session .tabbar{ transform:translate(-50%, 140%); opacity:0; pointer-events:none; }
+  body.tutor-open .tabbar{ display:none; }
+}
 /* ---------- Eselsbrücken zur Bildkombi ---------- */
 .zm-story{ margin:12px 0 2px; text-align:left; }
 .zeit-mnemo-zw .zm-story{ border-top:1px solid color-mix(in srgb, var(--ink) 9%, transparent); padding-top:12px; }
