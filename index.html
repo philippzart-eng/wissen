@@ -8051,7 +8051,7 @@ async function tutorSend(text, hidden){
   try {
     const msgs = T.msgs.filter(x => !x.err).map(x => ({ role:x.role, content:x.content })).slice(-14);
     if (msgs[0] && msgs[0].role !== 'user') msgs.shift();
-    const ans = await tutorCall(tutorSystem(T.C, T.mode), msgs, 600);
+    const ans = await tutorCall(tutorSystem(T.C, T.mode), msgs, 1000);
     tutorBump();
     if (TUTOR !== me) return;
     T.msgs.push({ role:'assistant', content: ans });
@@ -8070,7 +8070,7 @@ async function tutorQuiz(){
   const convo = T.msgs.filter(x => !x.err && !x.hidden).map(x => `${x.role === 'user' ? 'Lernender' : 'Tutor'}: ${x.content}`).join('\n');
   try {
     const raw = await tutorCall(`Erstelle aus dem Gespräch und dem Kontext genau 3 Multiple-Choice-Fragen auf Deutsch, die das Verständnis prüfen (nicht nur Jahreszahlen). Antworte NUR mit JSON in diesem Format: {"fragen":[{"frage":"…","optionen":["…","…","…","…"],"richtig":0,"erklaerung":"…"}]}. Die richtige Antwort steht an zufälliger Position. Nur gesicherte Fakten.\n\nKONTEXT:\n${T.C.text}`,
-      [{ role:'user', content: convo || 'Erstelle die Fragen aus dem Kontext.' }], 900);
+      [{ role:'user', content: convo || 'Erstelle die Fragen aus dem Kontext.' }], 1000);
     tutorBump();
     const j = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
     T.busy = false;
@@ -9443,7 +9443,7 @@ async function zmCall(system, user){
     try {
       const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
       const to = ctl ? setTimeout(() => ctl.abort(), 25000) : null;
-      const r = await fetch(TUTOR_ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ system, messages:[{ role:'user', content:user }], max_tokens: 300 }), signal: ctl ? ctl.signal : undefined });
+      const r = await fetch(TUTOR_ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ system, messages:[{ role:'user', content:user }], max_tokens: i ? 1000 : 800 }), signal: ctl ? ctl.signal : undefined });
       if (to) clearTimeout(to);
       const raw = await r.text();
       let j = null; try { j = JSON.parse(raw); } catch(e){}
