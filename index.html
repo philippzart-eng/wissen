@@ -2446,6 +2446,76 @@ body.tutor-open #tabbar{ display:none; }
 .al-opts{ display:flex; flex-direction:column; gap:8px; }
 .al-opt{ text-align:left; padding:14px 16px; border-radius:16px; border:1.5px solid var(--glass-line); background:var(--glass); color:var(--ink); font:inherit; font-size:15px; line-height:1.45; cursor:pointer; }
 .al-opt.ok{ border-color:#34c759; background:color-mix(in srgb, #34c759 14%, var(--bg)); } .al-opt.no{ border-color:#ff3b30; background:color-mix(in srgb, #ff3b30 10%, var(--bg)); }
+/* ---------- Feed (Berieseln) ---------- */
+#tabbar.tabbar{ grid-template-columns:repeat(5,1fr); }
+body.feed-on{ overflow:hidden; overscroll-behavior:none; }
+.fd-view{ position:fixed; inset:0; z-index:20; background:var(--bg); }
+@media (min-width:861px){ .fd-view{ left:var(--sidebar-w, 320px); } }
+.fd-scroll{ position:absolute; inset:0; overflow-y:auto; scroll-snap-type:y mandatory; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.fd-scroll::-webkit-scrollbar{ display:none; }
+.fd-card{ position:relative; height:100%; scroll-snap-align:start; scroll-snap-stop:always; box-sizing:border-box; overflow:hidden;
+  padding:calc(max(14px, env(safe-area-inset-top)) + 58px) 22px calc(max(14px, env(safe-area-inset-bottom)) + 150px);
+  display:flex; flex-direction:column; justify-content:center; cursor:pointer; touch-action:manipulation; -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;
+  background:linear-gradient(170deg, color-mix(in srgb, var(--fd) 15%, var(--bg)) 0%, var(--bg) 62%); }
+@media (min-width:861px){ .fd-card{ padding-bottom:150px; } }
+.fd-in{ width:100%; max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:12px; min-height:0; }
+.fd-src{ align-self:flex-start; font-size:12.5px; font-weight:700; color:var(--fd); padding:4px 10px; border-radius:20px; background:color-mix(in srgb, var(--fd) 13%, transparent); }
+.fd-head{ font-size:25px; line-height:1.22; margin:0; letter-spacing:-.01em; }
+.fd-q{ font-size:26px; }
+.fd-big{ font-size:19px; line-height:1.48; margin:0; font-weight:500; }
+.fd-sm{ font-size:15px; line-height:1.55; margin:0; color:var(--ink-dim); display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.fd-sk{ margin:0 !important; max-height:26vh; overflow:hidden; cursor:inherit; }
+.fd-sk svg{ max-height:24vh; }
+.fd-year{ font-size:64px; font-weight:800; line-height:1; letter-spacing:-.03em; color:var(--fd); }
+.fd-zt{ font-size:22px; line-height:1.38; font-weight:600; }
+.fd-wf-l{ font-size:14px; font-weight:700; color:var(--ink-dim); }
+.fd-wq{ font-size:23px; }
+.fd-wf{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px; }
+.fd-wb{ font:inherit; font-size:17px; font-weight:700; padding:16px 0; border-radius:18px; border:1.5px solid var(--glass-line); background:var(--glass); color:var(--ink); cursor:pointer; }
+.fd-card.done .fd-wb{ pointer-events:none; opacity:.55; }
+.fd-card.done .fd-wb.ok{ opacity:1; border-color:#34c759; background:color-mix(in srgb, #34c759 16%, var(--bg)); }
+.fd-card.done .fd-wb.no.pick{ opacity:1; border-color:#ff3b30; background:color-mix(in srgb, #ff3b30 12%, var(--bg)); }
+.fd-fb{ font-size:15.5px; line-height:1.5; margin:0; padding:12px 14px; border-radius:16px; background:var(--glass); }
+.fd-acts{ position:absolute; left:0; right:0; bottom:calc(max(14px, env(safe-area-inset-bottom)) + 84px); display:flex; justify-content:center; gap:10px; padding:0 22px; }
+@media (min-width:861px){ .fd-acts{ bottom:96px; } }
+.fd-acts button{ display:flex; align-items:center; gap:6px; font:inherit; font-size:14.5px; font-weight:600; padding:10px 16px; border-radius:22px; border:1px solid var(--glass-line); background:var(--glass-strong, var(--glass)); color:var(--ink); cursor:pointer; -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
+.fd-acts svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.fd-save.on{ color:var(--fd); border-color:var(--fd); } .fd-save.on svg{ fill:currentColor; }
+.fd-more{ color:var(--fd) !important; }
+.fd-burst{ position:absolute; left:50%; top:45%; width:96px; height:96px; margin:-48px 0 0 -48px; color:var(--fd); opacity:0; pointer-events:none; }
+.fd-burst svg{ width:100%; height:100%; fill:currentColor; stroke:none; filter:drop-shadow(0 6px 18px rgba(0,0,0,.18)); }
+.fd-card.burst .fd-burst{ animation:fdBurst .7s ease-out; }
+@keyframes fdBurst{ 0%{ opacity:0; transform:scale(.4); } 25%{ opacity:.95; transform:scale(1.1); } 60%{ opacity:.9; transform:scale(1); } 100%{ opacity:0; transform:scale(1.25) translateY(-20px); } }
+@media (prefers-reduced-motion:reduce){ .fd-card.burst .fd-burst{ animation-duration:.01s; } }
+.fd-top{ position:absolute; z-index:2; left:0; right:0; top:0; padding:max(12px, env(safe-area-inset-top)) 12px 8px; display:flex; align-items:center; gap:8px;
+  background:linear-gradient(var(--bg) 55%, transparent); }
+.fd-chips{ flex:1; min-width:0; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; padding:2px; }
+.fd-chips::-webkit-scrollbar{ display:none; }
+.fd-chip{ flex:0 0 auto; font:inherit; font-size:14px; font-weight:600; padding:8px 13px; border-radius:20px; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink-dim); cursor:pointer; }
+.fd-chip.on{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+.fd-list, .fd-back{ flex:0 0 auto; position:relative; width:40px; height:40px; border-radius:50%; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink); display:grid; place-items:center; cursor:pointer; padding:0; }
+.fd-list svg, .fd-back svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.fd-list i{ position:absolute; top:-4px; right:-4px; min-width:18px; height:18px; border-radius:9px; background:var(--accent); color:#fff; font-size:11px; font-style:normal; font-weight:700; display:grid; place-items:center; padding:0 4px; box-sizing:border-box; }
+.fd-list i:empty{ display:none; }
+.fd-tt{ font-size:18px; } .fd-tn{ font-size:13px; color:var(--ink-dim); margin-left:auto; padding-right:6px; }
+@media (max-height:700px){ .fd-head{ font-size:21px; } .fd-q{ font-size:22px; } .fd-big{ font-size:17px; } .fd-sm{ -webkit-line-clamp:3; font-size:14px; } .fd-year{ font-size:50px; } .fd-sk{ max-height:20vh; } .fd-sk svg{ max-height:18vh; } }
+@media (max-height:600px){ .fd-sm{ display:none; } .fd-sk{ display:none; } }
+@media (max-width:360px){ .tabbar .tab{ font-size:10.5px !important; } }
+.fd-back svg{ transform:rotate(180deg); }
+.fd-card{ justify-content:safe center; }
+.fd-head{ font-size:clamp(19px, 3vh, 25px); } .fd-q{ font-size:clamp(20px, 3.1vh, 26px); } .fd-wq{ font-size:clamp(19px, 2.9vh, 23px); }
+.fd-big{ font-size:clamp(16px, 2.3vh, 19px); }
+@media (max-height:600px){ .fd-in{ gap:8px; } .fd-wb{ padding:11px 0; font-size:16px; } .fd-fb{ font-size:13.5px; padding:9px 12px; } .fd-wf-l{ display:none; } .fd-card{ padding-bottom:calc(max(14px, env(safe-area-inset-bottom)) + 140px); } }
+.fd-fb{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5; overflow:hidden; }
+.fd-fb[hidden]{ display:none; }
+.fd-wq, .fd-big{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9; overflow:hidden; }
+@media (max-height:700px){ .fd-fb{ -webkit-line-clamp:3; } .fd-big{ -webkit-line-clamp:7; } .fd-wq{ -webkit-line-clamp:5; } }
+@media (max-height:600px){ .fd-big{ -webkit-line-clamp:6; } .fd-wq{ -webkit-line-clamp:4; } .fd-fb{ -webkit-line-clamp:3; } .fd-wf{ margin-top:0; } }
+.fd-hint{ position:absolute; z-index:3; left:50%; transform:translateX(-50%); bottom:calc(max(14px, env(safe-area-inset-bottom)) + 140px); width:min(320px, calc(100% - 48px)); display:flex; gap:10px; align-items:center; padding:12px 14px; border-radius:18px; background:var(--ink); color:var(--bg); font-size:14px; line-height:1.4; pointer-events:none; animation:fdHint 1.6s ease-in-out 3; }
+.fd-hint svg{ flex:0 0 22px; width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+@keyframes fdHint{ 0%,100%{ transform:translate(-50%,0); } 50%{ transform:translate(-50%,-8px); } }
+@media (prefers-reduced-motion:reduce){ .fd-hint{ animation:none; } }
+@media (min-width:861px){ .fd-hint{ bottom:150px; } }
 </style>
 </head>
 <body>
@@ -12898,6 +12968,193 @@ function alQuiz(){
     } catch(e){}
     return r;
   };
+})();
+/* ============================ FEED (Berieseln) ============================
+   Vollbild-Karten zum Durchwischen: Merksätze, Alltag erklärt, Zeitstrahl,
+   ab und zu ein Wahr/Falsch-Tipp. Doppeltipp merkt eine Karte vor.
+   ======================================================================= */
+const FD_THEMES = [['alle','Alles'],['gesch','Geschichte'],['natur','Natur & Technik'],['koerper','Körper & Psyche'],['gesell','Gesellschaft'],['kultur','Kultur & Denken'],['alltag','Alltag']];
+const FD_COL = { gesch:'#c98a3a', natur:'#2f7de1', koerper:'#e0455a', gesell:'#7a5af8', kultur:'#1a9e8f', alltag:'#e09a00' };
+const FD_PRE = { HIST:'gesch', NATU:'natur', TECH:'natur', MATH:'natur', CHEM:'natur', MEDI:'koerper', O:'koerper', PSYC:'koerper', POLI:'gesell', RECH:'gesell', WIRT:'gesell', PHIL:'kultur', RELI:'kultur', KUNS:'kultur', SPRK:'kultur' };
+let FD_POOL = null, FD_BYID = null;
+const FEED = { deck:[], idx:0, mode:'feed', th:null, unsaved:0 };
+let FD_BOOT = true, FD_USER = 0;
+
+function fdShort(t, n){ t = String(t || ''); if (t.length <= n) return t; const c = t.slice(0, n); const p = Math.max(c.lastIndexOf('. '), c.lastIndexOf('! '), c.lastIndexOf('? ')); return p > n * 0.5 ? c.slice(0, p + 1) : c.slice(0, c.lastIndexOf(' ')) + ' …'; }
+function fdYear(j){ return j < 0 ? `${-j} v. Chr.` : String(j); }
+function fdBuildPool(){
+  if (FD_POOL) return;
+  FD_POOL = { m:[], w:[], a:[], z:[] }; FD_BYID = {};
+  const add = (k, o) => { FD_POOL[k].push(o); FD_BYID[o.id] = o; };
+  Object.values(PATH_INLINE || {}).forEach(p => {
+    const th = FD_PRE[p.id.split('_')[0]]; if (!th) return;
+    (p.stationen || []).forEach(st => {
+      (st.lektion || []).forEach((l, i) => { if (l.merke) add('m', { id:`m:${st.id}:${i}`, t:'m', th, pid:p.id, sid:st.id, pt:p.titel, h:l.ueberschrift || st.titel, big:l.merke, sm:l.text || '' }); });
+      (st.uebungen || []).forEach((u, i) => { if (u.typ === 'wahr_falsch' && u.aussage) add('w', { id:`w:${st.id}:${i}`, t:'w', th, pid:p.id, sid:st.id, pt:p.titel, st:st.titel, q:u.aussage, r:!!u.richtig, fb:u.feedback || '' }); });
+    });
+  });
+  if (typeof ALLTAG_Q !== 'undefined') ALLTAG_Q.forEach(q => add('a', { id:`a:${q.id}`, t:'a', th:'alltag', q }));
+  if (typeof ZEITSTRAHL_DATA !== 'undefined') ZEITSTRAHL_DATA.forEach(e => { if (e && e.text && typeof e.jahr === 'number') add('z', { id:`z:${e.id}`, t:'z', th:'gesch', e }); });
+}
+function fdStore(){ const g = loadGlobal(); g.feed = g.feed || {}; g.feed.seen = g.feed.seen || {}; g.feed.saved = g.feed.saved || []; return g; }
+function fdSeen(id){ return !!fdStore().feed.seen[id]; }
+function fdIsSaved(id){ return fdStore().feed.saved.includes(id); }
+/* Eine Karte ziehen: meist Neues, gelegentlich Bekanntes zum Auffrischen */
+function fdPick(type, th, seen, avoid){
+  let arr = FD_POOL[type]; if (th !== 'alle') arr = arr.filter(x => x.th === th);
+  arr = arr.filter(x => !avoid.has(x.id) && !(x.sid && avoid.has(x.sid)));
+  if (!arr.length) return null;
+  const fresh = arr.filter(x => !seen[x.id]);
+  const src = fresh.length && Math.random() > 0.15 ? fresh : arr;
+  return src[Math.floor(Math.random() * src.length)];
+}
+function fdMore(n){
+  const g = fdStore(), seen = g.feed.seen, th = FEED.th || 'alle', out = [];
+  const recent = FEED.deck.slice(-12), avoid = new Set(); recent.forEach(c => { avoid.add(c.id); if (c.sid) avoid.add(c.sid); });
+  const types = th === 'alltag' ? [['a', 1]] : th === 'gesch' ? [['m', .55], ['z', .45]] : th === 'alle' ? [['m', .55], ['a', .2], ['z', .25]] : [['m', 1]];
+  for (let k = 0; k < n; k++){
+    const pos = FEED.deck.length + out.length; let c = null;
+    if (pos % 8 === 6 && th !== 'alltag') c = fdPick('w', th, seen, avoid);
+    if (!c){ let r = Math.random(), ty = types[0][0]; for (const [t, w] of types){ if ((r -= w) <= 0){ ty = t; break; } } c = fdPick(ty, th, seen, avoid) || fdPick('m', th, seen, avoid) || fdPick('a', th, seen, avoid); }
+    if (!c) break;
+    out.push(c); avoid.add(c.id); if (c.sid) avoid.add(c.sid);
+  }
+  return out;
+}
+const FD_IC = {
+  save:'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>',
+  more:'<svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>',
+  list:'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>'
+};
+function fdSketch(c){
+  if (typeof SKZ === 'undefined') return '';
+  let k = null;
+  if (c.t === 'a') k = c.q.sk; else if (c.sid && typeof SKZ_MAP !== 'undefined' && SKZ_MAP[c.sid]) k = SKZ_MAP[c.sid][0];
+  const s = k && SKZ[k]; if (!s) return '';
+  return `<figure class="sk-fig fd-sk">${skzSvg('0 -2 320 178', s.s)}</figure>`;
+}
+function fdCard(c, i){
+  const col = FD_COL[c.th] || 'var(--accent)', sv = fdIsSaved(c.id);
+  let body = '', src = '', more = true;
+  if (c.t === 'm'){ src = c.pt; body = `<h2 class="fd-head">${zeitEsc(c.h)}</h2>${fdSketch(c)}<p class="fd-big">${zeitEsc(c.big)}</p><p class="fd-sm">${zeitEsc(fdShort(c.sm, 260))}</p>`; }
+  else if (c.t === 'a'){ src = 'Alltag erklärt'; body = `<h2 class="fd-head fd-q">${zeitEsc(c.q.f)}</h2>${fdSketch(c)}<p class="fd-big">${zeitEsc(c.q.k)}</p>`; }
+  else if (c.t === 'z'){ const y = new Date().getFullYear() - c.e.jahr; src = 'Zeitstrahl'; more = false;
+    body = `<div class="fd-year">${fdYear(c.e.jahr)}</div><p class="fd-big fd-zt">${zeitEsc(c.e.text)}</p><p class="fd-sm">Das ist ${y.toLocaleString('de-DE')} Jahre her${c.e.epoche ? ` – ${zeitEsc(c.e.epoche)}` : ''}.</p>`; }
+  else if (c.t === 'w'){ src = c.pt; body = `<span class="fd-wf-l">Wahr oder falsch?</span><h2 class="fd-head fd-wq">${zeitEsc(c.q)}</h2>
+      <div class="fd-wf"><button class="fd-wb" data-a="1">Wahr</button><button class="fd-wb" data-a="0">Falsch</button></div><p class="fd-fb" hidden></p>`; }
+  return `<section class="fd-card fd-${c.t}" data-i="${i}" style="--fd:${col}"><div class="fd-in">
+    <span class="fd-src">${zeitEsc(src)}</span>${body}</div>
+    <div class="fd-acts"><button class="fd-save ${sv ? 'on' : ''}" data-i="${i}" aria-label="Merken">${FD_IC.save}<span>${sv ? 'Gemerkt' : 'Merken'}</span></button>
+    ${more ? `<button class="fd-more" data-i="${i}">Mehr dazu${FD_IC.more}</button>` : ''}</div>
+    <div class="fd-burst" aria-hidden="true">${FD_IC.save}</div></section>`;
+}
+function fdToggleSave(i){
+  const c = FEED.deck[i]; if (!c) return;
+  const g = fdStore(), s = g.feed.saved, k = s.indexOf(c.id), on = k < 0;
+  if (on) s.unshift(c.id); else s.splice(k, 1);
+  saveGlobal(g);
+  const card = document.querySelector(`.fd-card[data-i="${i}"]`); if (!card) return on;
+  const b = card.querySelector('.fd-save'); b.classList.toggle('on', on); b.querySelector('span').textContent = on ? 'Gemerkt' : 'Merken';
+  if (on){ card.classList.remove('burst'); void card.offsetWidth; card.classList.add('burst'); }
+  const n = document.getElementById('fdSavedN'); if (n) n.textContent = s.length || '';
+  return on;
+}
+function fdMarkSeen(i){
+  const c = FEED.deck[i]; if (!c) return;
+  const g = fdStore(); if (g.feed.seen[c.id]) return;
+  g.feed.seen[c.id] = 1; saveGlobal(g);
+}
+async function fdOpen(i){
+  const c = FEED.deck[i]; if (!c) return;
+  if (c.t === 'a') return alFrage(c.q.id, () => renderFeed());
+  const path = await loadPath(c.pid); if (!path) return;
+  curPath = path; curPathCrumbs = ['Feed', path.titel];
+  KA_RET = { pid: c.pid, back: () => renderFeed() };
+  startLesson(Math.max(0, path.stationen.findIndex(x => x.id === c.sid)));
+}
+function renderFeed(mode){
+  fdBuildPool();
+  const g = fdStore();
+  if (mode === 'saved'){ FEED.mode = 'saved'; FEED.deck = g.feed.saved.map(id => FD_BYID[id]).filter(Boolean); FEED.idx = 0; }
+  else if (mode === 'feed' || (FEED.mode === 'feed' && !FEED.deck.length)){
+    if (FEED.mode !== 'feed' || !FEED.deck.length || mode === 'feed' && FEED.th !== (g.feed.th || 'alle')){ FEED.mode = 'feed'; FEED.th = g.feed.th || 'alle'; FEED.deck = []; FEED.idx = 0; }
+    FEED.mode = 'feed'; if (!FEED.deck.length) FEED.deck = fdMore(16);
+  }
+  if (typeof setTab === 'function') setTab('feed');
+  activeId = null;
+  const main = document.getElementById('main'), saved = FEED.mode === 'saved';
+  const top = saved
+    ? `<div class="fd-top"><button class="fd-back" id="fdBack" aria-label="Zurück">${chevSVG}</button><b class="fd-tt">Gemerkt</b><span class="fd-tn">${FEED.deck.length} Karten</span></div>`
+    : `<div class="fd-top"><div class="fd-chips" id="fdChips">${FD_THEMES.map(([k, l]) => `<button class="fd-chip ${FEED.th === k ? 'on' : ''}" data-th="${k}">${l}</button>`).join('')}</div>
+       <button class="fd-list" id="fdSaved" aria-label="Gemerkte Karten">${FD_IC.list}<i id="fdSavedN">${g.feed.saved.length || ''}</i></button></div>`;
+  const empty = saved && !FEED.deck.length
+    ? `<section class="fd-card fd-empty"><div class="fd-in"><h2 class="fd-head">Noch nichts gemerkt</h2><p class="fd-big">Tippe im Feed doppelt auf eine Karte oder auf „Merken“, um sie hier zu sammeln.</p></div></section>` : '';
+  const hint = !saved && !g.feed.hinted ? `<div class="fd-hint" id="fdHint"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Nach oben wischen für die nächste Karte. Doppelt tippen merkt sie dir.</div>` : '';
+  main.innerHTML = `<div class="fd-view${saved ? ' fd-saved' : ''}">${top}${hint}<div class="fd-scroll" id="fdScroll">${empty}${FEED.deck.map(fdCard).join('')}</div></div>`;
+  document.body.classList.add('feed-on');
+  const sc = document.getElementById('fdScroll');
+  if (saved) document.getElementById('fdBack').onclick = () => { FEED.mode = 'x'; FEED.deck = []; renderFeed('feed'); };
+  else {
+    document.getElementById('fdSaved').onclick = () => renderFeed('saved');
+    document.querySelectorAll('#fdChips .fd-chip').forEach(b => b.onclick = () => {
+      const g2 = fdStore(); g2.feed.th = b.dataset.th; saveGlobal(g2); renderFeed('feed');
+    });
+    const on = document.querySelector('#fdChips .fd-chip.on'); if (on) on.scrollIntoView({ inline:'center', block:'nearest' });
+  }
+  requestAnimationFrame(() => { sc.scrollTop = FEED.idx * sc.clientHeight; fdMarkSeen(FEED.idx); });
+  let tm = null;
+  sc.onscroll = () => { clearTimeout(tm); tm = setTimeout(() => {
+    const i = Math.round(sc.scrollTop / Math.max(1, sc.clientHeight)); if (i === FEED.idx) return;
+    FEED.idx = i; fdMarkSeen(i);
+    const hn = document.getElementById('fdHint'); if (hn){ hn.remove(); const g3 = fdStore(); g3.feed.hinted = 1; saveGlobal(g3); }
+    if (FEED.mode === 'feed' && i >= FEED.deck.length - 5){
+      const add = fdMore(12), base = FEED.deck.length; FEED.deck.push(...add);
+      sc.insertAdjacentHTML('beforeend', add.map((c, k) => fdCard(c, base + k)).join(''));
+    }
+  }, 90); };
+  let last = { t:0, i:-1 };
+  sc.onclick = e => {
+    const sb = e.target.closest('.fd-save'); if (sb){ fdToggleSave(+sb.dataset.i); return; }
+    const mb = e.target.closest('.fd-more'); if (mb){ FEED.idx = +mb.dataset.i; fdOpen(+mb.dataset.i); return; }
+    const wb = e.target.closest('.fd-wb'); if (wb){
+      const card = wb.closest('.fd-card'), c = FEED.deck[+card.dataset.i]; if (card.classList.contains('done')) return;
+      const ok = (wb.dataset.a === '1') === c.r; card.classList.add('done');
+      card.querySelectorAll('.fd-wb').forEach(x => x.classList.add((x.dataset.a === '1') === c.r ? 'ok' : 'no'));
+      wb.classList.add('pick');
+      const fb = card.querySelector('.fd-fb'); fb.hidden = false; fb.innerHTML = `<b>${ok ? 'Richtig.' : 'Nicht ganz.'}</b> ${zeitEsc(c.fb)}`;
+      if (ok && typeof zeitAwardXP === 'function') try { zeitAwardXP(1); } catch(_){}
+      return;
+    }
+    if (e.target.closest('button')) return;
+    const card = e.target.closest('.fd-card'); if (!card || card.classList.contains('fd-empty')) return;
+    const i = +card.dataset.i, now = Date.now();
+    if (last.i === i && now - last.t < 350){ last = { t:0, i:-1 }; if (!fdIsSaved(FEED.deck[i].id)) fdToggleSave(i); else { card.classList.remove('burst'); void card.offsetWidth; card.classList.add('burst'); } }
+    else last = { t:now, i };
+  };
+}
+/* Tab-Leiste: Feed als erster Tab; App startet im Feed */
+(function(){
+  const _bt = buildTabbar;
+  buildTabbar = function(){
+    const r = _bt.apply(this, arguments);
+    const nav = document.getElementById('tabbar'); if (!nav || nav.querySelector('[data-tab="feed"]')) return r;
+    nav.insertAdjacentHTML('afterbegin', `<button class="tab" data-tab="feed"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="13" rx="2.5"/><path d="M7 19.5h10M9 22h6"/></svg><span>Feed</span></button>`);
+    const z = nav.querySelector('[data-tab="zus"] span'); if (z) z.textContent = 'Bezüge';
+    nav.querySelector('[data-tab="feed"]').onclick = () => { HEUTE_RUN = null; renderFeed(FEED.mode === 'saved' ? 'feed' : undefined); };
+    nav.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+    return r;
+  };
+  document.addEventListener('pointerdown', () => { FD_USER = Date.now(); }, true);
+  document.addEventListener('keydown', () => { FD_USER = Date.now(); }, true);
+  const _rd = renderDashboard;
+  renderDashboard = function(){
+    if (FD_BOOT){ FD_BOOT = false; return renderFeed(); }
+    // Sync-Abgleich im Hintergrund soll nicht aus dem Feed werfen
+    if (document.querySelector('.fd-view') && Date.now() - FD_USER > 1500) return;
+    const r = _rd.apply(this, arguments); setTab('heute'); return r;
+  };
+  const main = document.getElementById('main');
+  if (main) new MutationObserver(() => { if (!main.querySelector('.fd-view')) document.body.classList.remove('feed-on'); }).observe(main, { childList:true });
 })();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
