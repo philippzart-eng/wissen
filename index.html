@@ -2587,6 +2587,26 @@ body.feed-on{ overflow:hidden; overscroll-behavior:none; }
 .rl-ctl svg{ width:16px; height:16px; }
 @media (max-height:600px){ .rl-sk, .rl-sk svg{ max-height:21vh; } .rl-t{ font-size:15.5px; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7; overflow:hidden; } .rl-sc{ gap:8px; } } .rl-t{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9; overflow:hidden; }
 @media (max-height:600px){ .rl-t{ -webkit-line-clamp:6; font-size:15px; } .rl-h{ font-size:19px; } }
+.rl-map{ background:var(--glass); } .rl-map .lk-mini{ margin:0; border:0; border-radius:0; } .rl-map .lk-cv{ height:min(34vh, 250px); }
+.rl-ava{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:22px 12px; background:linear-gradient(160deg, color-mix(in srgb, var(--fd) 16%, #fbfaf6), #fbfaf6); }
+.rl-ava .pers-ava{ width:clamp(90px, 16vh, 140px); height:clamp(90px, 16vh, 140px); font-size:clamp(30px, 5vh, 46px); }
+.rl-ava-t{ display:flex; flex-direction:column; align-items:center; gap:2px; text-align:center; color:#222; } .rl-ava-t b{ font-size:18px; } .rl-ava-t span{ font-size:13.5px; color:#666; }
+.rl-ty{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-height:min(26vh, 200px); padding:16px; text-align:center;
+  background-color:#fbfaf6; background-image:linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px); background-size:18px 18px; color:#222; }
+.rl-ty b{ font-size:clamp(48px, 10vh, 84px); font-weight:800; line-height:1; letter-spacing:-.03em; color:var(--fd); }
+.rl-ty span{ font-size:14px; color:#555; font-weight:600; }
+.rl-sc.on .rl-ty b{ animation:rlTy .7s cubic-bezier(.2,.9,.3,1.2) both; }
+@keyframes rlTy{ from{ opacity:0; transform:scale(.6); } to{ opacity:1; transform:none; } }
+@media (max-height:600px){ .rl-map .lk-cv{ height:20vh; } .rl-ty{ min-height:18vh; } .rl-ava{ padding:12px; } .rl-ava .pers-ava{ width:70px; height:70px; } }
+@media (prefers-reduced-motion:reduce){ .rl-sc.on .rl-ty b{ animation:none; } }
+.rl-sk.rl-med svg{ max-height:40vh; } @media (max-height:600px){ .rl-h{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; overflow:hidden; font-size:18px; } .rl-sk.rl-med svg{ max-height:20vh; } .rl-ty{ min-height:15vh; } .rl-ty b{ font-size:44px; } }
+.rl-ty.long b{ font-size:clamp(38px, 7vh, 60px); white-space:nowrap; }
+.rl-ty.long b{ font-size:min(11vw, 7vh, 56px); } .rl-ty b{ max-width:100%; }
+.rl-quiz.done .rl-yb{ pointer-events:none; opacity:.55; }
+.rl-quiz.done .rl-yb.ok{ opacity:1; border-color:#34c759; background:color-mix(in srgb, #34c759 16%, var(--bg)); }
+.rl-quiz.done .rl-yb.no.pick{ opacity:1; border-color:#ff3b30; background:color-mix(in srgb, #ff3b30 12%, var(--bg)); }
+.rl-tap{ position:absolute; left:50%; top:46%; transform:translate(-50%,-50%); display:none; padding:12px 18px; border-radius:20px; background:var(--ink); color:var(--bg); font-weight:700; font-size:15px; z-index:3; pointer-events:none; }
+.rl.needtap .rl-tap{ display:block; }
 /* ---------- Allgemeinwissens-Check ---------- */
 .ck-card{ display:grid; grid-template-columns:54px 1fr 18px; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 16px; border-radius:22px; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink); font:inherit; cursor:pointer; margin:0 0 14px; }
 .ck-card .ck-medal{ width:54px; height:54px; }
@@ -13108,37 +13128,81 @@ function alQuiz(){
    =============================================================== */
 const RL = { i:-1, sc:0, timer:null, paused:false, utt:null, token:0 };
 function rlStore(){ const g = loadGlobal(); g.reels = g.reels || { snd:true }; return g; }
-function rlSound(){ return rlStore().reels.snd !== false && 'speechSynthesis' in window; }
-function rlVoice(){
-  if (!('speechSynthesis' in window)) return null;
-  const vs = speechSynthesis.getVoices().filter(v => /^de(-|_|$)/i.test(v.lang));
-  return vs.find(v => /Anna|Petra|Helena|Markus|Yannick|Google Deutsch/i.test(v.name)) || vs.find(v => v.localService) || vs[0] || null;
-}
-if ('speechSynthesis' in window) try { speechSynthesis.onvoiceschanged = () => {}; speechSynthesis.getVoices(); } catch(e){}
-
-/* Reels aus Stationen (mit Skizze) und aus „Alltag erklärt“ (mit Skizze) */
+function rlSound(){ return rlStore().reels.snd !== false; }
+/* Reels aus Stationen, „Alltag erklärt“, Personen und Zusammenhangs-Ketten.
+   Bild je Szene: Skizze (sk), Körperatlas (med), Karte (map), Porträt (ava) oder Typo (ty). */
+function rlSent(t){ return String(t || '').split(/(?<=[.!?])\s+(?=[A-ZÄÖÜ0-9„])/).map(x => x.trim()).filter(Boolean); }
+function rlYearOf(t){ const m = String(t).match(/\b(1\d{3}|20\d{2}|[1-9]\d{2})\b/); return m ? m[1] : ''; }
+function rlEvOrt(ids){ return (ids || []).find(i => KARTE_ORT[i] && ZEITSTRAHL_DATA[i]); }
 function rlBuild(pool, add){
+  const PB = typeof PERS_BY_K !== 'undefined' ? PERS_BY_K : {};
   Object.values(PATH_INLINE || {}).forEach(p => {
     const th = FD_PRE[p.id.split('_')[0]]; if (!th) return;
     (p.stationen || []).forEach(st => {
+      const les = (st.lektion || []).filter(l => l.merke); if (les.length < 2) return;
       const sks = (typeof SKZ_MAP !== 'undefined' && SKZ_MAP[st.id] || []).filter(k => SKZ[k]);
-      const les = (st.lektion || []).filter(l => l.merke);
-      if (!sks.length || les.length < 2) return;
-      const scenes = [{ k:'t', h: st.titel, t: p.titel, say: st.titel + '.', sk: sks[0] }];
-      les.slice(0, 4).forEach((l, j) => scenes.push({ k:'m', h: l.ueberschrift, t: l.merke, say: l.merke, sk: sks[(j + 1) % sks.length], pan: j % 3 }));
+      const med = !sks.length && typeof skzMedi === 'function' && typeof KA_REG !== 'undefined' && skzMedi(st.id) ? st.id : null;
+      const wl = typeof WISSEN_LINK !== 'undefined' ? WISSEN_LINK[st.id] : null;
+      const pers = wl ? (wl.p || []).filter(k => PERSONEN.some(x => x.k === k)) : [];
+      const evs = [];
+      if (wl && typeof ZEIT_KETTEN !== 'undefined') (wl.k || []).forEach(k => { const z = ZEIT_KETTEN.find(x => x.k === k); if (z) z.ids.forEach(i => { if (KARTE_ORT[i]) evs.push(i); }); });
+      const vis = j => sks.length ? { sk: sks[j % sks.length] } : med ? { med } : (j % 2 === 1 && pers.length) ? { ava: pers[(j >> 1) % pers.length] } : evs.length ? { map: evs[j % evs.length] } : pers.length ? { ava: pers[0] } : null;
+      const scenes = [{ k:'t', h: st.titel, t: p.titel, say: st.titel + '.', v: vis(0) || { ty: rlYearOf(les[0].text) || st.titel.slice(0, 1), sub: p.titel } }];
+      les.slice(0, 4).forEach((l, j) => scenes.push({ k:'m', h: l.ueberschrift, t: l.merke, say: l.merke, v: vis(j + 1) || { ty: rlYearOf(l.merke + ' ' + l.text) || String(j + 1), sub: l.ueberschrift }, pan: j % 3 }));
       const wf = (st.uebungen || []).find(u => u.typ === 'wahr_falsch' && u.aussage);
       add('v', { id:`v:${st.id}`, t:'v', th, pid:p.id, sid:st.id, pt:p.titel, st:st.titel, scenes, q: wf ? wf.aussage : null, r: wf ? !!wf.richtig : null, fb: wf ? wf.feedback || '' : '' });
     });
   });
-  if (typeof ALLTAG_Q !== 'undefined') ALLTAG_Q.forEach(q => {
-    if (!q.sk || !SKZ[q.sk]) return;
-    const hs = String(q.h).split(/(?<=[.!?])\s+/).filter(Boolean), half = Math.ceil(hs.length / 2);
-    const scenes = [{ k:'t', h: q.f, t: 'Alltag erklärt', say: q.f, sk: q.sk },
-      { k:'m', h: 'Kurz gesagt', t: q.k, say: q.k, sk: q.sk, pan: 1 },
-      { k:'m', h: 'Warum eigentlich', t: hs.slice(0, half).join(' '), say: hs.slice(0, half).join(' '), sk: q.sk, pan: 2 }];
-    if (q.t) scenes.push({ k:'m', h: 'Was du tun kannst', t: q.t.split(';;')[0].trim(), say: q.t.split(';;')[0].trim(), sk: q.sk, pan: 0 });
+  if (typeof ALLTAG_Q !== 'undefined') ALLTAG_Q.forEach((q, n) => {
+    const vis = q.sk && SKZ[q.sk] ? j => ({ sk: q.sk }) : j => ({ ty: ['?', '!', '→', '✓'][j], sub: (ALLTAG_PLAN.find(x => x[0] === q.b) || ['', ''])[1] });
+    const hs = rlSent(q.h), half = Math.ceil(hs.length / 2);
+    const scenes = [{ k:'t', h: q.f, t: 'Alltag erklärt', say: q.f, v: vis(0) },
+      { k:'m', h: 'Kurz gesagt', t: q.k, say: q.k, v: vis(1), pan: 1 },
+      { k:'m', h: 'Warum eigentlich', t: hs.slice(0, half).join(' '), say: hs.slice(0, half).join(' '), v: vis(2), pan: 2 }];
+    if (q.t) scenes.push({ k:'m', h: 'Was du tun kannst', t: q.t.split(';;')[0].trim(), say: q.t.split(';;')[0].trim(), v: vis(3), pan: 0 });
     add('v', { id:`v:a:${q.id}`, t:'v', th:'alltag', aq:q, pt:'Alltag erklärt', st:q.f, scenes, q:null });
   });
+  if (typeof PERSONEN !== 'undefined') PERSONEN.forEach(pe => {
+    const th = FD_PCAT[pe.c]; if (!th || !pe.s) return;
+    const ss = rlSent(pe.s), ev = rlEvOrt(pe.ids), yrs = typeof persYears === 'function' ? persYears(pe) : '';
+    const scenes = [{ k:'t', h: pe.n, t: pe.r || '', say: `${pe.n}. ${pe.r || ''}.`, v: { ava: pe.k } }];
+    ss.slice(0, 3).forEach((x, j) => scenes.push({ k:'m', h: j === 0 ? yrs : (PERS_CAT_NAME[pe.c] || ''), t: x, say: x, v: (j === 0 && ev != null) ? { map: ev } : { ava: pe.k }, pan: j % 3 }));
+    if (ev != null){ const e = ZEITSTRAHL_DATA[ev]; scenes.push({ k:'m', h: fdYear(e.jahr), t: e.text, say: `${fdYear(e.jahr)}: ${e.text}`, v: { map: ev }, pan: 1 }); }
+    add('v', { id:`v:p:${pe.k}`, t:'v', th, pk: pe.k, pt: 'Wer war das?', st: pe.n, scenes, q:null });
+  });
+  /* Die Merkdaten (mit Merkbild): je ein Reel */
+  ZEITSTRAHL_DATA.forEach(e => {
+    if (!e || !e.mnemo || typeof e.jahr !== 'number') return;
+    const y = fdYear(e.jahr), kx = typeof ZEIT_KONTEXT !== 'undefined' ? ZEIT_KONTEXT[e.id] : null, map = KARTE_ORT[e.id] ? { map: e.id } : null;
+    const scenes = [{ k:'t', h: `Was geschah im Jahr ${y}?`, t: 'Merkdatum · ' + (e.epoche || ''), say: `Merkdatum. Was geschah im Jahr ${y}?`, v: { ty: y, sub: e.epoche || '', cnt: e.jahr } },
+      { k:'m', h: y, t: e.text, say: e.text, v: map || { ty: y, sub: e.epoche || '' }, pan: 1 }];
+    if (kx && kx[0]) scenes.push({ k:'m', h: 'Wie es dazu kam', t: fdShort(kx[0], 220), say: fdShort(kx[0], 220).replace(/ …$/, '.'), v: map || { ty: y }, pan: 2 });
+    if (kx && typeof kx[1] === 'string') scenes.push({ k:'m', h: 'Was daraus folgte', t: fdShort(kx[1], 220), say: fdShort(kx[1], 220).replace(/ …$/, '.'), v: { ty: y, sub: e.epoche || '' }, pan: 0 });
+    scenes.push({ k:'m', h: 'So merkst du es dir', t: e.mnemo, say: e.mnemo.replace(/[„“]/g, ''), v: { ty: y, sub: 'Merkbild' }, pan: 1 });
+    const now = new Date().getFullYear(), sc = Math.abs(e.jahr) > 1500 || e.jahr < 0 ? 2 : 1, ys = [e.jahr];
+    for (const d of [-30, 20, -10, 40, 10, -50]){ const v = e.jahr + d * sc; if (v !== 0 && v <= now && !ys.includes(v)) ys.push(v); if (ys.length === 3) break; }
+    add('v', { id:`v:d:${e.id}`, t:'v', th:'gesch', zid: e.id, pt: 'Merkdatum', st: e.text, scenes, q:null, yq: ys.sort((a, b) => a - b), yr: e.jahr, ytext: e.text });
+  });
+  if (typeof ZEIT_KETTEN !== 'undefined') ZEIT_KETTEN.forEach(z => {
+    const ids = z.ids.filter(i => ZEITSTRAHL_DATA[i]); if (ids.length < 3) return;
+    const pick = ids.length <= 5 ? ids : [0, 1, 2, 3, 4].map(k => ids[Math.round(k * (ids.length - 1) / 4)]);
+    const first = ZEITSTRAHL_DATA[pick[0]], last = ZEITSTRAHL_DATA[pick[pick.length - 1]];
+    const scenes = [{ k:'t', h: z.t, t: `Zusammenhang · ${fdYear(first.jahr)} bis ${fdYear(last.jahr)}`, say: `${z.t}. ${z.s}`, v: { ty: fdYear(first.jahr), sub: z.e || '' } }];
+    pick.forEach((i, j) => { const e = ZEITSTRAHL_DATA[i]; scenes.push({ k:'m', h: fdYear(e.jahr), t: e.text, say: `${fdYear(e.jahr)}. ${e.text}`, v: KARTE_ORT[i] ? { map: i } : { ty: fdYear(e.jahr), sub: e.epoche || '' }, pan: j % 3 }); });
+    add('v', { id:`v:k:${z.k}`, t:'v', th:'gesch', zk: z.k, pt: 'Zusammenhang', st: z.t, scenes, q:null });
+  });
+}
+function rlVis(v){
+  if (!v) return '';
+  if (v.sk && SKZ[v.sk]) return `<div class="rl-sk">${skzSvg('0 -2 320 178', SKZ[v.sk].s)}</div>`;
+  if (v.med){ const m = skzMedi(v.med); return m ? `<div class="rl-sk rl-med">${m.svg}</div>` : ''; }
+  if (v.map != null) return `<div class="rl-sk rl-map">${lkMiniHTML(v.map)}</div>`;
+  if (v.ava){ const pe = PERSONEN.find(x => x.k === v.ava); if (!pe) return '';
+    const yrs = typeof persYears === 'function' ? persYears(pe) : '';
+    return `<div class="rl-sk rl-ava">${persAva(pe, 'rl-ava-i')}<div class="rl-ava-t"><b>${zeitEsc(pe.n)}</b><span>${zeitEsc(yrs)}</span></div></div>`; }
+  if (v.ty != null && v.cnt != null) return `<div class="rl-sk rl-ty${String(v.ty).length > 5 ? ' long' : ''}"><b class="rl-cnt" data-to="${v.cnt}">${zeitEsc(v.ty)}</b>${v.sub ? `<span>${zeitEsc(v.sub)}</span>` : ''}</div>`;
+  if (v.ty != null) return `<div class="rl-sk rl-ty${String(v.ty).length > 5 ? ' long' : ''}"><b>${zeitEsc(v.ty)}</b>${v.sub ? `<span>${zeitEsc(v.sub)}</span>` : ''}</div>`;
+  return '';
 }
 const RL_IC = {
   play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg>', pause:'<svg viewBox="0 0 24 24"><path d="M7 4h3.5v16H7zM13.5 4H17v16h-3.5z"/></svg>',
@@ -13147,15 +13211,18 @@ const RL_IC = {
   again:'<svg viewBox="0 0 24 24" class="rl-st"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4.5h4.5"/></svg>'
 };
 function rlBody(c){
-  const n = c.scenes.length + (c.q ? 1 : 0);
+  const n = c.scenes.length + (c.q || c.yq ? 1 : 0);
   return `<div class="rl" data-n="${n}">
     <div class="rl-top"><div class="rl-prog">${Array.from({ length:n }, () => '<i><b></b></i>').join('')}</div>
       <div class="rl-ctl"><button class="rl-pp" aria-label="Pause">${RL_IC.pause}</button><button class="rl-snd" aria-label="Ton">${rlSound() ? RL_IC.on : RL_IC.off}</button></div></div>
     <div class="rl-stage">${c.scenes.map((s, j) => `<div class="rl-sc ${j === 0 ? 'on' : ''} rl-${s.k}" data-j="${j}">
-        <div class="rl-sk rl-pan${s.pan || 0}">${SKZ[s.sk] ? skzSvg('0 -2 320 178', SKZ[s.sk].s) : ''}</div>
+        <div class="rl-pan${s.pan || 0}">${rlVis(s.v)}</div>
         <div class="rl-cap">${s.k === 't' ? `<span class="rl-kick">${zeitEsc(s.t)}</span><h2 class="rl-h">${zeitEsc(s.h)}</h2>` : `<span class="rl-kick">${zeitEsc(s.h)}</span><p class="rl-t">${zeitEsc(s.t)}</p>`}</div></div>`).join('')}
+      ${c.yq ? `<div class="rl-sc rl-quiz" data-j="${c.scenes.length}"><span class="fd-wf-l">In welchem Jahr?</span><h2 class="fd-head fd-wq">${zeitEsc(c.ytext)}</h2>
+        <div class="fd-y3">${c.yq.map(y => `<button class="fd-wb rl-yb" data-y="${y}">${fdYear(y)}</button>`).join('')}</div><p class="fd-fb" hidden></p></div>` : ''}
       ${c.q ? `<div class="rl-sc rl-quiz" data-j="${c.scenes.length}"><span class="fd-wf-l">Wahr oder falsch?</span><h2 class="fd-head fd-wq">${zeitEsc(c.q)}</h2>
         <div class="fd-wf"><button class="fd-wb" data-a="1">Wahr</button><button class="fd-wb" data-a="0">Falsch</button></div><p class="fd-fb" hidden></p></div>` : ''}
+      <div class="rl-tap">Antippen für Ton</div>
       <div class="rl-end"><button class="rl-again">${RL_IC.again}Noch mal</button></div>
     </div>
   </div>`;
@@ -13183,22 +13250,39 @@ function rlDraw(sc){
     requestAnimationFrame(() => requestAnimationFrame(() => { t.style.transition = `opacity 500ms ease ${total * .5 + k * 120}ms`; t.style.opacity = ''; })); });
 }
 function rlCard(){ return RL.i >= 0 ? document.querySelector(`.fd-card[data-i="${RL.i}"] .rl`) : null; }
-function rlStopVoice(){ RL.token++; if ('speechSynthesis' in window) try { speechSynthesis.cancel(); } catch(e){} }
+function rlStopVoice(){ RL.token++; if (RL_AUDIO) try { RL_AUDIO.onended = RL_AUDIO.onerror = null; RL_AUDIO.pause(); } catch(e){} }
 function rlStop(){ clearTimeout(RL.timer); rlStopVoice(); RL.i = -1; }
-function rlSay(text, done){
-  const tk = ++RL.token;
-  if (!rlSound()){ RL.timer = setTimeout(() => tk === RL.token && done(), Math.max(3800, text.length * 62)); return; }
-  try {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text), v = rlVoice();
-    u.lang = 'de-DE'; if (v) u.voice = v; u.rate = 1.04;
-    let fin = false; const end = () => { if (fin || tk !== RL.token) return; fin = true; clearTimeout(RL.timer); RL.timer = setTimeout(() => tk === RL.token && done(), 700); };
-    u.onend = end; u.onerror = end;
-    RL.utt = u; speechSynthesis.speak(u);
-    // Sicherheitsnetz, falls das Gerät kein onend meldet
-    RL.timer = setTimeout(end, 4000 + text.length * 95);
-  } catch(e){ RL.timer = setTimeout(() => tk === RL.token && done(), Math.max(3800, text.length * 62)); }
+/* Ton: echte MP3 über den eigenen Worker (/tts) – Web Speech ist auf iOS 27 stumm.
+   Ein einziges Audio-Element wird beim ersten Antippen freigeschaltet, danach darf es automatisch spielen. */
+let RL_AUDIO = null, RL_UNLOCKED = false;
+function rlAudio(){ if (!RL_AUDIO){ RL_AUDIO = new Audio(); RL_AUDIO.preload = 'auto'; RL_AUDIO.setAttribute('playsinline', ''); } return RL_AUDIO; }
+function rlUnlock(){
+  if (RL_UNLOCKED) return; const a = rlAudio();
+  try { a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; const p = a.play(); if (p && p.then) p.then(() => { a.pause(); RL_UNLOCKED = true; }).catch(() => {}); else RL_UNLOCKED = true; } catch(e){}
 }
+document.addEventListener('touchend', rlUnlock, { capture:true, passive:true });
+document.addEventListener('click', rlUnlock, true);
+function rlSay(text, done){
+  const tk = ++RL.token, quiet = () => { RL.timer = setTimeout(() => tk === RL.token && done(), Math.max(3800, text.length * 62)); };
+  if (!rlSound()) return quiet();
+  const chunks = typeof __splitForTts === 'function' ? __splitForTts(text, 190) : [text];
+  if (!chunks.length || typeof TTS_ENDPOINT === 'undefined') return quiet();
+  const a = rlAudio(); let i = 0, fin = false;
+  const end = () => { if (fin || tk !== RL.token) return; fin = true; clearTimeout(RL.timer); RL.timer = setTimeout(() => tk === RL.token && done(), 600); };
+  const next = () => {
+    if (tk !== RL.token) return;
+    if (i >= chunks.length) return end();
+    a.onended = () => { i++; next(); };
+    a.onerror = () => { i++; next(); };
+    a.src = TTS_ENDPOINT + '?text=' + encodeURIComponent(chunks[i]) + '&lang=de';
+    const p = a.play();
+    if (p && p.catch) p.catch(err => { if (tk !== RL.token) return; if (err && err.name === 'NotAllowedError') rlNeedTap(true); clearTimeout(RL.timer); RL.timer = setTimeout(end, Math.max(3000, text.length * 62)); });
+  };
+  next();
+  // Sicherheitsnetz (Netz langsam oder weg)
+  RL.timer = setTimeout(end, 6000 + text.length * 110);
+}
+function rlNeedTap(on){ const b = rlCard(); if (b) b.classList.toggle('needtap', !!on); }
 function rlShow(j){
   const box = rlCard(); if (!box) return;
   const c = FEED.deck[RL.i]; RL.sc = j;
@@ -13208,11 +13292,14 @@ function rlShow(j){
   box.querySelectorAll('.rl-prog i').forEach((p, k) => { p.classList.toggle('done', k < j); p.classList.remove('run'); const b = p.querySelector('b'); b.style.transition = 'none'; b.style.width = k < j ? '100%' : '0'; });
   if (j >= n){ rlStopVoice(); return; }
   if (j >= c.scenes.length){ // Quizszene wartet auf Antwort
-    rlStopVoice(); if (rlSound()) rlSay('Wahr oder falsch? ' + c.q, () => {}); return;
+    rlStopVoice(); if (rlSound()) rlSay(c.yq ? 'In welchem Jahr? ' + c.ytext : 'Wahr oder falsch? ' + c.q, () => {}); return;
   }
   const s = c.scenes[j], sc = box.querySelector(`.rl-sc[data-j="${j}"]`);
+  sc.querySelectorAll('.rl-cnt').forEach(el => { const to = +el.dataset.to, from = to - Math.max(40, Math.round(Math.abs(to) * .15)), t0 = performance.now(), D = 1300;
+    const step = t => { const k = Math.min(1, (t - t0) / D), e2 = 1 - Math.pow(1 - k, 3), v = Math.round(from + (to - from) * e2); el.textContent = fdYear(v === 0 ? 1 : v); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
+    requestAnimationFrame(step); });
   const prev = j > 0 ? c.scenes[j - 1] : null;
-  if (!prev || prev.sk !== s.sk || j === 0) rlDraw(sc);
+  if (!prev || JSON.stringify(prev.v) !== JSON.stringify(s.v) || j === 0) rlDraw(sc);
   const bar = box.querySelectorAll('.rl-prog i')[j], b = bar.querySelector('b'), dur = rlSound() ? 2500 + s.say.length * 70 : Math.max(3800, s.say.length * 62);
   requestAnimationFrame(() => { b.style.transition = `width ${dur}ms linear`; b.style.width = '100%'; });
   if (RL.paused) return;
@@ -13232,6 +13319,7 @@ function rlClick(e){
   const box = e.target.closest('.rl'); if (!box) return false;
   const card = box.closest('.fd-card'), i = +card.dataset.i;
   if (RL.i !== i){ RL.i = -1; rlActivate(i); }
+  if (box.classList.contains('needtap') && !e.target.closest('button')){ box.classList.remove('needtap'); rlUnlock(); clearTimeout(RL.timer); rlStopVoice(); if (!RL.paused) rlShow(RL.sc); return true; }
   if (e.target.closest('.rl-pp')){
     RL.paused = !RL.paused; box.classList.toggle('paused', RL.paused); e.target.closest('.rl-pp').innerHTML = RL.paused ? RL_IC.play : RL_IC.pause;
     if (RL.paused){ clearTimeout(RL.timer); rlStopVoice(); const b = box.querySelectorAll('.rl-prog i b')[RL.sc]; if (b){ const w = getComputedStyle(b).width; b.style.transition = 'none'; b.style.width = w; } }
@@ -13243,12 +13331,21 @@ function rlClick(e){
     document.querySelectorAll('.rl-snd').forEach(b => b.innerHTML = rlSound() ? RL_IC.on : RL_IC.off);
     clearTimeout(RL.timer); rlStopVoice(); if (!RL.paused) rlShow(RL.sc); return true;
   }
+  const yb = e.target.closest('.rl-yb'); if (yb){
+    const c = FEED.deck[i], q = yb.closest('.rl-quiz'); if (q.classList.contains('done')) return true;
+    q.classList.add('done'); const ok = +yb.dataset.y === c.yr;
+    q.querySelectorAll('.rl-yb').forEach(b => b.classList.add(+b.dataset.y === c.yr ? 'ok' : 'no')); yb.classList.add('pick');
+    const fb = q.querySelector('.fd-fb'); fb.hidden = false; fb.innerHTML = `<b>${ok ? 'Richtig.' : 'Nicht ganz.'}</b> ${fdYear(c.yr)}: ${zeitEsc(c.ytext)}`;
+    if (ok && typeof zeitAwardXP === 'function') try { zeitAwardXP(1); } catch(_){}
+    if (rlSound()) rlSay(ok ? 'Richtig.' : `Nicht ganz. Es war ${fdYear(c.yr)}.`, () => {});
+    return true;
+  }
   if (e.target.closest('.rl-again')){ RL.paused = false; box.classList.remove('paused'); box.querySelector('.rl-pp').innerHTML = RL_IC.pause; rlShow(0); return true; }
   // Tippen auf rechte/linke Hälfte der Bühne: Szene vor/zurück (wie bei Stories)
   const st = e.target.closest('.rl-stage');
   if (st && !e.target.closest('button')){
     const r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, c = FEED.deck[i];
-    if (x > .66 && RL.sc < c.scenes.length){ clearTimeout(RL.timer); rlStopVoice(); rlShow(RL.sc + 1); return 'skip'; }
+    if (x > .66 && RL.sc < c.scenes.length - (c.q || c.yq ? 0 : 1) + 0 && RL.sc < c.scenes.length){ clearTimeout(RL.timer); rlStopVoice(); rlShow(RL.sc + 1); return 'skip'; }
     if (x < .33 && RL.sc > 0){ clearTimeout(RL.timer); rlStopVoice(); rlShow(RL.sc - 1); return 'skip'; }
   }
   return false;
@@ -13439,6 +13536,9 @@ async function fdOpen(i){
   if (c.t === 'a') return alFrage(c.q.id, () => renderFeed());
   if (c.t === 'p') return renderPerson(c.p.k, () => renderFeed());
   if (c.t === 'v' && c.aq) return alFrage(c.aq.id, () => renderFeed());
+  if (c.t === 'v' && c.pk) return renderPerson(c.pk, () => renderFeed());
+  if (c.t === 'v' && c.zid != null && typeof renderZusEvent === 'function') return renderZusEvent(c.zid, () => renderFeed());
+  if (c.t === 'v' && c.zk && typeof renderZusKette === 'function') return renderZusKette(c.zk);
   const path = await loadPath(c.pid); if (!path) return;
   curPath = path; curPathCrumbs = ['Feed', path.titel];
   KA_RET = { pid: c.pid, back: () => renderFeed() };
@@ -13459,7 +13559,7 @@ function renderFeed(mode){
   activeId = null;
   const main = document.getElementById('main'), saved = FEED.mode === 'saved';
   const top = saved
-    ? `<div class="fd-top"><button class="fd-back" id="fdBack" aria-label="Zurück">${chevSVG}</button><b class="fd-tt">Gemerkt</b><span class="fd-tn">${FEED.deck.length} Karten</span></div>`
+    ? `<div class="fd-top"><button class="fd-back" id="fdBack" aria-label="Zurück">${chevSVG}</button><b class="fd-tt">Gemerkt</b><span class="fd-tn">${FEED.deck.length} ${FEED.deck.length === 1 ? 'Karte' : 'Karten'}</span></div>`
     : `<div class="fd-top"><div class="fd-chips" id="fdChips">${FD_THEMES.slice(0, 1).concat([['rep', 'Wiederholen']], FD_THEMES.slice(1)).map(([k, l]) => `<button class="fd-chip ${FEED.th === k ? 'on' : ''}" data-th="${k}">${l}${k === 'rep' ? `<i id="fdRepN">${fdDue().length || ''}</i>` : ''}</button>`).join('')}</div>
        <button class="fd-list" id="fdSaved" aria-label="Gemerkte Karten">${FD_IC.list}<i id="fdSavedN">${g.feed.saved.length || ''}</i></button></div>`;
   const empty = !saved && FEED.th === 'rep' && !FEED.deck.length
