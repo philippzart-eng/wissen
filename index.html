@@ -2779,6 +2779,51 @@ body.feed-on:has(.fd-view.rl-dark) .tabbar .tab.on{ color:#fff; background:rgba(
 .tq-wrong{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
 .tq-wrong div{ padding:12px 14px; border-radius:16px; background:var(--glass); display:flex; flex-direction:column; gap:3px; }
 .tq-wrong b{ font-size:14.5px; font-weight:600; } .tq-wrong span{ font-size:14.5px; color:#1f8a3c; font-weight:700; }
+/* ---------- Dein Tag ---------- */
+.dp-hidden{ display:none !important; }
+.dp-card{ border-radius:24px; padding:18px; margin:4px 0 14px; display:grid; gap:12px; background:var(--glass); border:1px solid var(--glass-line); box-shadow:inset 0 1px 0 var(--glass-edge), 0 10px 30px rgba(0,0,0,.06); }
+.dp-top{ display:flex; align-items:center; gap:14px; }
+.dp-top .hc-ring{ width:58px; height:58px; flex:0 0 58px; }
+.dp-head h3{ margin:0; font-size:22px; } .dp-head p{ margin:2px 0 0; font-size:14px; color:var(--ink-dim); line-height:1.4; }
+.dp-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.dp-row{ display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 10px; border-radius:16px; border:1px solid transparent; background:color-mix(in srgb, var(--ink) 4%, transparent); color:var(--ink); font:inherit; cursor:pointer; }
+.dp-row:active{ transform:scale(.99); }
+.dp-ic{ width:36px; height:36px; border-radius:12px; display:grid; place-items:center; background:color-mix(in srgb, var(--accent) 13%, transparent); color:var(--accent); }
+.dp-ic svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.dp-t{ display:flex; flex-direction:column; min-width:0; } .dp-t b{ font-size:15.5px; } .dp-t span{ font-size:13px; color:var(--ink-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dp-st{ font-size:12.5px; font-weight:700; color:var(--ink-dim); white-space:nowrap; }
+.dp-row.done{ opacity:.6; } .dp-row.done .dp-ic{ background:color-mix(in srgb, #34c759 18%, transparent); color:#1f8a3c; } .dp-row.done .dp-st{ color:#1f8a3c; font-size:16px; }
+.dp-row.done .dp-t b{ text-decoration:line-through; text-decoration-thickness:1.5px; }
+.dp-go{ margin:2px 0 0 !important; }
+.dp-card.all{ border-color:color-mix(in srgb, #34c759 40%, var(--glass-line)); }
+.dp-pair{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px; }
+.dp-pair .ck-card, .dp-pair .wk-card{ margin:0; grid-template-columns:1fr; gap:6px; padding:12px 14px; align-content:start; }
+.dp-pair .ck-card .ck-medal{ width:40px; height:40px; } .dp-pair .dsl-chev{ display:none; }
+.dp-pair .ck-card-t b{ font-size:16px; } .dp-pair .ck-card-t small{ font-size:12.5px; }
+.wk-card{ display:grid; grid-template-columns:44px 1fr 18px; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 16px; border-radius:22px; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink); font:inherit; cursor:pointer; margin:0 0 14px; }
+.wk-card.fresh{ border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+.wk-c-ic{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:color-mix(in srgb, var(--accent) 13%, transparent); color:var(--accent); }
+.wk-c-ic svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; }
+.wk-card.fresh em{ color:var(--accent) !important; }
+/* ---------- Wochenrückblick ---------- */
+.wk-hero{ padding:18px; border-radius:24px; background:var(--glass); border:1px solid var(--glass-line); margin:6px 0 12px; }
+.wk-hero > b{ font-size:30px; display:block; } .wk-hero > span{ font-size:14.5px; color:var(--ink-dim); }
+.wk-bars{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; height:110px; margin-top:14px; align-items:end; }
+.wk-bar{ display:flex; flex-direction:column; align-items:center; gap:5px; height:100%; justify-content:flex-end; }
+.wk-bar i{ width:100%; max-width:30px; min-height:4px; border-radius:7px 7px 3px 3px; background:color-mix(in srgb, var(--accent) 70%, transparent); }
+.wk-bar.today i{ background:var(--accent); } .wk-bar span{ font-size:12px; color:var(--ink-dim); font-weight:600; }
+.wk-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
+.wk-stat{ padding:12px 10px; border-radius:16px; background:var(--glass); border:1px solid var(--glass-line); display:flex; flex-direction:column; gap:1px; }
+.wk-stat b{ font-size:22px; } .wk-stat span{ font-size:12.5px; color:var(--ink-dim); } .wk-stat i{ font-style:normal; font-size:11.5px; font-weight:700; color:var(--ink-faint); } .wk-stat i.up{ color:#1f8a3c; } .wk-stat i.dn{ color:#d0453a; }
+.wk-rank{ display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:20px; background:var(--glass); border:1px solid var(--glass-line); margin-bottom:12px; }
+.wk-rank .ck-medal{ width:52px; height:52px; } .wk-rank b{ display:block; font-size:18px; } .wk-rank span{ font-size:13.5px; color:var(--ink-dim); }
+.wk-doms{ display:flex; flex-direction:column; gap:8px; margin-bottom:8px; }
+.wk-dom{ display:grid; grid-template-columns:120px 1fr 34px; align-items:center; gap:10px; font-size:14px; }
+.wk-dom i{ height:9px; border-radius:5px; background:color-mix(in srgb, var(--fd) 14%, transparent); overflow:hidden; } .wk-dom i b{ display:block; height:100%; background:var(--fd); border-radius:5px; }
+.wk-dom em{ font-style:normal; font-weight:700; text-align:right; color:var(--ink-dim); }
+.wk-sug{ display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.wk-sug .dp-row{ background:var(--glass); border-color:var(--glass-line); padding:12px; }
+@media (max-width:360px){ .wk-stats{ grid-template-columns:repeat(2,1fr); } .wk-dom{ grid-template-columns:96px 1fr 30px; font-size:13px; } }
 </style>
 </head>
 <body>
@@ -13732,7 +13777,8 @@ const FD_THEMES = [['alle','Alles'],['reels','Reels'],['gesch','Geschichte'],['n
 const FD_COL = { gesch:'#c98a3a', natur:'#2f7de1', koerper:'#e0455a', gesell:'#7a5af8', kultur:'#1a9e8f', alltag:'#e09a00', geo:'#2f9a6a' };
 const FD_PRE = { HIST:'gesch', NATU:'natur', TECH:'natur', MATH:'natur', CHEM:'natur', MEDI:'koerper', O:'koerper', PSYC:'koerper', POLI:'gesell', RECH:'gesell', WIRT:'gesell', PHIL:'kultur', RELI:'kultur', KUNS:'kultur', SPRK:'kultur', GEO:'geo' };
 const FD_PCAT = { GP:'gesch', EN:'gesch', WT:'natur', RP:'kultur', LI:'kultur', MU:'kultur', KA:'kultur', GS:'gesell' };
-let FD_POOL = null, FD_BYID = null;
+let FD_POOL = null, FD_BYID = null, FD_ADD = null, FD_RL_DONE = false;
+function fdEnsureReels(){ if (FD_RL_DONE || !FD_POOL || typeof rlBuild !== 'function') return; FD_RL_DONE = true; rlBuild(FD_POOL, FD_ADD); }
 const FEED = { deck:[], idx:0, mode:'feed', th:null, unsaved:0 };
 let FD_BOOT = true, FD_USER = 0;
 
@@ -13753,7 +13799,7 @@ function fdBuildPool(){
   if (typeof ZEITSTRAHL_DATA !== 'undefined') ZEITSTRAHL_DATA.forEach(e => { if (e && e.text && typeof e.jahr === 'number') add('z', { id:`z:${e.id}`, t:'z', th:'gesch', e }); });
   if (typeof PERSONEN !== 'undefined') PERSONEN.forEach(p => { if (p.s && p.n && FD_PCAT[p.c]) add('p', { id:`p:${p.k}`, t:'p', th:FD_PCAT[p.c], p }); });
   if (typeof KARTE_ORT !== 'undefined' && typeof ZEITSTRAHL_DATA !== 'undefined') Object.keys(KARTE_ORT).forEach(k => { const e = ZEITSTRAHL_DATA[+k]; if (e && e.text) add('o', { id:`o:${k}`, t:'o', th:'geo', e, ort:KARTE_ORT[k] }); });
-  if (typeof rlBuild === 'function') rlBuild(FD_POOL, add);
+  FD_ADD = add; // Reels werden erst nach dem Start (oder bei Bedarf) aufgebaut – schnellerer Start
 }
 function fdStore(){ const g = loadGlobal(); g.feed = g.feed || {}; g.feed.seen = g.feed.seen || {}; g.feed.saved = g.feed.saved || []; return g; }
 function fdSeen(id){ return !!fdStore().feed.seen[id]; }
@@ -13924,6 +13970,9 @@ function fdRepCount(){ const n = document.getElementById('fdRepN'); if (n) n.tex
 function renderFeed(mode){
   if (typeof rlStop === 'function') rlStop();
   fdBuildPool();
+  const g0 = fdStore();
+  if (mode === 'saved' || mode === 'hist' || (g0.feed.th || 'alle') === 'reels' || FEED.mode === 'saved' || FEED.mode === 'hist') fdEnsureReels();
+  else if (!FD_RL_DONE) setTimeout(() => { fdEnsureReels(); }, 1200);
   const g = fdStore();
   if (mode === 'saved'){ FEED.mode = 'saved'; FEED.deck = g.feed.saved.map(id => FD_BYID[id]).filter(Boolean); FEED.idx = 0; }
   else if (mode === 'hist'){ FEED.mode = 'hist'; FEED.deck = (typeof rlHist === 'function' ? rlHist() : []).map(h => FD_BYID[h.id]).filter(Boolean); FEED.idx = 0; }
@@ -14347,6 +14396,165 @@ function ckBadge(){
   };
 })();
 (function(){ const m = document.getElementById('main'); if (m) new MutationObserver(() => { setTimeout(() => { if (m.querySelector('.ck-run')) document.body.classList.add('in-session'); }, 0); }).observe(m, { childList:true }); })();
+/* ======================= DEIN TAG + WOCHENRÜCKBLICK =======================
+   Ein Lernplan für den Tag, der alle Wiederholungssysteme bündelt, und ein
+   Rückblick auf die Woche mit Vorschlag für die nächste.
+   ========================================================================== */
+/* --- Protokoll: was wurde wann in welchem Bereich gemacht --- */
+function wkLog(th, kind, n){
+  try {
+    const a = loadActivity(), t = String(todayNum());
+    if (!a[t]) a[t] = { xp:0, acts:0, cat:{} };
+    const w = a[t].wk = a[t].wk || { n:{}, th:{} };
+    w.n[kind] = (w.n[kind] || 0) + (n || 1);
+    if (th) w.th[th] = (w.th[th] || 0) + (n || 1);
+    saveActivity(a);
+  } catch(e){}
+}
+function wkTheme(pid){ return (typeof FD_PRE !== 'undefined' && pid) ? FD_PRE[String(pid).split('_')[0]] || null : null; }
+(function(){
+  const _la = logActivity;
+  logActivity = function(cat, xp){
+    const r = _la.apply(this, arguments);
+    try { if (cat === 'wissen' && typeof lessonState !== 'undefined' && lessonState && lessonState.station && lessonState.mode !== 'quiz' && lessonState.mode !== 'review')
+      wkLog(wkTheme(curPath && curPath.id), 'station'); } catch(e){}
+    return r;
+  };
+  if (typeof fdMarkSeen === 'function'){ const _ms = fdMarkSeen; fdMarkSeen = function(i){
+    const c = FEED.deck[i], was = c && fdSeen(c.id); const r = _ms.apply(this, arguments);
+    try { if (c && !was && c.t !== 'v' && c.t !== 'q') wkLog(c.th, c.t === 'r' ? 'wiederholt' : 'karte'); } catch(e){}
+    return r; }; }
+  if (typeof rlRecord === 'function'){ const _rr = rlRecord; rlRecord = function(){
+    const c = FEED.deck[RL.i]; const r = _rr.apply(this, arguments); try { if (c && c.t === 'v') wkLog(c.th, 'reel'); } catch(e){} return r; }; }
+  const wrapQ = name => { if (typeof window[name] !== 'function') return; const f = window[name]; window[name] = function(){
+    try { if (CK_RUN) CK_RUN.res.forEach(({ q, ok }) => { wkLog(q.th, 'frage'); if (ok) wkLog(null, 'richtig'); }); } catch(e){}
+    return f.apply(this, arguments); }; };
+  wrapQ('ckFinish'); wrapQ('tqFinish');
+})();
+
+/* --- Dein Tag: ein Plan aus allen Lernbausteinen --- */
+function dpNewStation(){
+  // schwächster eingestufter Bereich zuerst, sonst Geschichte
+  let th = 'gesch';
+  try { const c = ckStore().check, done = CK_DOMS.filter(([k]) => c.dom[k]); if (done.length) th = done.slice().sort((a, b) => c.dom[a[0]].v - c.dom[b[0]].v)[0][0]; } catch(e){}
+  return dpNewStationFor(th) || dpNewStationFor('gesch');
+}
+function dpToday(){ const a = loadActivity()[String(todayNum())]; return (a && a.wk && a.wk.n) || {}; }
+function dpTasks(){
+  const out = [], hp = typeof heuteProgress === 'function' ? heuteProgress() : null;
+  if (hp && hp.n){ const mins = hp.h.plan.filter(k => !hp.h.done[k]).reduce((s, k) => s + heuteStepInfo(k, hp.h).min, 0);
+    out.push({ k:'runde', t:'Heute-Runde', d: hp.all ? 'Jahreszahlen & Zusammenhänge erledigt' : `${hp.d} von ${hp.n} Schritten · Jahreszahlen & Zusammenhänge`, min: hp.all ? 0 : Math.max(1, mins), done: hp.all }); }
+  fdBuildPool(); const due = fdDue().length, rep = dpToday().wiederholt || 0;
+  out.push({ k:'rep', t:'Wiederholen', d: due ? `${due} Karten sind fällig` : rep ? `${rep} Karten wiederholt` : 'Gerade nichts fällig', min: Math.ceil(due * .25), done: due === 0 });
+  if (typeof tqDoneToday === 'function'){ const d = tqDoneToday(), st = tqStreak();
+    out.push({ k:'tq', t:'Tagesquiz', d: d ? `${tqState().check.daily.ok} von ${TQ_N} richtig` : st ? `${TQ_N} Fragen · Serie: ${st} ${st === 1 ? 'Tag' : 'Tage'}` : `${TQ_N} Fragen quer durch alle Bereiche`, min: d ? 0 : 2, done: d }); }
+  const ns = dpNewStation(), stDone = (dpToday().station || 0) > 0;
+  if (ns || stDone) out.push({ k:'neu', t:'Etwas Neues lernen', d: stDone ? 'Station abgeschlossen' : `${ns.st.titel} · ${ns.pt}`, min: stDone ? 0 : 5, done: stDone, ns });
+  return out;
+}
+const DP_IC = { runde:'<path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/>', rep:'<path d="M4 12a8 8 0 0 1 13.7-5.6L20 9M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6L4 15M4 20v-5h5"/>',
+  tq:'<path d="M12 22c4.4 0 7-2.9 7-6.6 0-3.3-2.2-5.6-3.6-7.4-.4 1.6-1.3 2.8-2.4 3.2.3-3.3-1-6.6-3.8-9.2C9 5.4 5 8.6 5 15.4 5 19.1 7.6 22 12 22z"/>', neu:'<path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>' };
+function dpCardHTML(){
+  const ts = dpTasks(), n = ts.length, d = ts.filter(x => x.done).length, mins = ts.reduce((s, x) => s + (x.done ? 0 : x.min), 0), all = d === n;
+  const R = 26, C = 2 * Math.PI * R, nx = ts.find(x => !x.done);
+  return `<section class="dp-card ${all ? 'all' : ''}" id="dpCard">
+    <div class="dp-top"><svg class="hc-ring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" class="hc-track"/><circle cx="32" cy="32" r="${R}" class="hc-fill" stroke-dasharray="${(C * (n ? d / n : 1)).toFixed(1)} ${C.toFixed(1)}"/></svg>
+      <div class="dp-head"><h3>Dein Tag</h3><p>${all ? 'Alles erledigt – stark! Im Feed kannst du einfach weiterstöbern.' : `${d} von ${n} erledigt · noch etwa ${mins} ${mins === 1 ? 'Minute' : 'Minuten'}`}</p></div></div>
+    <ol class="dp-list">${ts.map(x => `<li><button class="dp-row ${x.done ? 'done' : ''}" data-k="${x.k}"><span class="dp-ic"><svg viewBox="0 0 24 24">${DP_IC[x.k]}</svg></span>
+      <span class="dp-t"><b>${zeitEsc(x.t)}</b><span>${zeitEsc(x.d)}</span></span><span class="dp-st">${x.done ? '✓' : x.min ? `${x.min} min` : ''}</span></button></li>`).join('')}</ol>
+    ${nx ? `<button class="zeit-continue dp-go" data-k="${nx.k}">Weiter mit: ${zeitEsc(nx.t)}</button>` : ''}
+  </section>`;
+}
+function dpRun(k){
+  const back = () => renderDashboard();
+  if (k === 'runde'){ const b = document.getElementById('heuteGo') || document.getElementById('heuteXtra'); if (b) b.click(); return; }
+  if (k === 'rep'){ const g = fdStore(); g.feed.th = 'rep'; saveGlobal(g); FEED.deck = []; FEED.mode = 'x'; return renderFeed('feed'); }
+  if (k === 'tq') return tqDoneToday() ? openCheck(back) : tqStart(back);
+  if (k === 'neu'){ const ns = dpNewStation(); if (!ns) return;
+    loadPath(ns.pid).then(path => { if (!path) return; curPath = path; curPathCrumbs = ['Dein Tag', path.titel]; KA_RET = { pid: ns.pid, back }; startLesson(ns.idx); }); }
+}
+
+/* --- Wochenrückblick --- */
+function wkDays(endDay){ const out = []; for (let k = 6; k >= 0; k--) out.push(endDay - k); return out; }
+function wkData(endDay){
+  const a = loadActivity(), days = wkDays(endDay), sum = { n:{}, th:{} }; let xp = 0, active = 0;
+  const per = days.map(d => { const e = a[String(d)] || {}; xp += e.xp || 0; const acts = (e.acts || 0) + Object.values((e.wk || {}).n || {}).reduce((s, v) => s + v, 0); if (acts) active++;
+    const w = e.wk || { n:{}, th:{} }; Object.entries(w.n || {}).forEach(([k, v]) => sum.n[k] = (sum.n[k] || 0) + v); Object.entries(w.th || {}).forEach(([k, v]) => sum.th[k] = (sum.th[k] || 0) + v);
+    return { d, xp: e.xp || 0, acts }; });
+  return { days, per, sum, xp, active };
+}
+function renderWeek(back){
+  if (back) WK_BACK = back;
+  const t = todayNum(), W = wkData(t), P = wkData(t - 7), main = document.getElementById('main');
+  const dn = d => ['So','Mo','Di','Mi','Do','Fr','Sa'][new Date(d * 864e5).getDay()];
+  const dt = d => new Date(d * 864e5).toLocaleDateString('de-DE', { day:'numeric', month:'short' });
+  const mx = Math.max(1, ...W.per.map(x => x.acts));
+  const c = ckStore().check, hist = c.hist || [], nowV = ckTotal(c), beforeArr = hist.filter(h => h.d < t - 6), before = beforeArr.length ? beforeArr[beforeArr.length - 1].v : null;
+  const rk = ckRank(nowV), dRank = before == null ? null : nowV - before;
+  const lab = Object.fromEntries(CK_DOMS);
+  const ths = CK_DOMS.map(([k]) => [k, W.sum.th[k] || 0]).sort((a, b) => b[1] - a[1]);
+  const top = ths[0][1] ? ths[0] : null, low = ths.filter(x => x[0] !== (top || [])[0]).sort((a, b) => a[1] - b[1] || ckDomVal(c, a[0]) - ckDomVal(c, b[0]))[0];
+  const st = (k, lbl, ic) => { const v = W.sum.n[k] || 0, pv = P.sum.n[k] || 0, df = v - pv; return `<div class="wk-stat"><b>${v}</b><span>${lbl}</span>${pv || v ? `<i class="${df > 0 ? 'up' : df < 0 ? 'dn' : ''}">${df > 0 ? '▲ ' + df : df < 0 ? '▼ ' + (-df) : '='}</i>` : ''}</div>`; };
+  const fr = W.sum.n.frage || 0, ri = W.sum.n.richtig || 0;
+  const sug = low ? low[0] : 'geo', ns = dpNewStationFor(sug);
+  main.innerHTML = `<div class="al-view wk-view">
+    <div class="netz-top"><button class="zeit-exit" id="wkBack" aria-label="Zurück">${chevSVG}</button><div class="netz-title"><b>Deine Woche</b><span>${dt(W.days[0])} – ${dt(W.days[6])}</span></div></div>
+    <div class="wk-hero"><b>${W.active} von 7</b><span>Tagen aktiv${W.active >= 6 ? ' – großartig!' : W.active >= 4 ? ' – gut dran geblieben.' : W.active ? '' : ' – diese Woche war ruhig.'}</span>
+      <div class="wk-bars">${W.per.map(x => `<div class="wk-bar ${x.d === t ? 'today' : ''}"><i style="height:${Math.round(x.acts / mx * 100)}%"></i><span>${dn(x.d)}</span></div>`).join('')}</div></div>
+    <div class="wk-stats">${st('station', 'Stationen')}${st('reel', 'Reels')}${st('karte', 'neue Karten')}${st('wiederholt', 'wiederholt')}${st('frage', 'Quizfragen')}<div class="wk-stat"><b>${W.xp}</b><span>XP</span></div></div>
+    ${fr ? `<p class="ka-intro">Von ${fr} Quizfragen hast du ${ri} richtig beantwortet (${Math.round(ri / fr * 100)} %).</p>` : ''}
+    <h3 class="ka-h">Dein Rang</h3>
+    <div class="wk-rank">${ckMedal(ckRankIdx(nowV))}<div><b>${ckDone(c) ? rk[1] : 'Noch nicht eingestuft'}</b><span>${ckDone(c) ? `${nowV} Punkte${dRank != null ? ` · ${dRank > 0 ? '+' + dRank : dRank < 0 ? dRank : '±0'} in dieser Woche` : ''}` : 'Mach den Allgemeinwissens-Check, um deinen Rang zu sehen.'}</span></div></div>
+    <h3 class="ka-h">Bereiche</h3>
+    <div class="wk-doms">${ths.map(([k, v]) => `<div class="wk-dom" style="--fd:${FD_COL[k] || 'var(--accent)'}"><span>${lab[k]}</span><i><b style="width:${Math.round(v / Math.max(1, ths[0][1]) * 100)}%"></b></i><em>${v}</em></div>`).join('')}</div>
+    ${top ? `<p class="ka-intro">Am meisten Zeit hast du mit <b>${lab[top[0]]}</b> verbracht.${low ? ` Zu kurz kam <b>${lab[low[0]]}</b>.` : ''}</p>` : '<p class="ka-intro">Diese Woche gibt es noch keine Aktivität in den Bereichen.</p>'}
+    <h3 class="ka-h">Vorschlag für nächste Woche</h3>
+    <div class="wk-sug">
+      <button class="dp-row" id="wkS1"><span class="dp-ic"><svg viewBox="0 0 24 24">${DP_IC.neu}</svg></span><span class="dp-t"><b>Neu lernen in ${lab[sug]}</b><span>${ns ? zeitEsc(ns.st.titel + ' · ' + ns.pt) : 'Alle Stationen gelernt'}</span></span><span class="dp-st">›</span></button>
+      <button class="dp-row" id="wkS2"><span class="dp-ic"><svg viewBox="0 0 24 24">${DP_IC.tq}</svg></span><span class="dp-t"><b>Gezielter Check: ${lab[sug]}</b><span>12 Fragen – zeigt, ob es sitzt</span></span><span class="dp-st">›</span></button>
+      <button class="dp-row" id="wkS3"><span class="dp-ic"><svg viewBox="0 0 24 24">${DP_IC.rep}</svg></span><span class="dp-t"><b>Feed mit Fokus ${lab[sug]}</b><span>Berieseln, aber im richtigen Bereich</span></span><span class="dp-st">›</span></button>
+      <p class="ka-intro">Ziel: an mindestens ${Math.min(7, Math.max(4, W.active + 1))} Tagen etwas machen${(W.sum.n.station || 0) < 3 ? ' und drei neue Stationen abschließen' : ''}.</p>
+    </div></div>`;
+  document.getElementById('wkBack').onclick = () => { const b = WK_BACK; WK_BACK = null; (b || renderDashboard)(); };
+  document.getElementById('wkS1').onclick = () => { if (!ns) return; loadPath(ns.pid).then(path => { if (!path) return; curPath = path; curPathCrumbs = ['Woche', path.titel]; KA_RET = { pid: ns.pid, back: () => renderWeek() }; startLesson(ns.idx); }); };
+  document.getElementById('wkS2').onclick = () => { CK_BACK = () => renderWeek(); ckStart(sug); };
+  document.getElementById('wkS3').onclick = () => { const g = fdStore(); g.feed.th = sug; saveGlobal(g); FEED.deck = []; FEED.mode = 'x'; renderFeed('feed'); };
+  const g = loadGlobal(); g.wkSeen = t; saveGlobal(g);
+  window.scrollTo(0, 0);
+}
+let WK_BACK = null;
+function dpNewStationFor(th){
+  const paths = Object.values(PATH_INLINE).filter(p => wkTheme(p.id) === th);
+  const scored = paths.map(p => { const pr = loadPathProg(p.id), n = p.stationen.filter(s => pr[s.id] && pr[s.id].done).length; return { p, pr, n }; })
+    .filter(x => x.n < x.p.stationen.length).sort((a, b) => (b.n > 0) - (a.n > 0) || b.n - a.n);
+  const x = scored[0]; if (!x) return null; const idx = x.p.stationen.findIndex(s => !(x.pr[s.id] && x.pr[s.id].done));
+  return { pid: x.p.id, idx, st: x.p.stationen[idx], pt: x.p.titel, th };
+}
+function wkCardHTML(){
+  const t = todayNum(), dow = new Date(t * 864e5).getDay(), seen = loadGlobal().wkSeen || 0, fresh = (dow === 0 || dow === 1) && t - seen > 2, W = wkData(t);
+  return `<button class="wk-card ${fresh ? 'fresh' : ''}" id="wkCard"><span class="wk-c-ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+    <span class="ck-card-t"><em>${fresh ? 'Neu: Dein Wochenrückblick' : 'Deine Woche'}</em><b>${W.active} von 7 Tagen aktiv</b><small>${W.xp} XP · ${(W.sum.n.reel || 0) + (W.sum.n.karte || 0)} Karten & Reels</small></span><svg viewBox="0 0 24 24" class="dsl-chev"><path d="m9 18 6-6-6-6"/></svg></button>`;
+}
+/* --- Startseite „Heute“ aufräumen: Dein Tag oben, Rang und Woche nebeneinander --- */
+(function(){
+  const _rd = renderDashboard;
+  renderDashboard = function(){
+    const r = _rd.apply(this, arguments);
+    try {
+      const m = document.getElementById('main'); if (!m || m.querySelector('.fd-view') || m.querySelector('#dpCard')) return r;
+      const hc = m.querySelector('.heute-card'), tq = m.querySelector('#tqCard'), ck = m.querySelector('#ckCard');
+      const anchor = hc || m.querySelector('.dash-hero');
+      if (!anchor) return r;
+      anchor.insertAdjacentHTML(hc ? 'beforebegin' : 'afterend', dpCardHTML());
+      if (hc) hc.classList.add('dp-hidden');
+      if (tq) tq.remove();
+      if (ck){ ck.insertAdjacentHTML('afterend', wkCardHTML()); const row = document.createElement('div'); row.className = 'dp-pair'; ck.before(row); row.append(ck, m.querySelector('#wkCard')); }
+      m.querySelectorAll('#dpCard [data-k]').forEach(b => b.onclick = () => dpRun(b.dataset.k));
+      const wc = m.querySelector('#wkCard'); if (wc) wc.onclick = () => renderWeek(() => renderDashboard());
+    } catch(e){ console.warn(e); }
+    return r;
+  };
+})();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
 SYNC.hookStorage();
