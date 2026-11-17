@@ -2607,6 +2607,8 @@ body.feed-on{ overflow:hidden; overscroll-behavior:none; }
 .rl-quiz.done .rl-yb.no.pick{ opacity:1; border-color:#ff3b30; background:color-mix(in srgb, #ff3b30 12%, var(--bg)); }
 .rl-tap{ position:absolute; left:50%; top:46%; transform:translate(-50%,-50%); display:none; padding:12px 18px; border-radius:20px; background:var(--ink); color:var(--bg); font-weight:700; font-size:15px; z-index:3; pointer-events:none; }
 .rl.needtap .rl-tap{ display:block; }
+@media (max-height:700px){ .rl-t{ -webkit-line-clamp:7; font-size:17px; } .rl-map .lk-cv{ height:24vh; } }
+@media (max-height:700px){ .rl-sc{ gap:8px; } .rl-t{ -webkit-line-clamp:6; } } @media (max-height:600px){ .rl-t{ -webkit-line-clamp:6; font-size:15px; } .rl-map .lk-cv{ height:20vh; } }
 /* ---------- Allgemeinwissens-Check ---------- */
 .ck-card{ display:grid; grid-template-columns:54px 1fr 18px; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 16px; border-radius:22px; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink); font:inherit; cursor:pointer; margin:0 0 14px; }
 .ck-card .ck-medal{ width:54px; height:54px; }
@@ -13170,18 +13172,26 @@ function rlBuild(pool, add){
     if (ev != null){ const e = ZEITSTRAHL_DATA[ev]; scenes.push({ k:'m', h: fdYear(e.jahr), t: e.text, say: `${fdYear(e.jahr)}: ${e.text}`, v: { map: ev }, pan: 1 }); }
     add('v', { id:`v:p:${pe.k}`, t:'v', th, pk: pe.k, pt: 'Wer war das?', st: pe.n, scenes, q:null });
   });
-  /* Die Merkdaten (mit Merkbild): je ein Reel */
+  /* Alle Geschichtsdaten des Zeitstrahls: je ein Reel */
+  const byYear = ZEITSTRAHL_DATA.filter(Boolean).slice().sort((a, b) => a.jahr - b.jahr);
   ZEITSTRAHL_DATA.forEach(e => {
-    if (!e || !e.mnemo || typeof e.jahr !== 'number') return;
-    const y = fdYear(e.jahr), kx = typeof ZEIT_KONTEXT !== 'undefined' ? ZEIT_KONTEXT[e.id] : null, map = KARTE_ORT[e.id] ? { map: e.id } : null;
-    const scenes = [{ k:'t', h: `Was geschah im Jahr ${y}?`, t: 'Merkdatum · ' + (e.epoche || ''), say: `Merkdatum. Was geschah im Jahr ${y}?`, v: { ty: y, sub: e.epoche || '', cnt: e.jahr } },
-      { k:'m', h: y, t: e.text, say: e.text, v: map || { ty: y, sub: e.epoche || '' }, pan: 1 }];
-    if (kx && kx[0]) scenes.push({ k:'m', h: 'Wie es dazu kam', t: fdShort(kx[0], 220), say: fdShort(kx[0], 220).replace(/ …$/, '.'), v: map || { ty: y }, pan: 2 });
-    if (kx && typeof kx[1] === 'string') scenes.push({ k:'m', h: 'Was daraus folgte', t: fdShort(kx[1], 220), say: fdShort(kx[1], 220).replace(/ …$/, '.'), v: { ty: y, sub: e.epoche || '' }, pan: 0 });
-    scenes.push({ k:'m', h: 'So merkst du es dir', t: e.mnemo, say: e.mnemo.replace(/[„“]/g, ''), v: { ty: y, sub: 'Merkbild' }, pan: 1 });
+    if (!e || !e.text || typeof e.jahr !== 'number') return;
+    const y = fdYear(e.jahr), kid = typeof zkId === 'function' ? zkId(e.id) : e.id, kx = kid != null && typeof ZEIT_KONTEXT !== 'undefined' ? ZEIT_KONTEXT[kid] : null;
+    const map = KARTE_ORT[e.id] ? { map: e.id } : null, ty = { ty: y, sub: e.epoche || '' };
+    const scenes = [{ k:'t', h: `Was geschah im Jahr ${y}?`, t: (e.mnemo ? 'Merkdatum · ' : 'Geschichtsdatum · ') + (e.epoche || ''), say: `Was geschah im Jahr ${y}?`, v: { ty: y, sub: e.epoche || '', cnt: e.jahr } },
+      { k:'m', h: y, t: e.text, say: e.text, v: map || ty, pan: 1 }];
+    if (kx && typeof kx[0] === 'string') scenes.push({ k:'m', h: 'Wie es dazu kam', t: fdShort(kx[0], 220), say: fdShort(kx[0], 220).replace(/ …$/, '.'), v: map || ty, pan: 2 });
+    if (kx && typeof kx[1] === 'string') scenes.push({ k:'m', h: 'Was daraus folgte', t: fdShort(kx[1], 220), say: fdShort(kx[1], 220).replace(/ …$/, '.'), v: ty, pan: 0 });
+    const ps = typeof persOfEvent === 'function' ? persOfEvent(e.id) : [];
+    if (ps.length){ const pe = ps[0]; scenes.push({ k:'m', h: 'Wer dabei war', t: `${pe.n} – ${pe.r || ''}`.replace(/ – $/, ''), say: `Dabei: ${pe.n}, ${pe.r || ''}.`, v: { ava: pe.k }, pan: 1 }); }
+    else {
+      const same = byYear.filter(x => x.id !== e.id && Math.abs(x.jahr - e.jahr) <= Math.max(3, Math.round(Math.abs(e.jahr) * .004)) && x.text !== e.text && (KARTE_ORT[x.id] || [])[2] !== (KARTE_ORT[e.id] || [])[2]);
+      if (same.length){ const o = same[e.id % same.length]; scenes.push({ k:'m', h: 'Zur gleichen Zeit', t: `${fdYear(o.jahr)}: ${o.text}`, say: `Zur gleichen Zeit, ${fdYear(o.jahr)}: ${o.text}`, v: KARTE_ORT[o.id] ? { map: o.id } : { ty: fdYear(o.jahr), sub: o.epoche || '' }, pan: 2 }); }
+    }
+    if (e.mnemo) scenes.push({ k:'m', h: 'So merkst du es dir', t: e.mnemo, say: e.mnemo.replace(/[„“]/g, ''), v: { ty: y, sub: 'Merkbild' }, pan: 1 });
     const now = new Date().getFullYear(), sc = Math.abs(e.jahr) > 1500 || e.jahr < 0 ? 2 : 1, ys = [e.jahr];
     for (const d of [-30, 20, -10, 40, 10, -50]){ const v = e.jahr + d * sc; if (v !== 0 && v <= now && !ys.includes(v)) ys.push(v); if (ys.length === 3) break; }
-    add('v', { id:`v:d:${e.id}`, t:'v', th:'gesch', zid: e.id, pt: 'Merkdatum', st: e.text, scenes, q:null, yq: ys.sort((a, b) => a - b), yr: e.jahr, ytext: e.text });
+    add('v', { id:`v:d:${e.id}`, t:'v', th:'gesch', zid: e.id, pt: e.mnemo ? 'Merkdatum' : 'Geschichtsdatum', st: e.text, scenes, q:null, yq: ys.sort((a, b) => a - b), yr: e.jahr, ytext: e.text });
   });
   if (typeof ZEIT_KETTEN !== 'undefined') ZEIT_KETTEN.forEach(z => {
     const ids = z.ids.filter(i => ZEITSTRAHL_DATA[i]); if (ids.length < 3) return;
