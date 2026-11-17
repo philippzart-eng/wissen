@@ -2542,6 +2542,51 @@ body.feed-on{ overflow:hidden; overscroll-behavior:none; }
 @media (max-height:600px){ .fd-ans .lk-cv{ height:22vh; } .fd-pers .pers-ava{ width:48px; height:48px; flex-basis:48px; } }
 @media (max-height:700px){ .fd-ans .lk-cv{ height:17vh; } .fd-ans .lk-cap{ padding:6px 10px; font-size:13.5px; } .fd-o .fd-head, .fd-ro .fd-head{ font-size:19px; } .fd-ans{ gap:8px; } }
 @media (max-height:600px){ .fd-ans .lk-cv{ height:15vh; } .fd-rate .fd-wb{ padding:10px 0; font-size:15px; } }
+/* ---------- Reels ---------- */
+.fd-card.fd-v{ justify-content:flex-start; padding-top:calc(max(14px, env(safe-area-inset-top)) + 62px); background:linear-gradient(175deg, color-mix(in srgb, var(--fd) 22%, var(--bg)) 0%, var(--bg) 75%); }
+.fd-v .fd-in{ flex:1; min-height:0; gap:8px; }
+.rl{ position:relative; flex:1; display:flex; flex-direction:column; min-height:0; }
+.rl-prog{ display:flex; gap:4px; margin:2px 0 10px; }
+.rl-prog i{ flex:1; height:3.5px; border-radius:2px; background:color-mix(in srgb, var(--ink) 14%, transparent); overflow:hidden; }
+.rl-prog i b{ display:block; height:100%; width:0; background:var(--fd); border-radius:2px; }
+.rl-stage{ position:relative; flex:1; min-height:0; }
+.rl-sc{ position:absolute; inset:0; display:flex; flex-direction:column; gap:14px; opacity:0; pointer-events:none; transition:opacity .45s ease, transform .45s ease; transform:translateY(10px); }
+.rl-sc.on{ opacity:1; pointer-events:auto; transform:none; }
+.rl-sk{ border-radius:20px; overflow:hidden; background:#fbfaf6; border:1px solid var(--glass-line); flex:0 0 auto; max-height:40vh; }
+.rl-sk svg{ display:block; width:100%; height:auto; max-height:40vh; transform-origin:50% 50%; }
+.rl-sc.on .rl-pan0 svg{ animation:rlPan0 9s ease-out forwards; } .rl-sc.on .rl-pan1 svg{ animation:rlPan1 9s ease-out forwards; } .rl-sc.on .rl-pan2 svg{ animation:rlPan2 9s ease-out forwards; }
+@keyframes rlPan0{ from{ transform:scale(1); } to{ transform:scale(1.08); } }
+@keyframes rlPan1{ from{ transform:scale(1.12) translateX(4%); } to{ transform:scale(1.04) translateX(-3%); } }
+@keyframes rlPan2{ from{ transform:scale(1.04) translateY(2%); } to{ transform:scale(1.14) translateY(-3%); } }
+.rl.paused .rl-sk svg{ animation-play-state:paused !important; }
+.rl-cap{ display:flex; flex-direction:column; gap:6px; }
+.rl-kick{ font-size:13px; font-weight:700; color:var(--fd); }
+.rl-h{ font-size:clamp(22px, 3.4vh, 28px); line-height:1.2; margin:0; }
+.rl-t{ font-size:clamp(17px, 2.6vh, 21px); line-height:1.42; margin:0; font-weight:600; }
+.rl-sc.on .rl-cap{ animation:rlCap .6s ease-out .25s both; }
+@keyframes rlCap{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+.rl-quiz{ justify-content:center; }
+.rl-end{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; }
+.rl-end.on{ display:flex; }
+.rl-again{ display:flex; align-items:center; gap:8px; font:inherit; font-size:16px; font-weight:700; padding:13px 22px; border-radius:22px; border:0; background:var(--fd); color:#fff; cursor:pointer; }
+.rl-st{ fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.rl-again svg{ width:20px; height:20px; }
+.rl-ctl{ position:absolute; right:0; top:14px; display:flex; flex-direction:column; gap:8px; z-index:2; }
+.rl-ctl button{ width:38px; height:38px; border-radius:50%; border:1px solid var(--glass-line); background:var(--glass-strong, var(--glass)); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); color:var(--ink); display:grid; place-items:center; cursor:pointer; padding:0; }
+.rl-ctl svg{ width:18px; height:18px; fill:currentColor; }
+.rl-ctl .rl-snd svg path:first-child{ fill:currentColor; }
+.fd-v .fd-src{ display:none; }
+@media (max-height:700px){ .rl-sk, .rl-sk svg{ max-height:30vh; } .rl-sc{ gap:10px; } }
+@media (max-height:600px){ .rl-sk, .rl-sk svg{ max-height:24vh; } .rl-h{ font-size:20px; } .rl-t{ font-size:16px; } }
+@media (prefers-reduced-motion:reduce){ .rl-sc.on .rl-sk svg{ animation:none !important; } }
+.rl-sc{ justify-content:center; } .rl-sk, .rl-sk svg{ max-height:44vh; } @media (max-height:700px){ .rl-sk, .rl-sk svg{ max-height:32vh; } } @media (max-height:600px){ .rl-sk, .rl-sk svg{ max-height:24vh; } }
+.rl-top{ display:flex; align-items:center; gap:10px; margin:0 0 10px; }
+.rl-top .rl-prog{ flex:1; margin:0; }
+.rl-ctl{ position:static; flex-direction:row; gap:6px; }
+.rl-ctl button{ width:34px; height:34px; }
+.rl-ctl svg{ width:16px; height:16px; }
+@media (max-height:600px){ .rl-sk, .rl-sk svg{ max-height:21vh; } .rl-t{ font-size:15.5px; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7; overflow:hidden; } .rl-sc{ gap:8px; } } .rl-t{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9; overflow:hidden; }
+@media (max-height:600px){ .rl-t{ -webkit-line-clamp:6; font-size:15px; } .rl-h{ font-size:19px; } }
 /* ---------- Allgemeinwissens-Check ---------- */
 .ck-card{ display:grid; grid-template-columns:54px 1fr 18px; align-items:center; gap:12px; width:100%; text-align:left; padding:12px 16px; border-radius:22px; border:1px solid var(--glass-line); background:var(--glass); color:var(--ink); font:inherit; cursor:pointer; margin:0 0 14px; }
 .ck-card .ck-medal{ width:54px; height:54px; }
@@ -13056,11 +13101,166 @@ function alQuiz(){
     return r;
   };
 })();
+/* ============================ REELS ============================
+   Kurze, animierte Erklär-Reels im Feed: Szenen laufen automatisch,
+   Skizzen zeichnen sich Strich für Strich, die Stimme des Geräts liest mit
+   (Web Speech API, offline, ohne Server). Am Ende eine Wahr/Falsch-Frage.
+   =============================================================== */
+const RL = { i:-1, sc:0, timer:null, paused:false, utt:null, token:0 };
+function rlStore(){ const g = loadGlobal(); g.reels = g.reels || { snd:true }; return g; }
+function rlSound(){ return rlStore().reels.snd !== false && 'speechSynthesis' in window; }
+function rlVoice(){
+  if (!('speechSynthesis' in window)) return null;
+  const vs = speechSynthesis.getVoices().filter(v => /^de(-|_|$)/i.test(v.lang));
+  return vs.find(v => /Anna|Petra|Helena|Markus|Yannick|Google Deutsch/i.test(v.name)) || vs.find(v => v.localService) || vs[0] || null;
+}
+if ('speechSynthesis' in window) try { speechSynthesis.onvoiceschanged = () => {}; speechSynthesis.getVoices(); } catch(e){}
+
+/* Reels aus Stationen (mit Skizze) und aus „Alltag erklärt“ (mit Skizze) */
+function rlBuild(pool, add){
+  Object.values(PATH_INLINE || {}).forEach(p => {
+    const th = FD_PRE[p.id.split('_')[0]]; if (!th) return;
+    (p.stationen || []).forEach(st => {
+      const sks = (typeof SKZ_MAP !== 'undefined' && SKZ_MAP[st.id] || []).filter(k => SKZ[k]);
+      const les = (st.lektion || []).filter(l => l.merke);
+      if (!sks.length || les.length < 2) return;
+      const scenes = [{ k:'t', h: st.titel, t: p.titel, say: st.titel + '.', sk: sks[0] }];
+      les.slice(0, 4).forEach((l, j) => scenes.push({ k:'m', h: l.ueberschrift, t: l.merke, say: l.merke, sk: sks[(j + 1) % sks.length], pan: j % 3 }));
+      const wf = (st.uebungen || []).find(u => u.typ === 'wahr_falsch' && u.aussage);
+      add('v', { id:`v:${st.id}`, t:'v', th, pid:p.id, sid:st.id, pt:p.titel, st:st.titel, scenes, q: wf ? wf.aussage : null, r: wf ? !!wf.richtig : null, fb: wf ? wf.feedback || '' : '' });
+    });
+  });
+  if (typeof ALLTAG_Q !== 'undefined') ALLTAG_Q.forEach(q => {
+    if (!q.sk || !SKZ[q.sk]) return;
+    const hs = String(q.h).split(/(?<=[.!?])\s+/).filter(Boolean), half = Math.ceil(hs.length / 2);
+    const scenes = [{ k:'t', h: q.f, t: 'Alltag erklärt', say: q.f, sk: q.sk },
+      { k:'m', h: 'Kurz gesagt', t: q.k, say: q.k, sk: q.sk, pan: 1 },
+      { k:'m', h: 'Warum eigentlich', t: hs.slice(0, half).join(' '), say: hs.slice(0, half).join(' '), sk: q.sk, pan: 2 }];
+    if (q.t) scenes.push({ k:'m', h: 'Was du tun kannst', t: q.t.split(';;')[0].trim(), say: q.t.split(';;')[0].trim(), sk: q.sk, pan: 0 });
+    add('v', { id:`v:a:${q.id}`, t:'v', th:'alltag', aq:q, pt:'Alltag erklärt', st:q.f, scenes, q:null });
+  });
+}
+const RL_IC = {
+  play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg>', pause:'<svg viewBox="0 0 24 24"><path d="M7 4h3.5v16H7zM13.5 4H17v16h-3.5z"/></svg>',
+  on:'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" class="rl-st"/></svg>',
+  off:'<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9.5l5 5M21.5 9.5l-5 5" class="rl-st"/></svg>',
+  again:'<svg viewBox="0 0 24 24" class="rl-st"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4.5h4.5"/></svg>'
+};
+function rlBody(c){
+  const n = c.scenes.length + (c.q ? 1 : 0);
+  return `<div class="rl" data-n="${n}">
+    <div class="rl-top"><div class="rl-prog">${Array.from({ length:n }, () => '<i><b></b></i>').join('')}</div>
+      <div class="rl-ctl"><button class="rl-pp" aria-label="Pause">${RL_IC.pause}</button><button class="rl-snd" aria-label="Ton">${rlSound() ? RL_IC.on : RL_IC.off}</button></div></div>
+    <div class="rl-stage">${c.scenes.map((s, j) => `<div class="rl-sc ${j === 0 ? 'on' : ''} rl-${s.k}" data-j="${j}">
+        <div class="rl-sk rl-pan${s.pan || 0}">${SKZ[s.sk] ? skzSvg('0 -2 320 178', SKZ[s.sk].s) : ''}</div>
+        <div class="rl-cap">${s.k === 't' ? `<span class="rl-kick">${zeitEsc(s.t)}</span><h2 class="rl-h">${zeitEsc(s.h)}</h2>` : `<span class="rl-kick">${zeitEsc(s.h)}</span><p class="rl-t">${zeitEsc(s.t)}</p>`}</div></div>`).join('')}
+      ${c.q ? `<div class="rl-sc rl-quiz" data-j="${c.scenes.length}"><span class="fd-wf-l">Wahr oder falsch?</span><h2 class="fd-head fd-wq">${zeitEsc(c.q)}</h2>
+        <div class="fd-wf"><button class="fd-wb" data-a="1">Wahr</button><button class="fd-wb" data-a="0">Falsch</button></div><p class="fd-fb" hidden></p></div>` : ''}
+      <div class="rl-end"><button class="rl-again">${RL_IC.again}Noch mal</button></div>
+    </div>
+  </div>`;
+}
+/* Skizze Strich für Strich zeichnen */
+function rlDraw(sc){
+  const svg = sc.querySelector('.rl-sk svg'); if (!svg) return;
+  const els = [...svg.querySelectorAll('path, line, polyline, polygon, circle, ellipse, rect')];
+  const total = Math.min(2600, 500 + els.length * 45);
+  els.forEach((e, k) => {
+    let L = 0; try { L = e.getTotalLength ? e.getTotalLength() : 0; } catch(_){ }
+    e.style.transition = 'none';
+    const delay = Math.round(k / Math.max(1, els.length) * total * .75);
+    const dash = getComputedStyle(e).strokeDasharray;
+    if (L > 0 && L < 5000 && (!dash || dash === 'none')){
+      e.style.strokeDasharray = L; e.style.strokeDashoffset = L; e.style.fillOpacity = 0;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        e.style.transition = `stroke-dashoffset ${Math.min(900, 200 + L * 2)}ms ease-out ${delay}ms, fill-opacity 500ms ease ${delay + 300}ms`;
+        e.style.strokeDashoffset = 0; e.style.fillOpacity = '';
+        setTimeout(() => { e.style.strokeDasharray = ''; e.style.strokeDashoffset = ''; e.style.transition = ''; }, delay + 1200);
+      }));
+    } else { e.style.opacity = 0; requestAnimationFrame(() => requestAnimationFrame(() => { e.style.transition = `opacity 400ms ease ${delay}ms`; e.style.opacity = ''; })); }
+  });
+  svg.querySelectorAll('text').forEach((t, k) => { t.style.opacity = 0; t.style.transition = 'none';
+    requestAnimationFrame(() => requestAnimationFrame(() => { t.style.transition = `opacity 500ms ease ${total * .5 + k * 120}ms`; t.style.opacity = ''; })); });
+}
+function rlCard(){ return RL.i >= 0 ? document.querySelector(`.fd-card[data-i="${RL.i}"] .rl`) : null; }
+function rlStopVoice(){ RL.token++; if ('speechSynthesis' in window) try { speechSynthesis.cancel(); } catch(e){} }
+function rlStop(){ clearTimeout(RL.timer); rlStopVoice(); RL.i = -1; }
+function rlSay(text, done){
+  const tk = ++RL.token;
+  if (!rlSound()){ RL.timer = setTimeout(() => tk === RL.token && done(), Math.max(3800, text.length * 62)); return; }
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text), v = rlVoice();
+    u.lang = 'de-DE'; if (v) u.voice = v; u.rate = 1.04;
+    let fin = false; const end = () => { if (fin || tk !== RL.token) return; fin = true; clearTimeout(RL.timer); RL.timer = setTimeout(() => tk === RL.token && done(), 700); };
+    u.onend = end; u.onerror = end;
+    RL.utt = u; speechSynthesis.speak(u);
+    // Sicherheitsnetz, falls das Gerät kein onend meldet
+    RL.timer = setTimeout(end, 4000 + text.length * 95);
+  } catch(e){ RL.timer = setTimeout(() => tk === RL.token && done(), Math.max(3800, text.length * 62)); }
+}
+function rlShow(j){
+  const box = rlCard(); if (!box) return;
+  const c = FEED.deck[RL.i]; RL.sc = j;
+  const n = +box.dataset.n, scs = box.querySelectorAll('.rl-sc');
+  scs.forEach(s => s.classList.toggle('on', +s.dataset.j === j));
+  box.querySelector('.rl-end').classList.toggle('on', j >= n);
+  box.querySelectorAll('.rl-prog i').forEach((p, k) => { p.classList.toggle('done', k < j); p.classList.remove('run'); const b = p.querySelector('b'); b.style.transition = 'none'; b.style.width = k < j ? '100%' : '0'; });
+  if (j >= n){ rlStopVoice(); return; }
+  if (j >= c.scenes.length){ // Quizszene wartet auf Antwort
+    rlStopVoice(); if (rlSound()) rlSay('Wahr oder falsch? ' + c.q, () => {}); return;
+  }
+  const s = c.scenes[j], sc = box.querySelector(`.rl-sc[data-j="${j}"]`);
+  const prev = j > 0 ? c.scenes[j - 1] : null;
+  if (!prev || prev.sk !== s.sk || j === 0) rlDraw(sc);
+  const bar = box.querySelectorAll('.rl-prog i')[j], b = bar.querySelector('b'), dur = rlSound() ? 2500 + s.say.length * 70 : Math.max(3800, s.say.length * 62);
+  requestAnimationFrame(() => { b.style.transition = `width ${dur}ms linear`; b.style.width = '100%'; });
+  if (RL.paused) return;
+  rlSay(s.say, () => { if (!RL.paused) rlShow(j + 1); });
+}
+function rlActivate(i){
+  const c = FEED.deck[i];
+  if (RL.i === i) return;
+  rlStop();
+  if (!c || c.t !== 'v') return;
+  RL.i = i; RL.paused = false;
+  const box = rlCard(); if (!box) return;
+  box.classList.remove('paused'); box.querySelector('.rl-pp').innerHTML = RL_IC.pause;
+  rlShow(0);
+}
+function rlClick(e){
+  const box = e.target.closest('.rl'); if (!box) return false;
+  const card = box.closest('.fd-card'), i = +card.dataset.i;
+  if (RL.i !== i){ RL.i = -1; rlActivate(i); }
+  if (e.target.closest('.rl-pp')){
+    RL.paused = !RL.paused; box.classList.toggle('paused', RL.paused); e.target.closest('.rl-pp').innerHTML = RL.paused ? RL_IC.play : RL_IC.pause;
+    if (RL.paused){ clearTimeout(RL.timer); rlStopVoice(); const b = box.querySelectorAll('.rl-prog i b')[RL.sc]; if (b){ const w = getComputedStyle(b).width; b.style.transition = 'none'; b.style.width = w; } }
+    else rlShow(RL.sc);
+    return true;
+  }
+  if (e.target.closest('.rl-snd')){
+    const g = rlStore(); g.reels.snd = !rlSound(); saveGlobal(g);
+    document.querySelectorAll('.rl-snd').forEach(b => b.innerHTML = rlSound() ? RL_IC.on : RL_IC.off);
+    clearTimeout(RL.timer); rlStopVoice(); if (!RL.paused) rlShow(RL.sc); return true;
+  }
+  if (e.target.closest('.rl-again')){ RL.paused = false; box.classList.remove('paused'); box.querySelector('.rl-pp').innerHTML = RL_IC.pause; rlShow(0); return true; }
+  // Tippen auf rechte/linke Hälfte der Bühne: Szene vor/zurück (wie bei Stories)
+  const st = e.target.closest('.rl-stage');
+  if (st && !e.target.closest('button')){
+    const r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, c = FEED.deck[i];
+    if (x > .66 && RL.sc < c.scenes.length){ clearTimeout(RL.timer); rlStopVoice(); rlShow(RL.sc + 1); return 'skip'; }
+    if (x < .33 && RL.sc > 0){ clearTimeout(RL.timer); rlStopVoice(); rlShow(RL.sc - 1); return 'skip'; }
+  }
+  return false;
+}
+/* Feed verlassen → Reel stoppen */
+(function(){ const m = document.getElementById('main'); if (m) new MutationObserver(() => { if (!m.querySelector('.fd-view')) rlStop(); }).observe(m, { childList:true });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) rlStop(); }); })();
 /* ============================ FEED (Berieseln) ============================
    Vollbild-Karten zum Durchwischen: Merksätze, Alltag erklärt, Zeitstrahl,
    ab und zu ein Wahr/Falsch-Tipp. Doppeltipp merkt eine Karte vor.
    ======================================================================= */
-const FD_THEMES = [['alle','Alles'],['gesch','Geschichte'],['natur','Natur & Technik'],['koerper','Körper & Psyche'],['gesell','Gesellschaft'],['kultur','Kultur & Denken'],['geo','Geografie'],['alltag','Alltag']];
+const FD_THEMES = [['alle','Alles'],['reels','Reels'],['gesch','Geschichte'],['natur','Natur & Technik'],['koerper','Körper & Psyche'],['gesell','Gesellschaft'],['kultur','Kultur & Denken'],['geo','Geografie'],['alltag','Alltag']];
 const FD_COL = { gesch:'#c98a3a', natur:'#2f7de1', koerper:'#e0455a', gesell:'#7a5af8', kultur:'#1a9e8f', alltag:'#e09a00', geo:'#2f9a6a' };
 const FD_PRE = { HIST:'gesch', NATU:'natur', TECH:'natur', MATH:'natur', CHEM:'natur', MEDI:'koerper', O:'koerper', PSYC:'koerper', POLI:'gesell', RECH:'gesell', WIRT:'gesell', PHIL:'kultur', RELI:'kultur', KUNS:'kultur', SPRK:'kultur', GEO:'geo' };
 const FD_PCAT = { GP:'gesch', EN:'gesch', WT:'natur', RP:'kultur', LI:'kultur', MU:'kultur', KA:'kultur', GS:'gesell' };
@@ -13072,7 +13272,7 @@ function fdShort(t, n){ t = String(t || ''); if (t.length <= n) return t; const 
 function fdYear(j){ return j < 0 ? `${-j} v. Chr.` : String(j); }
 function fdBuildPool(){
   if (FD_POOL) return;
-  FD_POOL = { m:[], w:[], a:[], z:[], p:[], o:[] }; FD_BYID = {};
+  FD_POOL = { m:[], w:[], a:[], z:[], p:[], o:[], v:[] }; FD_BYID = {};
   const add = (k, o) => { FD_POOL[k].push(o); FD_BYID[o.id] = o; };
   Object.values(PATH_INLINE || {}).forEach(p => {
     const th = FD_PRE[p.id.split('_')[0]]; if (!th) return;
@@ -13085,6 +13285,7 @@ function fdBuildPool(){
   if (typeof ZEITSTRAHL_DATA !== 'undefined') ZEITSTRAHL_DATA.forEach(e => { if (e && e.text && typeof e.jahr === 'number') add('z', { id:`z:${e.id}`, t:'z', th:'gesch', e }); });
   if (typeof PERSONEN !== 'undefined') PERSONEN.forEach(p => { if (p.s && p.n && FD_PCAT[p.c]) add('p', { id:`p:${p.k}`, t:'p', th:FD_PCAT[p.c], p }); });
   if (typeof KARTE_ORT !== 'undefined' && typeof ZEITSTRAHL_DATA !== 'undefined') Object.keys(KARTE_ORT).forEach(k => { const e = ZEITSTRAHL_DATA[+k]; if (e && e.text) add('o', { id:`o:${k}`, t:'o', th:'geo', e, ort:KARTE_ORT[k] }); });
+  if (typeof rlBuild === 'function') rlBuild(FD_POOL, add);
 }
 function fdStore(){ const g = loadGlobal(); g.feed = g.feed || {}; g.feed.seen = g.feed.seen || {}; g.feed.saved = g.feed.saved || []; return g; }
 function fdSeen(id){ return !!fdStore().feed.seen[id]; }
@@ -13120,7 +13321,7 @@ function fdCloze(t){
 function fdRecallCard(id){ const o = FD_BYID[id]; return o ? { id:'r:' + id, t:'r', o, th:o.th, sid:o.sid } : null; }
 /* Eine Karte ziehen: meist Neues, gelegentlich Bekanntes zum Auffrischen */
 function fdPick(type, th, seen, avoid){
-  let arr = FD_POOL[type]; if (th !== 'alle') arr = arr.filter(x => x.th === th);
+  let arr = FD_POOL[type]; if (th !== 'alle' && th !== 'reels') arr = arr.filter(x => x.th === th);
   arr = arr.filter(x => !avoid.has(x.id) && !(x.sid && avoid.has(x.sid)));
   if (!arr.length) return null;
   const fresh = arr.filter(x => !seen[x.id]);
@@ -13133,12 +13334,13 @@ function fdMore(n){
   const inDeck = new Set(FEED.deck.map(c => c.id));
   if (th === 'rep') return fdDue().filter(id => !inDeck.has('r:' + id)).slice(0, n).map(fdRecallCard).filter(Boolean);
   const due = fdDue(th).filter(id => !inDeck.has('r:' + id));
-  const types = th === 'alltag' ? [['a', 1]] : th === 'gesch' ? [['m', .45], ['z', .3], ['p', .25]] : th === 'alle' ? [['m', .42], ['a', .15], ['z', .15], ['p', .16], ['o', .12]]
-    : th === 'geo' ? [['m', .55], ['o', .45]] : [['m', .75], ['p', .25]];
+  if (th === 'reels') due.length = 0;
+  const types = th === 'reels' ? [['v', 1]] : th === 'alltag' ? [['a', .8], ['v', .2]] : th === 'gesch' ? [['m', .4], ['z', .25], ['p', .2], ['v', .15]] : th === 'alle' ? [['m', .36], ['a', .13], ['z', .13], ['p', .14], ['o', .1], ['v', .14]]
+    : th === 'geo' ? [['m', .55], ['o', .45]] : [['m', .63], ['p', .22], ['v', .15]];
   for (let k = 0; k < n; k++){
     const pos = FEED.deck.length + out.length; let c = null;
     if (pos % 5 === 3 && due.length){ const id = due.shift(); c = fdRecallCard(id); }
-    if (!c && pos % 8 === 6 && th !== 'alltag') c = fdPick('w', th, seen, avoid);
+    if (!c && pos % 8 === 6 && th !== 'alltag' && th !== 'reels') c = fdPick('w', th, seen, avoid);
     if (!c){ let r = Math.random(), ty = types[0][0]; for (const [t, w] of types){ if ((r -= w) <= 0){ ty = t; break; } } c = fdPick(ty, th, seen, avoid) || fdPick('m', th, seen, avoid) || fdPick('a', th, seen, avoid); }
     if (!c) break;
     out.push(c); avoid.add(c.id); if (c.sid) avoid.add(c.sid);
@@ -13201,6 +13403,7 @@ function fdCard(c, i){
         <div class="fd-ans" hidden>${ans}
         <div class="fd-rate"><button class="fd-wb" data-r="0">Nicht gewusst</button><button class="fd-wb" data-r="1">Wusste ich</button></div></div><p class="fd-fb" hidden></p>`;
     } }
+  else if (c.t === 'v'){ src = c.pt; body = rlBody(c); }
   else if (c.t === 'p' || c.t === 'o'){ src = c.t === 'p' ? 'Wer war das?' : 'Wo geschah das?'; more = c.t === 'p'; body = fdPOBody(c, false); }
   else if (c.t === 'q'){ src = 'Tagesquiz'; more = false; const st = tqStreak();
     body = `<h2 class="fd-head fd-q">${TQ_N} Fragen, zwei Minuten.</h2><p class="fd-big">Quer durch alle Bereiche – und jede richtige Antwort zählt für deinen Rang.</p>
@@ -13235,6 +13438,7 @@ async function fdOpen(i){
   const c = fdBase(FEED.deck[i]); if (!c) return;
   if (c.t === 'a') return alFrage(c.q.id, () => renderFeed());
   if (c.t === 'p') return renderPerson(c.p.k, () => renderFeed());
+  if (c.t === 'v' && c.aq) return alFrage(c.aq.id, () => renderFeed());
   const path = await loadPath(c.pid); if (!path) return;
   curPath = path; curPathCrumbs = ['Feed', path.titel];
   KA_RET = { pid: c.pid, back: () => renderFeed() };
@@ -13242,6 +13446,7 @@ async function fdOpen(i){
 }
 function fdRepCount(){ const n = document.getElementById('fdRepN'); if (n) n.textContent = fdDue().length || ''; }
 function renderFeed(mode){
+  if (typeof rlStop === 'function') rlStop();
   fdBuildPool();
   const g = fdStore();
   if (mode === 'saved'){ FEED.mode = 'saved'; FEED.deck = g.feed.saved.map(id => FD_BYID[id]).filter(Boolean); FEED.idx = 0; }
@@ -13273,11 +13478,11 @@ function renderFeed(mode){
     });
     const on = document.querySelector('#fdChips .fd-chip.on'); if (on) on.scrollIntoView({ inline:'center', block:'nearest' });
   }
-  requestAnimationFrame(() => { sc.scrollTop = FEED.idx * sc.clientHeight; fdMarkSeen(FEED.idx); });
+  requestAnimationFrame(() => { sc.scrollTop = FEED.idx * sc.clientHeight; fdMarkSeen(FEED.idx); if (typeof rlActivate === 'function') rlActivate(FEED.idx); });
   let tm = null;
   sc.onscroll = () => { clearTimeout(tm); tm = setTimeout(() => {
     const i = Math.round(sc.scrollTop / Math.max(1, sc.clientHeight)); if (i === FEED.idx) return;
-    FEED.idx = i; fdMarkSeen(i);
+    FEED.idx = i; fdMarkSeen(i); if (typeof rlActivate === 'function') rlActivate(i);
     const hn = document.getElementById('fdHint'); if (hn){ hn.remove(); const g3 = fdStore(); g3.feed.hinted = 1; saveGlobal(g3); }
     if (FEED.mode === 'feed' && i >= FEED.deck.length - 5){
       const add = fdMore(12), base = FEED.deck.length; FEED.deck.push(...add);
@@ -13286,6 +13491,7 @@ function renderFeed(mode){
   }, 90); };
   let last = { t:0, i:-1 };
   sc.onclick = e => {
+    if (typeof rlClick === 'function'){ const rr = rlClick(e); if (rr) return; }
     const sb = e.target.closest('.fd-save'); if (sb){ fdToggleSave(+sb.dataset.i); return; }
     const mb = e.target.closest('.fd-more'); if (mb){ FEED.idx = +mb.dataset.i; fdOpen(+mb.dataset.i); return; }
     if (e.target.closest('.fd-tq')){ FEED.idx = +e.target.closest('.fd-card').dataset.i; tqStart(() => { FEED.deck = FEED.deck.filter(c => c.t !== 'q'); renderFeed(); }); return; }
@@ -13307,7 +13513,7 @@ function renderFeed(mode){
       const ok = (wb.dataset.a === '1') === c.r; card.classList.add('done');
       card.querySelectorAll('.fd-wb').forEach(x => x.classList.add((x.dataset.a === '1') === c.r ? 'ok' : 'no'));
       wb.classList.add('pick');
-      const fb = card.querySelector('.fd-fb'); fb.hidden = false; fb.innerHTML = `<b>${ok ? 'Richtig.' : 'Nicht ganz.'}</b> ${zeitEsc(c.fb)}`;
+      const fb = card.querySelector('.fd-fb'); fb.hidden = false; fb.innerHTML = `<b>${ok ? 'Richtig.' : 'Nicht ganz.'}</b> ${zeitEsc(String(c.fb).replace(/^(Richtig|Falsch|Genau|Stimmt|Korrekt)\s*[–—:.,!-]?\s*/i, '').replace(/^./, m => m.toUpperCase()))}`;
       if (ok && typeof zeitAwardXP === 'function') try { zeitAwardXP(1); } catch(_){}
       return;
     }
