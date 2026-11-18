@@ -2904,6 +2904,26 @@ body.feed-on:has(.fd-view.rl-dark) .tabbar .tab.on{ color:#fff; background:rgba(
 .st-kurios-i{ flex:0 0 26px; height:26px; border-radius:50%; display:grid; place-items:center; font-weight:800; color:#fff; background:#d39500; }
 .st-kurios b{ display:block; font-size:13px; margin-bottom:2px; }
 .st-kurios p{ margin:0; font-size:15px; line-height:1.45; }
+/* Kontext für Fragen */
+.fk-ctx{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:2px 0 10px; font-size:13px; color:var(--ink-dim); }
+.fk-src{ display:flex; align-items:flex-start; gap:6px; min-width:0; line-height:1.35; }
+.fk-src svg{ width:14px; height:14px; flex:0 0 auto; margin-top:2px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
+.fk-src b{ color:var(--ink); font-weight:600; }
+.fk-btn{ flex:0 0 auto; border:1px solid var(--glass-line); background:var(--glass); color:var(--accent); font:600 12.5px var(--font); padding:6px 10px; border-radius:999px; cursor:pointer; }
+.fk-mem{ margin:0 0 12px; padding:10px 14px; border-radius:14px; background:color-mix(in srgb, var(--accent) 8%, transparent); border:1px solid color-mix(in srgb, var(--accent) 22%, transparent); font-size:14px; line-height:1.45; }
+.fk-mem em{ font-style:normal; font-size:12px; font-weight:700; color:var(--accent); }
+.fk-mem ul{ margin:4px 0 0; padding-left:18px; } .fk-mem li{ margin:2px 0; }
+.ck-ctx{ display:block; font-size:13px; color:var(--ink-dim); margin:8px 0 -4px; }
+/* Gleichmäßig lernen */
+.gl-card{ margin:12px 0 14px; padding:14px 16px; border-radius:18px; background:var(--glass); border:1px solid var(--glass-line); display:grid; gap:10px; }
+.gl-h{ display:grid; gap:2px; } .gl-h b{ font-size:16px; } .gl-h em{ font-style:normal; font-size:13px; color:var(--ink-dim); }
+.gl-bars{ position:relative; display:flex; align-items:flex-end; gap:4px; height:64px; padding-bottom:1px; border-bottom:1px solid var(--glass-line); }
+.gl-bars i{ flex:1; height:100%; display:flex; align-items:flex-end; border-radius:4px 4px 0 0; background:color-mix(in srgb, var(--ink) 6%, transparent); }
+.gl-bars s{ display:block; width:100%; border-radius:4px 4px 0 0; background:var(--accent); opacity:.75; }
+.gl-bars i.low s{ background:#ff9f0a; opacity:1; }
+.gl-avg{ position:absolute; left:0; right:0; border-top:1.5px dashed color-mix(in srgb, var(--ink) 40%, transparent); pointer-events:none; }
+.gl-low{ margin:0; font-size:13.5px; color:var(--ink-dim); } .gl-low b{ color:var(--ink); font-weight:600; }
+.gl-go{ margin:0 !important; }
 </style>
 </head>
 <body>
@@ -15185,6 +15205,108 @@ DP_IC.ck = '<path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9
       const lb = labels[i]; if (!lb || !s.bild || lb.querySelector('.st-thumb')) return;
       lb.insertAdjacentHTML('afterbegin', stBildHTML(s.bild, 'bild-thumb st-thumb'));
     });
+    return r;
+  };
+})();
+/* ============================ KONTEXT FÜR FRAGEN ============================
+   Fragen außerhalb ihrer Lektion (Wiederholung, Tagesquiz, Check) zeigen, woher sie
+   stammen. In der Wiederholung gibt es zusätzlich „Kurz erinnern“: die Merksätze der
+   Station. Wer sie nutzt, bekommt die Station etwas früher wieder vorgelegt.
+   ========================================================================= */
+let FK_HINT = new Set();
+function fkMerke(stId){
+  const x = typeof erkStation === 'function' ? erkStation(stId) : null; if (!x) return [];
+  return (x.st.lektion || []).map(l => (l.merke || '').trim()).filter(Boolean);
+}
+(function(){
+  const _r = renderLessonStep;
+  renderLessonStep = function(){
+    const r = _r.apply(this, arguments);
+    try {
+      const ls = lessonState; if (!ls || ls.phase !== 'exercise' || ls.mode !== 'review') return r;
+      const ex = ls.station.uebungen[ls.exIdx]; if (!ex || !ex._stId) return r;
+      const q = document.querySelector('#main .ex-q'); if (!q || document.querySelector('#main .fk-ctx')) return r;
+      const mk = ex.typ === 'erklaer' ? [] : fkMerke(ex._stId);
+      q.insertAdjacentHTML('beforebegin', `<div class="fk-ctx"><span class="fk-src"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h7"/></svg><span>${ex.typ === 'erklaer' ? '' : `<b>${zeitEsc(ex._station || '')}</b> · `}${zeitEsc(ex._pfad || '')}</span></span>${mk.length ? '<button class="fk-btn" id="fkBtn">Kurz erinnern</button>' : ''}</div>${mk.length ? `<div class="fk-mem" id="fkMem" hidden><em>Aus der Station:</em><ul>${mk.map(m => `<li>${zeitEsc(m)}</li>`).join('')}</ul></div>` : ''}`);
+      const b = document.getElementById('fkBtn');
+      if (b) b.onclick = () => { document.getElementById('fkMem').hidden = false; b.remove(); FK_HINT.add(ex._stId); };
+    } catch(e){ console.warn(e); }
+    return r;
+  };
+  /* Erinnerung genutzt: richtig zählt als „gewusst, aber mit Hilfe“ → kürzerer Abstand */
+  const _fr = finishReviewQuiz;
+  finishReviewQuiz = function(){
+    try { const ls = lessonState; if (ls && ls.stationStats) FK_HINT.forEach(id => { const s = ls.stationStats[id]; if (s && s.correct && !s.wrong) s.wrong = 1; }); } catch(e){}
+    FK_HINT = new Set();
+    return _fr.apply(this, arguments);
+  };
+  const _sq = startReviewQuiz;
+  startReviewQuiz = function(){ FK_HINT = new Set(); return _sq.apply(this, arguments); };
+  /* Tagesquiz und Check: Herkunft der Frage anzeigen */
+  const _cs = ckShow;
+  ckShow = function(){
+    const r = _cs.apply(this, arguments);
+    try {
+      const R = CK_RUN; if (!R || R.i >= R.items.length) return r;
+      const q = R.items[R.i], h = document.querySelector('#main .ck-q');
+      if (q && q.st && h && !document.querySelector('#main .ck-ctx'))
+        h.insertAdjacentHTML('beforebegin', `<span class="ck-ctx">Aus „${zeitEsc(q.st)}“ · ${zeitEsc(q.pt || '')}</span>`);
+    } catch(e){}
+    return r;
+  };
+  /* Tagesquiz: überwiegend Fragen aus bereits gelernten Stationen */
+  tqItems = function(){
+    const pool = ckBuildPool(), t = todayNum(), R = wlRand('tq2' + t), out = [], doms = CK_DOMS.map(x => x[0]);
+    const learned = q => { if (!q || !q.sid || !q.pid) return false; try { const pr = loadPathProg(q.pid); return !!(pr[q.sid] && pr[q.sid].done); } catch(e){ return false; } };
+    for (let i = 0; i < TQ_N; i++){
+      const k = doms[(i + t) % doms.length], arr = (pool[k] || []).filter(x => !out.includes(x)); if (!arr.length) continue;
+      const L = arr.filter(learned), use = L.length && R() < .75 ? L : arr;
+      out.push(use[Math.floor(R() * use.length)]);
+    }
+    return out;
+  };
+})();
+
+/* ============================ GLEICHMÄSSIG LERNEN ============================
+   „Neu lernen“ wählt den Bereich mit dem geringsten Anteil gelernter Stationen –
+   egal, ob du anderswo über Pfade, Feed oder Treppe gelernt hast. Innerhalb des
+   Bereichs geht es weiter die Treppe hinauf (niedrigste offene Stufe zuerst).
+   ========================================================================= */
+function glShare(d){ return d.items.length ? d.items.filter(x => x.done).length / d.items.length : 1; }
+dpBreitePick = function(exclude){
+  const ds = trDomains(), t = todayNum(); let best = null;
+  ds.forEach((d, i) => {
+    if (exclude && exclude.has(d.id)) return;
+    const nx = trNext(d); if (!nx) return;
+    const score = glShare(d) * 100 + nx.lv * .3 + ((i * 7 + t) % 15) / 100;
+    if (!best || score < best.score) best = { score, d, nx };
+  });
+  return best;
+};
+/* Balance-Karte in der Wissenstreppe */
+function glBalanceHTML(){
+  const ds = trDomains().filter(d => d.items.length), sh = ds.map(d => ({ d, s: glShare(d) }));
+  const tot = sh.reduce((a, x) => a + x.s, 0) / (sh.length || 1);
+  const low = sh.slice().sort((a, b) => a.s - b.s).slice(0, 3), hi = sh.slice().sort((a, b) => b.s - a.s)[0];
+  const spread = hi ? Math.round((hi.s - low[0].s) * 100) : 0;
+  const ns = typeof dpNewStation === 'function' ? dpNewStation() : null;
+  return `<section class="gl-card"><div class="gl-h"><b>Gleichmäßig lernen</b><em>${spread <= 5 ? 'Alle Bereiche wachsen im Gleichschritt.' : `Abstand zwischen stärkstem und schwächstem Bereich: ${spread} Prozentpunkte`}</em></div>
+    <div class="gl-bars">${sh.map(x => `<i title="${zeitEsc(x.d.t)}: ${Math.round(x.s * 100)} %" class="${low.includes(x) ? 'low' : ''}"><s style="height:${Math.max(4, Math.round(x.s * 100))}%"></s></i>`).join('')}<span class="gl-avg" style="bottom:${Math.round(tot * 100)}%"></span></div>
+    <p class="gl-low">Zuletzt zu kurz gekommen: ${low.map(x => `<b>${zeitEsc(x.d.t.replace(/ \(Spezialgebiet\)/, ''))}</b> (${Math.round(x.s * 100)} %)`).join(', ')}</p>
+    ${ns ? `<button class="zeit-continue gl-go" id="glGo">Als Nächstes: ${zeitEsc(ns.st.titel)}</button>` : ''}</section>`;
+}
+(function(){
+  const _rt = renderTreppe;
+  renderTreppe = function(){
+    const r = _rt.apply(this, arguments);
+    try {
+      const list = document.querySelector('#main .tr-list');
+      if (list && !document.querySelector('#main .gl-card')){
+        list.insertAdjacentHTML('beforebegin', glBalanceHTML());
+        const g = document.getElementById('glGo');
+        if (g) g.onclick = () => { const ns = dpNewStation(); if (!ns) return; trOpen({ pid: ns.pid, st: ns.st }, () => renderTreppe()); };
+      }
+    } catch(e){ console.warn(e); }
     return r;
   };
 })();
