@@ -3175,6 +3175,21 @@ body.rl-film .rl-sc .rl-cap{ padding-top:44px; }
 /* Ohne Ton: alle Audio-Einstiege ausblenden */
 #lessonSpeak, .ent-card[data-open="hoer"], #entSprech, .ent-sprech, #zusHoerAll, #zusHoer,
 .tutor-msg [data-act="hoer"], [data-zs="hoer"], #persHoer, .hoer-mini[data-hoer], .ab-voice, .rl-snd, .rl-mus{ display:none !important; }
+/* Wie funktioniert das? */
+.wf-prog{ height:6px; border-radius:999px; background:rgba(0,0,0,.07); overflow:hidden; margin:4px 2px 0; }
+.wf-prog i{ display:block; height:100%; background:var(--accent); border-radius:inherit; }
+.wf-prog-t{ font-size:12px; color:var(--muted, #8a7b70); margin:6px 2px 12px; }
+.wf-q{ width:100%; box-sizing:border-box; font:inherit; font-size:15px; padding:11px 14px; border-radius:var(--r-row, 16px); border:1px solid var(--glass-line, rgba(0,0,0,.1)); background:var(--card, #fff); color:inherit; margin-bottom:10px; }
+.wf-q:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+.wf-chips{ display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:6px; scrollbar-width:none; }
+.wf-chips::-webkit-scrollbar{ display:none; }
+.wf-chips .zeit-chip{ flex:0 0 auto; }
+.ab-card.wf-seen span{ color:var(--accent); }
+.wf-teaser{ display:grid; gap:3px; width:100%; text-align:left; font:inherit; color:inherit; cursor:pointer; padding:16px 18px; margin:4px 0 14px; border-radius:var(--r-card, 20px);
+  border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); background:color-mix(in srgb, var(--accent) 9%, var(--card, #fff)); }
+.wf-teaser b{ font-size:17px; } .wf-teaser span{ font-size:13px; color:var(--muted, #8a7b70); }
+.wf-teaser:active{ transform:scale(.985); }
+.ent-card.ent-wie{ border-color:color-mix(in srgb, var(--accent) 35%, transparent); }
 /* ===================== DESIGN-FEINSCHLIFF: einheitliche Maße ===================== */
 :root{ --r-card:20px; --r-row:16px; --r-pill:999px; }
 /* Karten: ein Radius für alle großen Flächen */
@@ -3264,7 +3279,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-23k · Ohne Ton';
+const APP_VERSION = '2026-11-23l · Wie funktioniert das?';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -16340,7 +16355,7 @@ function wnZoom(ds, idx){
 /* Nur Schlüssel dieser App: Andere Apps auf derselben github.io-Adresse teilen sich den Speicher und dürfen weder gesichert noch gelöscht werden */
 const BK_KEYS = ['wissen_global','wissen_activity','weekly_goal','shop_state','sr_wissen','sr_zeit','zeit_newcount','vocab_autospeak','last_open',
   'fehlerbuch','st_learned','tq_adapt','mp_hist','dp_meta','bridge_v1','wissen_sprech','wissen_tutor_n','wissen_zm_n','wissen_hoer','zeit_box',
-  'lern_log','erklaer_hist','abl_sr','themenwoche','tw_hist','sr_zahlwoerter','abl_voice'];
+  'lern_log','erklaer_hist','abl_sr','themenwoche','tw_hist','sr_zahlwoerter','abl_voice','abl_seen'];
 const BK_PRE = ['path_','sr_','mega_','lektionen_'];
 function backupOk(k){ return !!k && (BK_KEYS.indexOf(k) >= 0 || BK_PRE.some(p => k.indexOf(p) === 0)) && !/[.#$\[\]\/]/.test(k); }
 backupKeys = function(){ const out = []; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (backupOk(k)) out.push(k); } return out; };
@@ -16972,7 +16987,7 @@ function renderAblaeufe(back){
   if (back) ABL_BACK = back;
   const main = document.getElementById('main');
   main.innerHTML = `<div class="al-view ab-view"><div class="netz-top"><button class="zeit-exit" id="abBack" aria-label="Zurück">${chevSVG}</button><div class="netz-title"><b>Abläufe</b><span>${Object.keys(ABL).length} Skizzen, die sich Schritt für Schritt aufbauen</span></div></div>
-    <p class="ka-intro">Antippen, zurücklehnen, zuschauen. Mit dem Lautsprecher-Knopf liest die App jeden Schritt vor.</p>
+    <p class="ka-intro">Antippen, zurücklehnen, zuschauen. Jeder Schritt bleibt so lange stehen, bis man ihn gelesen hat.</p>
     <div class="ab-grid">${Object.entries(ABL).map(([k, a]) => `<button class="ab-card" data-ab="${k}">${ablSvg(k)}<b>${zeitEsc(a.t)}</b><span>${a.steps.length} Schritte</span></button>`).join('')}</div></div>`;
   document.getElementById('abBack').onclick = () => { const b = ABL_BACK; ABL_BACK = null; (b || renderDashboard)(); };
   main.querySelectorAll('.ab-card').forEach(c => c.onclick = () => ablOpen(c.dataset.ab));
@@ -17736,7 +17751,7 @@ let ABL_BACK = null;
     const main = document.getElementById('main'), all = Object.entries(ABL);
     const card = ([k, a]) => `<button class="ab-card" data-ab="${k}">${ablSvg(k)}<b>${zeitEsc(a.t)}</b><span>${a.steps.length} Schritte</span></button>`;
     main.innerHTML = `<div class="al-view ab-view"><div class="netz-top"><button class="zeit-exit" id="abBack" aria-label="Zurück">${chevSVG}</button><div class="netz-title"><b>Abläufe</b><span>${all.length} Skizzen, die sich Schritt für Schritt aufbauen</span></div></div>
-      <p class="ka-intro">Antippen, zurücklehnen, zuschauen. Mit dem Lautsprecher-Knopf liest die App jeden Schritt vor.</p>
+      <p class="ka-intro">Antippen, zurücklehnen, zuschauen. Jeder Schritt bleibt so lange stehen, bis man ihn gelesen hat.</p>
       <h3 class="ka-h">Wie funktioniert …?</h3><div class="ab-grid">${all.filter(([, a]) => a.w).map(card).join('')}</div>
       <h3 class="ka-h">Geschichte</h3><div class="ab-grid">${all.filter(([, a]) => a.h).map(card).join('')}</div>
       <h3 class="ka-h">Natur, Körper und Gesellschaft</h3><div class="ab-grid">${all.filter(([, a]) => !a.w && !a.h).map(card).join('')}</div></div>`;
@@ -18026,6 +18041,636 @@ DP_IC.ab = '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="m10 8.5 5 
     try { const b = ABL_P && ABL_P.o.querySelector('.ab-qb'); if (b && !b.querySelector('[data-q="er"]')){
         b.insertAdjacentHTML('afterbegin', `<button class="dp-link" data-q="er">Erklär’s mir</button>`);
         b.querySelector('[data-q="er"]').onclick = ev => { ev.stopPropagation(); ablErklaer(k); }; } } catch(e){}
+    return r;
+  };
+})();
+/* ===================== WIE FUNKTIONIERT DAS? – neue Erklär-Skizzen, Teil 1 (Technik, Haushalt) ===================== */
+const WFH = (() => {
+  const e = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const T = (x, y, t, c, a) => { const ls = String(t).split('|'); const y0 = y - (ls.length - 1) * 6;
+    return ls.map((l, i) => `<text class="${c || 'sk-t'}" x="${x}" y="${y0 + i * 12 + 4}" text-anchor="${a || 'middle'}">${e(l)}</text>`).join(''); };
+  const B = (x, y, w, h, t, c, tc) => `<rect class="sk-f ${c || 's1'}" x="${x}" y="${y}" width="${w}" height="${h}" rx="7"/>${t ? T(x + w / 2, y + h / 2, t, tc || (String(t).length > 12 || String(t).includes('|') ? 'sk-s' : 'sk-t')) : ''}`;
+  const R = (x, y, w, h, c) => `<rect class="sk-f ${c || 's0'}" x="${x}" y="${y}" width="${w}" height="${h}"/>`;
+  const C = (x, y, r, c, t, tc) => `<circle class="sk-f ${c || 's1'}" cx="${x}" cy="${y}" r="${r}"/>${t ? T(x, y, t, tc || 'sk-s') : ''}`;
+  const E = (x, y, rx, ry, c) => `<ellipse class="sk-f ${c || 's1'}" cx="${x}" cy="${y}" rx="${rx}" ry="${ry}"/>`;
+  const P = (d, c) => `<path class="${c || 'sk-l'}" d="${d}"/>`;
+  const F = (d, c) => `<path class="sk-f ${c || 's1'}" d="${d}"/>`;
+  const A = (x1, y1, x2, y2, t, c, ty) => { const a = Math.atan2(y2 - y1, x2 - x1), h = 7;
+    const hx = k => (x2 - h * Math.cos(a + k)).toFixed(1), hy = k => (y2 - h * Math.sin(a + k)).toFixed(1);
+    return `<path class="sk-a ${c || ''}" d="M${x1} ${y1}L${x2} ${y2}"/><path class="sk-a ${c || ''}" d="M${hx(.45)} ${hy(.45)}L${x2} ${y2}L${hx(-.45)} ${hy(-.45)}"/>${t ? T((x1 + x2) / 2, (y1 + y2) / 2 + (ty || -7), t, 'sk-s') : ''}`; };
+  const sun = (x, y, r) => C(x, y, r, 's3') + [0, 1, 2, 3, 4, 5, 6, 7].map(i => { const a = i * Math.PI / 4; return P(`M${(x + Math.cos(a) * (r + 3)).toFixed(1)} ${(y + Math.sin(a) * (r + 3)).toFixed(1)}L${(x + Math.cos(a) * (r + 9)).toFixed(1)} ${(y + Math.sin(a) * (r + 9)).toFixed(1)}`); }).join('');
+  /* Kette aus bis zu sechs Kästen in Schlangenform */
+  const POS = [[10, 26], [115, 26], [220, 26], [220, 116], [115, 116], [10, 116]];
+  const chain = items => items.map(([lab, sub, cls], i) => { const [x, y] = POS[i], W = 90, H = 40; let s = '';
+    if (i === 1 || i === 2) s += A(POS[i - 1][0] + W, y + H / 2, x - 2, y + H / 2);
+    if (i === 3) s += A(265, 66, 265, 114);
+    if (i === 4 || i === 5) s += A(POS[i - 1][0] - 2, y + H / 2, x + W + 2, y + H / 2);
+    s += B(x, y, W, H, lab, cls || ['s1', 's2', 's3', 's4', 's5', 's6'][i]);
+    if (sub) s += T(x + W / 2, y + H + 11, sub, 'sk-s');
+    return s; });
+  const gear = (x, y, r, c) => C(x, y, r, c || 's3') + C(x, y, Math.max(3, r * .25), 's0') +
+    Array.from({ length: Math.max(6, Math.round(r / 2.2)) }, (_, i, n = Math.max(6, Math.round(r / 2.2))) => { const t = i / n * 2 * Math.PI; return P(`M${(x + Math.cos(t) * r).toFixed(1)} ${(y + Math.sin(t) * r).toFixed(1)}L${(x + Math.cos(t) * (r + 4)).toFixed(1)} ${(y + Math.sin(t) * (r + 4)).toFixed(1)}`, 'sk-l sk-thick'); }).join('');
+  const wave = (x, y, w, amp, n, c) => { let d = `M${x} ${y}`; const s = w / n; for (let i = 0; i < n; i++) d += `q${s / 4} ${-amp} ${s / 2} 0t${s / 2} 0`; return P(d, c || 'sk-l'); };
+  const add = (k, t, st, g, caps, svgs) => { ABL[k] = { t, st, g, w:true, steps: caps.map((c, i) => ({ c, s: svgs[i] || '' })) }; };
+  return { e, T, B, R, C, E, P, F, A, sun, chain, gear, wave, add };
+})();
+
+(function(){
+  const { T, B, R, C, E, P, F, A, sun, chain, gear, wave, add } = WFH;
+
+  /* ---------- Technik und Verkehr ---------- */
+  add('hubschrauber', 'Wie ein Hubschrauber fliegt', ['TECH_MOBIL_S02'], 'technik', [
+    'Der Motor dreht den Hauptrotor. Jedes Rotorblatt ist ein schmaler Flügel, der beim Drehen Auftrieb erzeugt.',
+    'Über die Taumelscheibe verstellt der Pilot den Anstellwinkel der Blätter. Steiler gestellt erzeugen sie mehr Auftrieb – der Hubschrauber steigt.',
+    'Werden die Blätter auf einer Seite des Kreises steiler gestellt als auf der anderen, neigt sich die Rotorebene – und der Hubschrauber fliegt in diese Richtung.',
+    'Der Rotor würde den Rumpf in die Gegenrichtung mitdrehen. Der Heckrotor drückt seitlich dagegen und hält ihn gerade.'
+  ], [
+    E(140, 124, 46, 24, 's1') + P('M140 100V70', 'sk-l sk-thick') + P('M40 68H240', 'sk-l sk-thick') + P('M110 150l-10 14M170 150l10 14M90 166h110', 'sk-l') + T(140, 56, 'Hauptrotor', 'sk-s'),
+    A(70, 60, 70, 24, 'Auftrieb', '', -4) + A(210, 60, 210, 24) + B(118, 82, 44, 12, '', 's3') + T(198, 92, 'Taumelscheibe', 'sk-s', 'start'),
+    P('M40 76L240 58', 'sk-l sk-dash') + A(150, 30, 108, 30, 'Flugrichtung', '', -6),
+    P('M184 124H276', 'sk-l sk-thick') + P('M282 106v36', 'sk-l sk-thick') + C(282, 124, 5, 's3') + A(282, 150, 282, 172, '', 'sk-red') + T(282, 22, 'Heckrotor', 'sk-s')
+  ]);
+  add('aufzug', 'Wie ein Aufzug fährt', ['TECH_BAUWERKE_S02'], 'technik', [
+    'Die Kabine hängt an Stahlseilen. Oben im Schacht laufen die Seile über eine Treibscheibe, die ein Elektromotor dreht.',
+    'Am anderen Ende hängt ein Gegengewicht – etwa so schwer wie die Kabine plus die halbe Nutzlast. Der Motor muss nur den Unterschied bewegen.',
+    'Die Seile werden allein durch Reibung in den Rillen der Treibscheibe mitgenommen. Dreht der Motor, fährt die Kabine hoch und das Gegengewicht runter.',
+    'Fährt die Kabine zu schnell, löst ein Geschwindigkeitsbegrenzer die Fangvorrichtung aus: Keile klemmen die Kabine an den Führungsschienen fest.'
+  ], [
+    R(90, 14, 130, 166, 's0') + C(160, 30, 14, 's3') + P('M146 30V100', 'sk-l') + B(100, 100, 70, 56, 'Kabine') + T(240, 30, 'Motor mit|Treibscheibe', 'sk-s', 'start') + A(236, 30, 180, 30),
+    P('M174 30V44', 'sk-l') + B(180, 44, 30, 40, '', 's6') + T(236, 70, 'Gegen-|gewicht', 'sk-s', 'start'),
+    P('M168 18a14 14 0 0 1 4 22', 'sk-a') + A(84, 140, 84, 106, '', 'sk-green') + A(226, 52, 226, 86, '', 'sk-red'),
+    P('M96 20V180M174 90V180', 'sk-l sk-thick') + F('M96 150l8-6v14z', 's4') + F('M96 104l8-6v14z', 's4') + T(46, 128, 'Fang-|vorrichtung', 'sk-s')
+  ]);
+  add('bahnstrom', 'Wie ein ICE seinen Strom bekommt', ['TECH_MOBIL_S01', 'TECH_ALLTAG_S03'], 'technik', [
+    'Über der Strecke hängt die Oberleitung mit 15.000 Volt Wechselspannung – in Deutschland mit 16,7 Hertz, einer eigenen Bahnstrom-Frequenz.',
+    'Der Stromabnehmer auf dem Dach gleitet an der Leitung entlang. Ein Transformator im Zug setzt die Spannung herunter.',
+    'Stromrichter formen den Strom so um, dass die Fahrmotoren genau die gewünschte Kraft liefern. Beim Bremsen arbeiten sie als Generatoren und speisen Strom zurück ins Netz.',
+    'Der Strom fließt über Räder und Schienen zurück zum Unterwerk – der Stromkreis ist geschlossen.'
+  ], [
+    P('M0 24H320', 'sk-l sk-thick') + P('M40 10v14M280 10v14', 'sk-l') + T(160, 12, '15 000 Volt, 16,7 Hertz', 'sk-s'),
+    F('M40 96h220q30 0 40 30v16H40z', 's0') + P('M130 96l-16-34 30-38', 'sk-l sk-thick') + B(160, 110, 54, 22, 'Trafo', 's3'),
+    B(76, 110, 66, 22, 'Stromrichter', 's5') + C(70, 152, 12, 's6') + C(250, 152, 12, 's6') + B(112, 140, 44, 16, 'Motor', 's2', 'sk-s') + A(109, 133, 120, 139),
+    P('M0 166H320', 'sk-l sk-thick') + A(250, 172, 310, 172, '', 'sk-red') + T(286, 160, 'zurück', 'sk-s')
+  ]);
+  add('haengebruecke', 'Wie eine Hängebrücke trägt', ['TECH_BAUWERKE_S01'], 'technik', [
+    'Zwei hohe Pylone stehen im Wasser oder am Ufer. Über ihre Spitzen laufen dicke Tragkabel aus Tausenden Stahldrähten.',
+    'An beiden Enden sind die Kabel in mächtigen Ankerblöcken im Boden verankert.',
+    'Senkrechte Hänger tragen die Fahrbahn. Ihr Gewicht zieht an den Tragkabeln – und auf Zug ist Stahl besonders stark.',
+    'Die Pylone leiten die Last als Druck in den Boden. So überspannen Hängebrücken die größten Weiten – der Rekordhalter in der Türkei mehr als zwei Kilometer.'
+  ], [
+    R(0, 150, 320, 30, 's1') + R(86, 30, 10, 130, 's6') + R(224, 30, 10, 130, 's6') + P('M24 120L91 30Q160 120 229 30L296 120', 'sk-l sk-thick'),
+    B(6, 112, 30, 22, '', 's6') + B(284, 112, 30, 22, '', 's6') + T(21, 102, 'Anker', 'sk-s') + T(299, 102, 'Anker', 'sk-s'),
+    P('M40 128H280', 'sk-l sk-thick') + [110, 130, 150, 170, 190, 210].map(x => { const t = (x - 91) / 138; return P(`M${x} ${(30 + 180 * t * (1 - t)).toFixed(0)}V128`, 'sk-l'); }).join('') + T(160, 140, 'Fahrbahn', 'sk-s'),
+    A(91, 60, 91, 146, 'Druck', 'sk-red', 4) + A(66, 76, 46, 102, '', 'sk-green') + T(72, 96, 'Zug', 'sk-s', 'start')
+  ]);
+  add('drohne', 'Wie eine Drohne fliegt', ['TECH_ROBOTER_S05'], 'technik', [
+    'Eine Quadrokopter-Drohne hat vier Propeller. Zwei drehen im Uhrzeigersinn, zwei dagegen – so heben sich ihre Drehmomente auf.',
+    'Drehen alle vier schneller, steigt die Drohne; drehen sie langsamer, sinkt sie.',
+    'Drehen die hinteren Propeller schneller als die vorderen, neigt sie sich nach vorn und fliegt vorwärts.',
+    'Lagesensoren und ein Bordcomputer passen die Drehzahlen Hunderte Male pro Sekunde an – sonst würde sie sofort kippen.'
+  ], [
+    P('M110 60L210 140M210 60L110 140', 'sk-l sk-thick') + B(144, 88, 32, 24, '', 's3') + [[110, 60, 1], [210, 60, 0], [110, 140, 0], [210, 140, 1]].map(([x, y, cw]) => E(x, y, 26, 7, 's1') + P(cw ? `M${x + 18} ${y - 12}a20 8 0 0 1 8 8` : `M${x - 18} ${y - 12}a20 8 0 0 0 -8 8`, 'sk-a')).join(''),
+    A(40, 130, 40, 70, 'steigen', '', 0),
+    A(280, 100, 300, 70, '', '', 0) + T(270, 150, 'hinten|schneller', 'sk-s') + T(270, 40, 'vorwärts', 'sk-s'),
+    B(136, 160, 48, 18, 'Sensoren', 's5', 'sk-s') + P('M160 160v-48', 'sk-l sk-dash')
+  ]);
+  add('airbag', 'Wie ein Airbag in Millisekunden aufgeht', ['TECH_ALLTAG_S02'], 'technik', [
+    'Sensoren messen ständig, wie stark das Auto abbremst. Bremst es bei einem Aufprall extrem abrupt, gibt das Steuergerät den Befehl zum Zünden.',
+    'Ein kleiner Treibsatz im Gasgenerator brennt schlagartig ab und erzeugt eine große Menge Gas.',
+    'Der Luftsack bläst sich in etwa 30 Millisekunden auf – schneller als ein Wimpernschlag.',
+    'Der Kopf taucht in den Sack ein, das Gas entweicht durch Öffnungen. So wird der Aufprall weich abgebremst statt hart am Lenkrad.'
+  ], [
+    B(20, 130, 70, 30, 'Sensor', 's5') + A(130, 145, 180, 145, 'Zündbefehl', 'sk-red', -8),
+    C(220, 120, 16, 's3') + P('M190 140l30-20', 'sk-l sk-thick') + T(220, 152, 'Gasgenerator', 'sk-s'),
+    E(250, 90, 40, 46, 's0') + T(250, 30, 'ca. 30 ms', 'sk-t'),
+    C(300, 78, 14, 's6') + A(298, 92, 286, 92) + P('M232 60l-12-8M232 120l-12 8', 'sk-l sk-dash') + T(196, 60, 'Gas entweicht', 'sk-s')
+  ]);
+  add('bremse', 'Wie eine Autobremse bremst', ['TECH_ALLTAG_S02', 'NATU_PHYS1_S02'], 'technik', [
+    'Wer aufs Bremspedal tritt, drückt einen Kolben in den Hauptbremszylinder.',
+    'Die Bremsflüssigkeit lässt sich kaum zusammendrücken. Sie leitet den Druck durch Leitungen an alle vier Räder weiter.',
+    'Am Rad pressen Kolben im Bremssattel die Bremsbeläge von beiden Seiten gegen die Bremsscheibe.',
+    'Die Reibung verwandelt Bewegungsenergie in Wärme – die Scheiben können dabei mehrere Hundert Grad heiß werden.'
+  ], [
+    P('M30 40l20 70', 'sk-l sk-thick') + R(24, 104, 26, 10, 's6') + T(34, 128, 'Pedal', 'sk-s') + B(70, 60, 60, 24, 'Zylinder', 's1') + A(46, 72, 68, 72),
+    P('M130 72H230V100', 'sk-l sk-thick sk-blue') + T(180, 62, 'Bremsflüssigkeit', 'sk-s'),
+    C(236, 136, 34, 's0') + C(236, 136, 8, 's6') + F('M222 96h28v14h-28z', 's4') + T(286, 100, 'Sattel', 'sk-s'),
+    P('M180 168q10-12 0-24M196 172q10-12 0-24', 'sk-l sk-red') + T(150, 172, 'Wärme', 'sk-s')
+  ]);
+  add('fahrradschaltung', 'Wie eine Fahrradschaltung funktioniert', ['NATU_PHYS1_S01'], 'technik', [
+    'Die Kette verbindet das Kettenblatt an den Pedalen mit einem Ritzel am Hinterrad.',
+    'Großes Ritzel hinten: Eine Kurbelumdrehung dreht das Rad nur wenig. Das ist leicht zu treten – gut für Steigungen.',
+    'Kleines Ritzel hinten: Das Rad dreht sich mehrmals pro Kurbelumdrehung. Schwerer zu treten, aber schnell.',
+    'Beim Schalten schiebt das Schaltwerk die Kette seitlich auf ein anderes Ritzel; vorn erledigt das der Umwerfer.'
+  ], [
+    gear(90, 100, 30) + gear(240, 100, 14, 's2') + P('M90 70L240 86M90 130L240 114', 'sk-l sk-thick') + T(90, 150, 'Kettenblatt', 'sk-s') + T(240, 130, 'Ritzel', 'sk-s'),
+    T(240, 30, 'großes Ritzel = leicht', 'sk-s') + gear(240, 100, 22, 's2'),
+    T(240, 46, 'kleines Ritzel = schnell', 'sk-s') + C(240, 100, 8, 's4'),
+    B(250, 140, 56, 22, 'Schaltwerk', 's5') + A(278, 140, 260, 124)
+  ]);
+  add('druck3d', 'Wie ein 3D-Drucker druckt', ['TECH_ROBOTER_S04'], 'technik', [
+    'Am Computer wird ein 3D-Modell in Hunderte dünne Schichten zerlegt.',
+    'Der Drucker schiebt einen Kunststofffaden in eine heiße Düse und schmilzt ihn bei rund 200 Grad.',
+    'Die Düse fährt die Umrisse der ersten Schicht ab und legt den geschmolzenen Kunststoff wie eine dünne Raupe ab.',
+    'Schicht für Schicht wächst das Objekt in die Höhe. Jede neue Lage verschmilzt mit der darunter.'
+  ], [
+    B(10, 30, 80, 60, '', 's0') + F('M30 76l20-30 20 30z', 's1') + [52, 58, 64, 70].map(y => P(`M30 ${y}h40`, 'sk-l sk-dash')).join('') + T(50, 104, 'in Schichten', 'sk-s'),
+    P('M200 10V60', 'sk-l') + B(186, 40, 28, 30, '', 's4') + F('M194 70h12l-6 10z', 's6') + T(250, 56, 'Düse, 200 °C', 'sk-s'),
+    R(110, 160, 200, 8, 's6') + P('M150 156h100', 'sk-l sk-thick sk-red'),
+    [148, 140, 132, 124, 116, 108].map((y, i) => P(`M${150 + i * 6} ${y}h${100 - i * 12}`, 'sk-l sk-thick')).join('') + A(290, 150, 290, 110, 'wächst', '', 0)
+  ]);
+  add('ampel', 'Wie eine Ampel den Verkehr steuert', ['TECH_MOBIL_S05'], 'technik', [
+    'In der Fahrbahn liegen Induktionsschleifen. Fährt ein Auto darüber, verändert das Metall ihr Magnetfeld – das Steuergerät weiß: Hier wartet jemand.',
+    'Ein Steuergerät am Straßenrand verteilt die Grünzeiten nach einem Programm, je nach Uhrzeit und Verkehrslage.',
+    'Zwischen den Phasen sorgen Gelb und Sicherheitszeiten dafür, dass die Kreuzung leer ist, bevor die andere Richtung Grün bekommt.',
+    'Ampeln hintereinander werden aufeinander abgestimmt: Wer im passenden Tempo fährt, erwischt eine grüne Welle.'
+  ], [
+    R(0, 120, 320, 50, 's0') + P('M40 130h60v30h-60z', 'sk-l sk-dash') + B(52, 136, 36, 18, '', 's1') + T(70, 112, 'Schleife', 'sk-s'),
+    B(120, 40, 44, 36, 'Steuer-|gerät', 's5') + P('M100 145H142V76', 'sk-l sk-dash'),
+    B(240, 20, 26, 70, '', 's6') + C(253, 34, 8, 's4') + C(253, 55, 8, 's3') + C(253, 76, 8, 's2') + P('M253 90v30', 'sk-l') + P('M164 58H240', 'sk-l sk-dash'),
+    A(110, 110, 300, 110, 'grüne Welle', 'sk-green', -6)
+  ]);
+
+  /* ---------- Haushalt und Alltag ---------- */
+  add('waschmaschine', 'Wie eine Waschmaschine wäscht', ['CHEM_ALLTAG_S04'], 'haus', [
+    'Ventile lassen Wasser in den Bottich; eine Heizspirale wärmt es auf die gewählte Temperatur.',
+    'Die Trommel dreht sich abwechselnd links und rechts herum. Rippen heben die Wäsche an und lassen sie ins Wasser fallen – so lockert sich der Schmutz.',
+    'Tenside im Waschmittel umschließen Fett und Schmutz, damit das Wasser sie wegtragen kann. Die Pumpe pumpt die Lauge ab, klares Wasser spült nach.',
+    'Beim Schleudern dreht die Trommel über 1000-mal pro Minute. Die Fliehkraft drückt das Wasser durch die Löcher nach außen.'
+  ], [
+    B(90, 10, 140, 166, '', 's0') + C(160, 100, 52, 's1') + P('M112 160h96', 'sk-l sk-red') + T(84, 164, 'Heizung', 'sk-s', 'end'),
+    C(160, 100, 40, 's0') + P('M130 72a40 40 0 0 1 60 0', 'sk-a') + P('M190 128a40 40 0 0 1 -60 0', 'sk-a'),
+    A(208, 166, 290, 166, 'Pumpe', '', -6) + [0, 1, 2].map(i => C(140 + i * 20, 100, 4, 's6')).join(''),
+    [0, 1, 2, 3, 4, 5].map(i => { const t = i * Math.PI / 3; return A(160 + Math.cos(t) * 42, 100 + Math.sin(t) * 42, 160 + Math.cos(t) * 64, 100 + Math.sin(t) * 64, '', 'sk-blue'); }).join('') + T(160, 34, '1000 U/min', 'sk-s')
+  ]);
+  add('induktion', 'Wie ein Induktionsherd kocht', ['NATU_PHYS1_S04', 'TECH_ZUHAUSE_S02'], 'haus', [
+    'Unter der Glaskeramik liegt eine flache Kupferspule.',
+    'Durch die Spule fließt Wechselstrom, der Zehntausende Male pro Sekunde die Richtung wechselt. Das erzeugt ein schnell wechselndes Magnetfeld.',
+    'Im eisenhaltigen Topfboden erzeugt das Feld Wirbelströme. Sie erhitzen den Boden direkt – der Topf selbst wird zur Herdplatte.',
+    'Das Kochfeld wird nur indirekt vom heißen Topf warm. Töpfe aus reinem Aluminium, Kupfer oder Glas funktionieren nicht.'
+  ], [
+    R(40, 120, 240, 10, 's1') + P('M90 150h140M100 144h120M110 138h100', 'sk-l sk-red') + T(160, 170, 'Kupferspule', 'sk-s'),
+    [0, 1, 2].map(i => P(`M${120 + i * 40} 136q-20-30 0-60`, 'sk-l sk-dash')).join('') + T(275, 100, 'Magnetfeld', 'sk-s'),
+    F('M90 70h140v48H90z', 's6') + P('M84 70h152', 'sk-l sk-thick') + P('M110 112q50-8 100 0', 'sk-l sk-red') + T(160, 24, 'Topfboden wird heiß', 'sk-s'),
+    P('M130 60q6-12 0-24M160 60q6-12 0-24M190 60q6-12 0-24', 'sk-l')
+  ]);
+  add('thermostat', 'Wie ein Heizkörper-Thermostat regelt', ['NATU_PHYS1_S03'], 'haus', [
+    'Im Thermostatkopf steckt ein Fühler mit Wachs oder einer Flüssigkeit, die sich bei Wärme ausdehnt. Stufe 3 entspricht etwa 20 Grad.',
+    'Wird es im Raum wärmer als eingestellt, dehnt sich der Fühler aus und drückt auf einen Stift.',
+    'Der Stift schließt das Ventil am Heizkörper ein Stück: Es fließt weniger heißes Wasser hinein.',
+    'Kühlt der Raum ab, zieht sich der Fühler zusammen, und das Ventil öffnet wieder. So pendelt sich die Temperatur ganz ohne Strom ein.'
+  ], [
+    B(30, 40, 60, 70, '3', 's5') + R(42, 54, 36, 40, 's3') + T(60, 124, 'Fühler', 'sk-s'),
+    A(60, 30, 60, 16, '', 'sk-red') + A(28, 74, 16, 74, '', 'sk-red') + P('M90 75h40', 'sk-l sk-thick') + A(110, 64, 128, 64),
+    B(130, 60, 40, 30, 'Ventil', 's6') + [0, 1, 2, 3].map(i => R(190 + i * 28, 30, 20, 120, 's4')).join('') + P('M170 75h20', 'sk-l sk-thick sk-red'),
+    P('M60 150a30 12 0 1 0 60 0', 'sk-a') + T(90, 174, 'Regelkreis', 'sk-s')
+  ]);
+  add('toilette', 'Wie eine Toilettenspülung funktioniert', [], 'haus', [
+    'Im Spülkasten wartet Wasser. Beim Drücken der Taste hebt sich das Ablaufventil.',
+    'Das Wasser schießt in die Schüssel und spült den Inhalt ins Abflussrohr.',
+    'Schließt das Ventil, füllt das Füllventil den Kasten nach. Ein Schwimmer steigt mit dem Wasser und stoppt den Zulauf, sobald der Kasten voll ist.',
+    'In der Biegung des Abflusses bleibt immer etwas Wasser stehen. Dieser Geruchsverschluss hält Kanalgase aus dem Bad fern.'
+  ], [
+    R(30, 20, 90, 70, 's0') + R(32, 44, 86, 44, 's1') + R(64, 80, 12, 8, 's6') + T(150, 30, 'Spülkasten', 'sk-s', 'start'),
+    P('M40 112h120', 'sk-l sk-thick') + P('M40 112q8 50 60 50t60-50', 'sk-l sk-thick') + P('M70 90V108', 'sk-l') + A(80, 116, 96, 140, '', 'sk-blue'),
+    C(104, 50, 8, 's3') + P('M104 58V70M104 42V20', 'sk-l') + T(150, 56, 'Schwimmer', 'sk-s', 'start'),
+    F('M210 110v20q0 26 26 26t26-26v-20h-12v20q0 14-14 14t-14-14v-20z', 's1') + P('M200 50V130q0 36 36 36t36-36V100h44', 'sk-l sk-thick') + P('M222 50V130q0 14 14 14t14-14V100', 'sk-l sk-thick') + T(250, 178, 'Geruchsverschluss', 'sk-s')
+  ]);
+  add('schnellkochtopf', 'Wie ein Schnellkochtopf schneller gart', ['NATU_PHYS1_S03'], 'haus', [
+    'Der Deckel schließt den Topf luftdicht ab. Beim Erhitzen entsteht Wasserdampf, der nicht entweichen kann.',
+    'Der Druck im Topf steigt auf knapp das Doppelte des normalen Luftdrucks.',
+    'Unter höherem Druck siedet Wasser erst bei etwa 116 bis 120 Grad statt bei 100. Das heißere Wasser gart das Essen deutlich schneller.',
+    'Ein Ventil lässt überschüssigen Dampf ab, damit der Druck nicht zu hoch wird. Vor dem Öffnen muss der Druck ganz abgebaut sein.'
+  ], [
+    R(90, 70, 140, 90, 's0') + R(92, 120, 136, 38, 's1') + P('M84 66h152', 'sk-l sk-thick') + P('M110 172h100', 'sk-l sk-red'),
+    [0, 1, 2, 3, 4, 5].map(i => A(160, 110, 160 + Math.cos(i * Math.PI / 3) * 40, 100 + Math.sin(i * Math.PI / 3) * 22)).join('') + T(160, 92, 'Druck', 'sk-s'),
+    T(40, 110, '100 °C', 'sk-t') + T(280, 110, '~120 °C', 'sk-t') + A(50, 124, 260, 124, '', 'sk-red'),
+    B(150, 46, 20, 20, '', 's3') + P('M160 40q-8-10 0-20t0-20', 'sk-l sk-dash') + T(200, 30, 'Ventil', 'sk-s')
+  ]);
+  add('staubsauger', 'Wie ein Staubsauger saugt', ['NATU_PHYS1_S01'], 'haus', [
+    'Ein Elektromotor treibt ein schnelles Gebläse an, das Luft aus dem Gerät hinausbläst.',
+    'Im Inneren entsteht Unterdruck. Der höhere Luftdruck draußen drückt Luft samt Staub durch Düse und Schlauch hinein.',
+    'Im Beutel oder Behälter bleibt der Staub hängen; feine Filter fangen auch kleinste Teilchen.',
+    'Die gereinigte Luft verlässt das Gerät durch den Abluftfilter. Beutellose Sauger trennen den Staub zusätzlich mit einem Luftwirbel ab.'
+  ], [
+    B(180, 60, 120, 70, '', 's0') + C(270, 95, 18, 's3') + P('M262 95h16M270 87v16', 'sk-l') + T(270, 140, 'Gebläse', 'sk-s'),
+    P('M180 100Q120 100 100 140L40 160', 'sk-l sk-thick') + R(20, 156, 40, 10, 's6') + [30, 44, 58].map(x => C(x, 176, 2, 's6')).join('') + A(40, 150, 90, 130, 'Luft + Staub', '', -8),
+    R(190, 70, 46, 50, 's6') + T(213, 96, 'Beutel', 'sk-s'),
+    A(300, 80, 316, 64, '', 'sk-green') + T(290, 40, 'saubere Luft', 'sk-s')
+  ]);
+  add('feuer', 'Wie Feuer brennt – und wie man es löscht', ['CHEM_ALLTAG_S02', 'MEDI_NOTFALL_S03'], 'haus', [
+    'Ein Feuer braucht drei Dinge: brennbaren Stoff, Sauerstoff und genug Hitze zum Entzünden.',
+    'Ist es entfacht, liefert die Verbrennung die Hitze selbst nach – das Feuer erhält sich, solange es Nachschub gibt.',
+    'Löschen heißt, eine der drei Seiten zu entfernen: Wasser kühlt, eine Löschdecke erstickt, Gas abdrehen nimmt den Brennstoff.',
+    'Brennendes Fett niemals mit Wasser löschen: Das Wasser verdampft schlagartig und schleudert das Fett als Feuerball hoch. Deckel drauf!'
+  ], [
+    P('M160 20L260 170H60z', 'sk-l sk-thick') + T(160, 186, 'Brennstoff', 'sk-s') + T(76, 90, 'Sauerstoff', 'sk-s') + T(246, 90, 'Hitze', 'sk-s'),
+    F('M160 150q-26-24-8-58q4 18 14 20q-4-26 12-44q2 30 14 44q14 22-10 38z', 's4'),
+    P('M48 30l40 40M88 30l-40 40', 'sk-l sk-red') + T(68, 22, 'eine Seite weg', 'sk-s'),
+    B(232, 120, 76, 40, 'Fett: Deckel,|kein Wasser!', 's3')
+  ]);
+  add('thermoskanne', 'Wie eine Thermoskanne warm hält', ['NATU_PHYS1_S03'], 'haus', [
+    'Wärme geht auf drei Wegen verloren: durch Leitung, durch strömende Luft und durch Strahlung.',
+    'Die Kanne hat zwei Wände. Dazwischen ist fast luftleerer Raum – ohne Luft gibt es kaum Wärmeleitung und keine Strömung.',
+    'Die Wände sind innen verspiegelt. Sie werfen die Wärmestrahlung zurück zum Getränk.',
+    'Schwachstelle bleibt der Deckel. Trotzdem hält die Kanne Kaffee viele Stunden heiß – und Eistee genauso lange kalt.'
+  ], [
+    T(50, 40, 'Leitung', 'sk-s') + T(50, 90, 'Strömung', 'sk-s') + T(50, 140, 'Strahlung', 'sk-s'),
+    R(120, 40, 90, 130, 's0') + R(132, 52, 66, 106, 's4') + T(250, 100, 'Vakuum', 'sk-s', 'start') + A(246, 100, 214, 100),
+    P('M134 54v102M196 54v102', 'sk-l sk-thick sk-blue') + P('M160 120l28 -14l-28 -14', 'sk-a') + T(250, 130, 'Spiegel', 'sk-s', 'start'),
+    B(124, 22, 82, 18, 'Deckel', 's6')
+  ]);
+})();
+/* ===================== WIE FUNKTIONIERT DAS? – Teil 2 (Digital, Energie, Wirtschaft) ===================== */
+(function(){
+  const { T, B, R, C, E, P, F, A, sun, chain, gear, wave, add } = WFH;
+  const phone = (x, y) => B(x, y, 30, 52, '', 's6') + R(x + 4, y + 6, 22, 36, 's1');
+  const laptop = (x, y) => R(x + 6, y, 48, 32, 's1') + F(`M${x} ${y + 34}h60l-6 8h-48z`, 's6');
+
+  /* ---------- Digital und Kommunikation ---------- */
+  add('wlan', 'Wie WLAN Daten durch die Luft schickt', ['TECH_FUNK_S05'], 'digital', [
+    'Der Router ist mit dem Internet verbunden und wandelt die Daten in Funksignale um.',
+    'Er sendet sie als Funkwellen, meist bei 2,4 oder 5 Gigahertz – wie ein winziger Radiosender.',
+    'Handy und Laptop empfangen die Wellen und antworten selbst per Funk. Die Daten reisen in kleinen Paketen, jedes mit Absender und Ziel.',
+    'Mit WPA2 oder WPA3 sind die Pakete verschlüsselt. Ohne Passwort sieht ein Mithörer nur Zeichensalat.'
+  ], [
+    B(20, 110, 70, 30, 'Router', 's5') + P('M40 110l-6-24M70 110l6-24', 'sk-l') + P('M0 160H55V140', 'sk-l sk-dash') + T(20, 172, 'Internet', 'sk-s'),
+    [20, 34, 48].map(r => P(`M${55 + r * .7} ${125 - r * .7}a${r} ${r} 0 0 1 0 ${r * 1.4}`, 'sk-l sk-blue')).join(''),
+    phone(200, 30) + laptop(230, 120) + A(120, 110, 194, 70, '', '', 0) + A(200, 80, 126, 120, '', 'sk-dash', 0) + B(140, 84, 24, 14, '', 's3'),
+    C(152, 150, 10, 's3') + P('M146 150v-6a6 6 0 0 1 12 0v6', 'sk-l') + T(152, 174, 'verschlüsselt', 'sk-s')
+  ]);
+  add('kontaktlos', 'Wie kontaktloses Bezahlen funktioniert', ['WIRT_EINF_S05', 'TECH_SICHER_S04'], 'digital', [
+    'Das Kassenterminal erzeugt ein schwaches Funkfeld, das nur wenige Zentimeter weit reicht.',
+    'Hält man Karte oder Handy davor, tauschen beide per NFC Daten aus. Eine Karte bezieht die Energie dafür sogar aus dem Feld des Terminals.',
+    'Gesendet wird ein einmaliger, verschlüsselter Code statt einer wiederverwendbaren Kartennummer. Das Handy nutzt zusätzlich eine Ersatznummer, einen Token.',
+    'Das Terminal fragt über das Netz bei der Bank an. Die prüft Code und Deckung – nach wenigen Sekunden ist die Zahlung freigegeben.'
+  ], [
+    B(30, 60, 60, 90, '', 's6') + R(40, 70, 40, 24, 's2') + T(60, 166, 'Terminal', 'sk-s') + [14, 26].map(r => P(`M${90 + r} ${80 - r * .6}a${r} ${r} 0 0 1 0 ${r * 1.2 + 20}`, 'sk-l sk-blue')).join(''),
+    phone(130, 66) + T(145, 140, 'wenige cm', 'sk-s'),
+    B(180, 76, 64, 22, 'Code #7f3a', 's3', 'sk-s') + A(176, 87, 98, 87, '', 'sk-dash'),
+    B(240, 20, 70, 34, 'Bank', 's1') + P('M90 70Q160 10 238 36', 'sk-a sk-dash') + T(276, 76, 'freigegeben', 'sk-s')
+  ]);
+  add('email', 'Wie eine E-Mail ihr Ziel findet', ['TECH_NETZ_S02', 'TECH_NETZ_S03'], 'digital', [
+    'Das Mailprogramm schickt die Nachricht an den Postausgangsserver des eigenen Anbieters.',
+    'Der Server fragt im DNS, welcher Mailserver für die Adresse hinter dem @ zuständig ist.',
+    'Dann reicht er die Mail über das Protokoll SMTP an diesen Server weiter. Spamfilter prüfen sie unterwegs.',
+    'Der Server des Empfängers legt sie ins Postfach. Die Geräte des Empfängers holen sie per IMAP ab – auf allen Geräten gleich.'
+  ], chain([['Mailprogramm', 'Absender'], ['Postausgang', 'eigener Anbieter'], ['DNS', 'Wer ist zuständig?'], ['Empfänger-|server', 'SMTP, Spamfilter'], ['Postfach', 'per IMAP abrufen']]).reduce((a, s, i) => (i < 4 ? a.push(s) : a[3] += s, a), []));
+  add('streaming', 'Wie Videostreaming funktioniert', ['TECH_NETZ_S04'], 'digital', [
+    'Ein Film ist riesig. Deshalb wird er komprimiert: Gespeichert wird vor allem, was sich von Bild zu Bild ändert.',
+    'Dann wird er in Stücke von wenigen Sekunden zerlegt – jedes in mehreren Qualitätsstufen.',
+    'Kopien liegen auf Servern in der Nähe der Zuschauer, in einem Content Delivery Network. Das verkürzt Wege und Wartezeit.',
+    'Der Player misst laufend die Leitung und holt das nächste Stück in passender Qualität. Wird das Netz langsam, sinkt die Bildqualität, statt dass das Bild ruckelt.'
+  ], [
+    [0, 1, 2].map(i => R(12 + i * 10, 20 + i * 8, 50, 34, 's1')).join('') + A(90, 50, 120, 50) + R(126, 38, 30, 24, 's2') + T(141, 76, 'komprimiert', 'sk-s'),
+    [0, 1, 2, 3, 4].map(i => B(172 + i * 28, 30, 24, 14, '', 's3') + B(172 + i * 28, 48, 24, 14, '', 's2') + B(172 + i * 28, 66, 24, 14, '', 's1')).join('') + T(240, 94, 'Stücke in 3 Qualitäten', 'sk-s'),
+    [40, 160, 280].map(x => B(x - 26, 112, 52, 20, 'Server', 's5', 'sk-s')).join('') + T(160, 146, 'nah am Zuschauer', 'sk-s'),
+    laptop(10, 140) + A(40, 134, 40, 140, '', 'sk-green') + T(200, 168, 'Netz langsam: weniger Qualität', 'sk-s')
+  ]);
+  add('passwort', 'Wie Passwörter sicher gespeichert werden', ['TECH_SICHER_S05', 'TECH_SICHER_S01'], 'digital', [
+    'Ein guter Dienst speichert Passwörter nicht im Klartext, sondern nur ihren Hashwert – eine Art digitalen Fingerabdruck.',
+    'Eine Hashfunktion macht aus jeder Eingabe eine Zeichenkette fester Länge. Zurückrechnen ist praktisch unmöglich.',
+    'Vor dem Hashen kommt ein zufälliges „Salz“ dazu. So bekommen zwei gleiche Passwörter verschiedene Hashwerte.',
+    'Beim Anmelden wird die Eingabe genauso gehasht und mit dem gespeicherten Wert verglichen. Stimmen sie überein, ist man drin.'
+  ], [
+    B(14, 30, 92, 30, 'Sommer2026!', 's0', 'sk-s') + P('M14 70h92', 'sk-l sk-red sk-dash') + T(60, 84, 'nie im Klartext', 'sk-s'),
+    A(108, 45, 150, 45) + B(152, 28, 56, 34, 'Hash-|funktion', 's5') + A(210, 45, 230, 45) + B(232, 32, 80, 26, 'a91f…c07e', 's3', 'sk-s'),
+    B(60, 104, 60, 24, '+ Salz', 's2', 'sk-s') + A(120, 116, 160, 66),
+    B(150, 140, 120, 30, 'Eingabe = Wert? ✓', 's2', 'sk-s') + A(272, 60, 240, 136, '', 'sk-dash')
+  ]);
+  add('glasfaser', 'Wie Glasfaser Daten mit Licht überträgt', ['TECH_WERKSTOFF_S04', 'TECH_NETZ_S05'], 'digital', [
+    'Eine Glasfaser ist etwa so dünn wie ein Haar: ein Kern aus sehr reinem Glas, umhüllt von einem Mantel, der Licht anders bricht.',
+    'Ein Laser schickt Lichtpulse hinein: Licht an und aus steht für Einsen und Nullen – Milliarden Mal pro Sekunde.',
+    'Trifft das Licht flach auf die Grenze zum Mantel, wird es vollständig zurückgespiegelt. Diese Totalreflexion hält es im Kern, auch in Kurven.',
+    'Am Ende wandelt eine Fotodiode das Licht zurück in elektrische Signale. Auf langen Strecken frischen Verstärker es alle 50 bis 100 Kilometer auf.'
+  ], [
+    F('M40 70h240v40H40z', 's1') + F('M40 82h240v16H40z', 's0') + T(160, 126, 'Mantel und Kern', 'sk-s'),
+    B(0, 76, 36, 28, 'Laser', 's4', 'sk-s') + T(18, 60, '1 0 1 1', 'sk-s'),
+    P('M40 90L80 84L120 96L160 84L200 96L240 84L280 90', 'sk-l sk-red'),
+    B(284, 76, 36, 28, 'Diode', 's2', 'sk-s') + T(160, 160, 'Verstärker alle 50–100 km', 'sk-s')
+  ]);
+  add('radio', 'Wie Radio Töne durch die Luft trägt', ['TECH_FUNK_S02'], 'digital', [
+    'Ein Mikrofon wandelt Schall in ein elektrisches Signal um.',
+    'Dieses Signal wird einer hochfrequenten Trägerwelle aufgeprägt: Bei UKW ändert sich ihre Frequenz (FM), bei Mittelwelle ihre Stärke (AM).',
+    'Die Sendeantenne strahlt die Welle ab. Jeder Sender hat seine eigene Frequenz.',
+    'Das Radio stellt sich auf eine Frequenz ein, trennt das Tonsignal wieder von der Trägerwelle und gibt es über den Lautsprecher aus.'
+  ], [
+    C(30, 60, 12, 's6') + P('M30 72v20', 'sk-l') + wave(50, 60, 60, 10, 2) + T(40, 106, 'Mikrofon', 'sk-s'),
+    wave(120, 60, 80, 6, 8, 'sk-l sk-red') + T(160, 30, 'Trägerwelle', 'sk-s'),
+    P('M220 120L240 30L260 120M228 90h24M233 60h14', 'sk-l sk-thick') + [16, 30].map(r => P(`M${240 + r} ${30 - r * .5}a${r} ${r} 0 0 1 0 ${r}`, 'sk-l sk-blue')).join(''),
+    B(150, 130, 80, 40, '98,7 MHz', 's3', 'sk-s') + C(220, 150, 8, 's6')
+  ]);
+  add('empfehlung', 'Wie ein Empfehlungsalgorithmus auswählt', ['TECH_DIGITAL_S03', 'TECH_KI_S04'], 'digital', [
+    'Die Plattform sammelt Signale: was man anschaut, wie lange, was man überspringt, mag oder teilt.',
+    'Sie sucht Nutzer mit ähnlichem Verhalten und Inhalte, die diesen gefallen haben.',
+    'Ein Modell schätzt für Tausende Kandidaten, wie wahrscheinlich man sie anklickt oder zu Ende schaut, und sortiert sie danach.',
+    'Jede Reaktion fließt zurück ins Modell. So entsteht eine Schleife, die einen immer weiter in dieselbe Richtung ziehen kann.'
+  ], chain([['Signale', 'schauen, liken'], ['Ähnliche|Nutzer'], ['Modell|schätzt', 'Klick-Chance'], ['Rangliste', 'oben: Feed']]).map((s, i) => i === 3 ? s + P('M220 156Q60 190 50 70', 'sk-a sk-dash') + T(60, 172, 'Rückkopplung', 'sk-s') : s));
+
+  /* ---------- Energie und Umwelt ---------- */
+  add('akw', 'Wie ein Kernkraftwerk Strom erzeugt', ['TECH_ENERGIE_S04', 'NATU_PHYS2_S04'], 'energie', [
+    'Im Reaktorkern spalten sich Urankerne. Dabei wird viel Wärme frei; Steuerstäbe regeln, wie viele Spaltungen ablaufen.',
+    'Wasser kühlt den Kern. Es steht unter so hohem Druck, dass es trotz rund 300 Grad nicht kocht – so arbeitet ein Druckwasserreaktor.',
+    'Im Dampferzeuger gibt es seine Wärme an einen zweiten Wasserkreislauf ab. Dort entsteht Dampf, der eine Turbine mit Generator antreibt.',
+    'Im Kondensator wird der Dampf mit Fluss- oder Kühlturmwasser wieder zu Wasser. Deutschland hat seine letzten Kernkraftwerke im April 2023 abgeschaltet.'
+  ], [
+    B(14, 50, 70, 100, '', 's0') + [30, 44, 58, 72].map(x => R(x - 3, 90, 6, 50, 's4')).join('') + P('M37 60v40M65 60v40', 'sk-l sk-thick') + T(49, 164, 'Reaktor', 'sk-s'),
+    P('M84 80H120V130H84', 'sk-l sk-thick sk-red') + T(102, 72, '~300 °C', 'sk-s'),
+    B(120, 70, 40, 70, 'Dampf-|erzeuger', 's1', 'sk-s') + P('M160 80H200', 'sk-l sk-thick') + gear(212, 80, 12, 's3') + B(232, 66, 40, 28, 'Gene-|rator', 's2', 'sk-s'),
+    P('M212 92V140H160', 'sk-l sk-blue') + B(200, 130, 56, 22, 'Kondensator', 's1', 'sk-s') + F('M270 170l8-60h24l8 60z', 's0') + T(290, 100, 'Kühlturm', 'sk-s')
+  ]);
+  add('brennstoffzelle', 'Wie eine Brennstoffzelle Strom erzeugt', ['TECH_ENERGIEPLUS_S02', 'CHEM_STOFF_S04'], 'energie', [
+    'Auf der einen Seite strömt Wasserstoff ein, auf der anderen Sauerstoff aus der Luft. Dazwischen liegt eine dünne Membran.',
+    'Ein Katalysator spaltet den Wasserstoff in Protonen und Elektronen. Nur die Protonen kommen durch die Membran.',
+    'Die Elektronen müssen außen herum durch einen Draht. Dieser Elektronenfluss ist der Strom, der zum Beispiel einen Motor antreibt.',
+    'Auf der Sauerstoffseite treffen Protonen, Elektronen und Sauerstoff zusammen: Es entsteht Wasser – das einzige Abgas.'
+  ], [
+    R(60, 60, 80, 100, 's1') + R(180, 60, 80, 100, 's2') + R(150, 60, 20, 100, 's5') + T(100, 50, 'Wasserstoff', 'sk-s') + T(220, 50, 'Sauerstoff', 'sk-s') + T(160, 174, 'Membran', 'sk-s'),
+    [86, 110, 134].map(y => A(120, y, 168, y, '', 'sk-red', 0)).join('') + T(100, 110, 'H⁺', 'sk-t'),
+    P('M100 60V24H220V60', 'sk-l sk-thick') + C(160, 24, 12, 's3', 'M', 'sk-t') + A(130, 24, 146, 24),
+    A(240, 150, 290, 170, 'Wasser', 'sk-blue', 6)
+  ]);
+  add('pumpspeicher', 'Wie ein Pumpspeicherwerk Strom speichert', ['TECH_ENERGIE_S03'], 'energie', [
+    'Ein Pumpspeicherwerk hat zwei Becken – eines oben am Berg, eines im Tal.',
+    'Gibt es zu viel Strom, etwa mittags bei viel Sonne, pumpen Pumpen Wasser nach oben. Die Energie steckt jetzt in der Höhe.',
+    'Wird Strom gebraucht, schießt das Wasser durch Rohre hinab und treibt Turbinen und Generatoren an – innerhalb weniger Minuten.',
+    'Rund drei Viertel der eingesetzten Energie kommen zurück. Pumpspeicher sind bis heute die größten Stromspeicher der Welt.'
+  ], [
+    F('M0 180L110 44H170L250 180z', 's0') + R(115, 32, 50, 12, 's1') + R(244, 168, 72, 12, 's1') + T(140, 22, 'Oberbecken', 'sk-s') + T(280, 158, 'Unterbecken', 'sk-s'),
+    sun(290, 30, 10) + P('M165 44Q200 120 246 170', 'sk-l sk-thick') + A(206, 108, 192, 80, '', 'sk-green') + T(222, 80, 'hoch-|pumpen', 'sk-s', 'start'),
+    A(216, 138, 230, 154, '', 'sk-blue') + gear(236, 160, 6, 's3') + T(276, 128, 'Turbine', 'sk-s'),
+    T(110, 124, 'ca. 75 % zurück', 'sk-t')
+  ]);
+  add('geothermie', 'Wie Erdwärme genutzt wird', ['TECH_ENERGIEPLUS_S03', 'NATU_ERDE_S01'], 'energie', [
+    'Je tiefer man bohrt, desto wärmer wird es – im Durchschnitt um etwa 3 Grad pro 100 Meter.',
+    'Durch eine Bohrung wird heißes Wasser aus mehreren Kilometern Tiefe nach oben gepumpt.',
+    'Ein Wärmetauscher gibt die Wärme an ein Fernwärmenetz ab oder erzeugt bei genug Hitze über eine Turbine Strom.',
+    'Das abgekühlte Wasser fließt durch eine zweite Bohrung zurück in die Tiefe und erwärmt sich dort wieder.'
+  ], [
+    R(0, 40, 320, 140, 's0') + [70, 110, 150].map((y, i) => P(`M0 ${y}H320`, 'sk-l sk-dash')).join('') + T(300, 64, '20 °C', 'sk-s', 'end') + T(300, 170, '150 °C', 'sk-s', 'end') + F('M0 160H320V180H0z', 's4'),
+    P('M120 40V170', 'sk-l sk-thick sk-red') + A(116, 120, 116, 60, '', 'sk-red', 0),
+    B(130, 6, 70, 28, 'Wärme-|tauscher', 's3', 'sk-s') + P('M200 20H260', 'sk-l') + B(262, 6, 50, 28, 'Häuser', 's6', 'sk-s'),
+    P('M180 34V170', 'sk-l sk-thick sk-blue') + A(184, 60, 184, 120, '', 'sk-blue', 0)
+  ]);
+  add('klaeranlage', 'Wie eine Kläranlage Wasser reinigt', ['CHEM_ALLTAG_S04', 'NATU_MIKROWELT_S06'], 'energie', [
+    'Mechanisch: Ein Rechen fischt Grobes heraus, im Sandfang sinken Sand und Steine ab, im Vorklärbecken setzt sich Schlamm ab.',
+    'Biologisch: Im Belebungsbecken fressen Bakterien die gelösten Schmutzstoffe. Eingeblasene Luft versorgt sie mit Sauerstoff.',
+    'Im Nachklärbecken sinken die Bakterienflocken als Schlamm zu Boden. Oft wird zusätzlich Phosphat chemisch ausgefällt.',
+    'Das gereinigte Wasser fließt in den Fluss. Der Klärschlamm fault im Faulturm – dabei entsteht Biogas, das die Anlage mit Energie versorgt.'
+  ], chain([['Rechen und|Sandfang'], ['Belebungs-|becken', 'Bakterien + Luft'], ['Nachklär-|becken', 'Schlamm sinkt']]).concat([
+    A(265, 80, 265, 114) + B(220, 116, 90, 40, 'Fluss', 's1') + T(265, 168, 'sauberes Wasser', 'sk-s') + A(232, 78, 168, 114, 'Schlamm', '', 4) + B(80, 116, 90, 40, 'Faulturm', 's6') + T(125, 168, 'Biogas', 'sk-s')
+  ]));
+
+  /* ---------- Wirtschaft und Gesellschaft ---------- */
+  add('ueberweisung', 'Wie eine Überweisung ankommt', ['WIRT_EINF_S05'], 'gesell', [
+    'Man gibt IBAN, Namen und Betrag ein. Seit Oktober 2025 prüft die Bank vorab, ob Name und IBAN zusammenpassen.',
+    'Die eigene Bank prüft Deckung und Freigabe und bucht den Betrag vom Konto ab.',
+    'Über ein Verrechnungssystem zwischen den Banken wird der Auftrag an die Empfängerbank weitergereicht.',
+    'Die Empfängerbank schreibt das Geld gut. Eine normale SEPA-Überweisung braucht höchstens einen Bankarbeitstag, eine Echtzeitüberweisung höchstens zehn Sekunden.'
+  ], chain([['Auftrag', 'Name passt zur IBAN?'], ['Meine Bank', 'prüft, bucht ab'], ['Verrechnung', 'zwischen Banken'], ['Empfänger-|bank', 'max. 10 s bis 1 Tag']]));
+  add('container', 'Wie ein Container um die Welt reist', ['TECH_MOBIL_S04', 'WIRT_ZUS_S04'], 'gesell', [
+    'Die Ware wird beim Hersteller in einen genormten Stahlcontainer geladen – 20 oder 40 Fuß lang und weltweit gleich.',
+    'LKW oder Zug bringen ihn zum Hafen. Riesige Kräne heben ihn in wenigen Minuten an Bord.',
+    'Die größten Schiffe tragen über 20.000 Standardcontainer. Von China nach Europa sind sie etwa einen Monat unterwegs.',
+    'Am Zielhafen geht es per Kran auf Bahn oder LKW weiter, ohne dass die Ware selbst umgeladen wird. Das hat den Welthandel billig gemacht.'
+  ], [
+    B(10, 120, 70, 30, 'Container', 's4', 'sk-s') + T(45, 166, '20 oder 40 Fuß', 'sk-s'),
+    P('M120 170V30H200V44', 'sk-l sk-thick') + P('M120 60L150 30', 'sk-l') + B(186, 46, 30, 16, '', 's4') + A(82, 135, 116, 135),
+    F('M140 140h170l-14 30H154z', 's0') + [0, 1, 2, 3, 4].map(i => B(160 + i * 26, 116, 24, 22, '', ['s4', 's1', 's2', 's3', 's5'][i])).join('') + T(232, 104, '> 20 000 Container', 'sk-s'),
+    A(20, 40, 80, 40) + T(20, 26, 'China → Europa: ca. 1 Monat', 'sk-s', 'start')
+  ]);
+})();
+/* ===================== WIE FUNKTIONIERT DAS? – Teil 3 (Körper, Medizin, Natur) ===================== */
+(function(){
+  const { T, B, R, C, E, P, F, A, sun, chain, gear, wave, add } = WFH;
+
+  /* ---------- Körper und Medizin ---------- */
+  add('dialyse', 'Wie eine Dialyse das Blut reinigt', ['TECH_MEDIZINTECHNIK_S04', 'MEDI_PHYSIO_S04'], 'medizin', [
+    'Versagen die Nieren, bleiben Giftstoffe wie Harnstoff und überschüssiges Wasser im Blut.',
+    'Bei der Dialyse fließt das Blut über einen Schlauch aus dem Arm in den Dialysator, den Filter.',
+    'Darin strömt es an einer feinporigen Membran entlang; auf der anderen Seite fließt Spülflüssigkeit in Gegenrichtung. Giftstoffe wandern hinüber, Blutzellen bleiben im Blut.',
+    'Das gereinigte Blut fließt zurück in den Körper. Meist dauert eine Behandlung vier bis fünf Stunden, dreimal pro Woche.'
+  ], [
+    F('M20 60q30-30 60 0v80q-30 30-60 0z', 's4') + [40, 56, 50, 64].map((x, i) => C(x, 80 + i * 14, 3, 's6')).join('') + T(50, 172, 'Blut mit Giftstoffen', 'sk-s'),
+    P('M80 80H150', 'sk-l sk-thick sk-red') + A(110, 80, 140, 80, '', 'sk-red', 0),
+    R(150, 50, 90, 90, 's0') + P('M195 50V140', 'sk-l sk-dash') + A(206, 130, 206, 60, '', 'sk-blue', 0) + T(226, 160, 'Spülflüssigkeit', 'sk-s') + [70, 95, 120].map(y => A(180, y, 214, y, '', '', 0)).join(''),
+    P('M150 120H80', 'sk-l sk-thick') + A(120, 120, 86, 120, 'sauber', '', 14) + T(270, 30, '3 × pro Woche', 'sk-s')
+  ]);
+  add('cochlea', 'Wie ein Cochlea-Implantat hören lässt', ['TECH_MEDIZINTECHNIK_S05', 'MEDI_SINNE2_S02'], 'medizin', [
+    'Bei vielen Gehörlosen sind die Haarzellen in der Hörschnecke zerstört – der Hörnerv selbst funktioniert aber noch.',
+    'Ein Mikrofon hinter dem Ohr nimmt Schall auf; ein Sprachprozessor zerlegt ihn in Tonhöhen.',
+    'Eine Sendespule gibt die Signale durch die Haut an das Implantat unter der Kopfhaut weiter.',
+    'Eine Elektrode in der Hörschnecke reizt den Hörnerv direkt – je nach Tonhöhe an einer anderen Stelle. Das Gehirn lernt, daraus Sprache zu verstehen.'
+  ], [
+    P('M200 110a26 26 0 1 1 -20 -28a16 16 0 1 1 10 18a7 7 0 1 1 -4 8', 'sk-l sk-thick') + P('M222 100Q270 90 300 60', 'sk-l') + T(290, 50, 'Hörnerv', 'sk-s') + T(176, 150, 'Hörschnecke', 'sk-s'),
+    B(20, 50, 30, 50, '', 's6') + C(35, 46, 6, 's3') + T(35, 116, 'Prozessor', 'sk-s'),
+    C(110, 40, 12, 's5') + P('M50 60Q80 40 98 40', 'sk-l') + T(110, 18, 'Spule', 'sk-s') + B(120, 60, 34, 20, '', 's6'),
+    P('M154 70Q190 70 196 96', 'sk-l sk-red sk-thick') + [0, 1, 2].map(i => C(186 + i * 6, 104 - i * 5, 2, 's4')).join('')
+  ]);
+  add('hlm', 'Wie eine Herz-Lungen-Maschine arbeitet', ['TECH_MEDIZINTECHNIK_S06', 'MEDI_KOERPER_S01'], 'medizin', [
+    'Für eine Operation am offenen Herzen muss das Herz stillstehen. Die Herz-Lungen-Maschine übernimmt so lange Kreislauf und Atmung.',
+    'Sauerstoffarmes Blut wird über Schläuche vor dem Herzen aus den großen Venen abgeleitet.',
+    'Im Oxygenator nimmt das Blut Sauerstoff auf und gibt Kohlendioxid ab – wie in der Lunge. Ein Wärmetauscher regelt die Temperatur.',
+    'Eine Pumpe schickt das Blut zurück in die Hauptschlagader. Nach der Operation übernimmt das Herz wieder selbst.'
+  ], [
+    F('M60 70q-30-30-10-50q20-14 30 6q10-20 30-6q20 20-10 50l-20 24z', 's4') + T(70, 120, 'Herz steht still', 'sk-s'),
+    P('M50 60H20V150H150', 'sk-l sk-thick sk-blue') + A(100, 150, 140, 150, '', 'sk-blue', 0),
+    B(150, 130, 70, 40, 'Oxygenator', 's1', 'sk-s') + A(170, 118, 170, 128, 'O₂', '', -6) + A(200, 128, 200, 116, 'CO₂', '', -6),
+    P('M220 150H270V30H90V48', 'sk-l sk-thick sk-red') + gear(270, 90, 10, 's3') + T(296, 90, 'Pumpe', 'sk-s')
+  ]);
+  add('betaeubung', 'Wie eine örtliche Betäubung wirkt', ['MEDI_OP_S06', 'MEDI_KOERPER_S05'], 'medizin', [
+    'Schmerz wird als elektrisches Signal über Nervenfasern zum Gehirn geleitet. Dafür öffnen und schließen sich winzige Natriumkanäle.',
+    'Das Betäubungsmittel wird nah an den Nerv gespritzt und dringt in die Nervenfasern ein.',
+    'Es verstopft die Natriumkanäle. Das Signal kommt an dieser Stelle nicht weiter – das Gehirn erfährt nichts vom Schmerz.',
+    'Nach und nach wird der Wirkstoff abtransportiert und abgebaut, das Gefühl kehrt zurück. Zusätze wie Adrenalin verlängern die Wirkung.'
+  ], [
+    P('M20 100H284', 'sk-l sk-thick') + C(294, 100, 9, 's5') + A(30, 86, 120, 86, 'Signal', 'sk-red', -6) + T(294, 124, 'Gehirn', 'sk-s'),
+    P('M170 20L180 80', 'sk-l sk-thick') + R(160, 6, 18, 20, 's1') + T(214, 30, 'Spritze', 'sk-s'),
+    [150, 170, 190].map(x => R(x - 5, 94, 10, 12, 's4')).join('') + P('M140 76l60 48M200 76l-60 48', 'sk-l sk-red') + T(170, 140, 'Kanäle blockiert', 'sk-s'),
+    A(170, 150, 170, 174, '', 'sk-dash', 0) + T(250, 166, 'wird abgebaut', 'sk-s')
+  ]);
+  add('ibuprofen', 'Wie Ibuprofen gegen Schmerzen wirkt', ['MEDI_PHARMA_S01', 'MEDI_BASIS_S01'], 'medizin', [
+    'Bei einer Verletzung bildet das Enzym COX im Gewebe Botenstoffe, die Prostaglandine.',
+    'Diese machen Schmerzrezeptoren empfindlicher, fördern Entzündung und können Fieber auslösen.',
+    'Ibuprofen blockiert das Enzym COX. Es entstehen weniger Prostaglandine.',
+    'Schmerz, Schwellung und Fieber gehen zurück. Weil Prostaglandine auch die Magenschleimhaut schützen, kann zu viel Ibuprofen den Magen reizen.'
+  ], [
+    B(20, 70, 60, 40, 'COX', 's5') + A(80, 90, 130, 90) + [140, 156, 148].map((x, i) => C(x, 78 + i * 12, 5, 's3')).join('') + T(150, 126, 'Prostaglandine', 'sk-s'),
+    A(170, 90, 220, 90) + B(222, 70, 80, 40, 'Schmerz,|Entzündung', 's4', 'sk-s'),
+    F('M30 40l20-14 20 14-20 14z', 's2') + P('M10 56l90 64M100 56l-90 64', 'sk-l sk-red') + T(50, 20, 'Ibuprofen', 'sk-s'),
+    P('M226 140h72', 'sk-l sk-green sk-thick') + T(262, 160, 'weniger Schmerz', 'sk-s')
+  ]);
+  add('fieber', 'Wie Fieber entsteht', ['MEDI_BASIS_S01', 'MEDI_KOERPER_S06'], 'medizin', [
+    'Abwehrzellen bekämpfen Erreger und schütten dabei Botenstoffe aus.',
+    'Diese erreichen den Hypothalamus im Gehirn, den Thermostat des Körpers, und stellen den Sollwert höher – etwa auf 39 Grad.',
+    'Der Körper fühlt sich nun zu kalt: Man friert und zittert, die Haut wird blass. So steigt die Temperatur.',
+    'Ist die Infektion im Griff, sinkt der Sollwert wieder. Jetzt ist es zu warm: Man schwitzt, und das Fieber fällt.'
+  ], [
+    C(40, 130, 16, 's5') + [[70, 120], [80, 144], [62, 150]].map(([x, y]) => C(x, y, 5, 's4')).join('') + T(56, 168, 'Abwehr gegen Erreger', 'sk-s'),
+    E(160, 50, 40, 28, 's6') + C(160, 60, 8, 's3') + T(160, 16, 'Hypothalamus: 37 → 39 °C', 'sk-s') + P('M70 116Q110 90 150 66', 'sk-a sk-dash'),
+    R(250, 40, 12, 100, 's0') + R(252, 80, 8, 58, 's4') + C(256, 146, 10, 's4') + T(290, 96, 'Frieren,|Zittern', 'sk-s'),
+    P('M210 150q4 8 0 14M222 150q4 8 0 14', 'sk-l sk-blue') + T(216, 176, 'Schwitzen', 'sk-s')
+  ]);
+  add('muskel', 'Wie sich ein Muskel zusammenzieht', ['MEDI_KOERPER_S04', 'CHEM_BIOCHEMIE_S03'], 'medizin', [
+    'Ein Nervenimpuls erreicht den Muskel. In den Muskelfasern wird daraufhin Calcium freigesetzt.',
+    'Die Fasern enthalten zwei Sorten Eiweißfäden: dünne Aktinfäden und dicke Myosinfäden, die ineinandergreifen.',
+    'Das Calcium gibt Bindestellen am Aktin frei. Die Köpfchen des Myosins packen zu, kippen und ziehen die Fäden ineinander – angetrieben von ATP.',
+    'Unzählige solcher Ruderschläge verkürzen den Muskel. Wird das Calcium zurückgepumpt, lösen sich die Köpfchen, und der Muskel entspannt.'
+  ], [
+    P('M10 30H100', 'sk-l sk-red') + A(60, 30, 100, 30, 'Nervenimpuls', 'sk-red', -6) + [120, 136, 152].map(x => C(x, 30, 4, 's3')).join('') + T(136, 50, 'Calcium', 'sk-s'),
+    P('M40 80V160M280 80V160', 'sk-l sk-thick') + [96, 120, 144].map(y => P(`M40 ${y - 8}H140M280 ${y - 8}H180`, 'sk-l')).join('') + [100, 124].map(y => R(110, y - 4, 100, 8, 's5')).join('') + T(160, 172, 'Aktin (dünn) · Myosin (dick)', 'sk-s'),
+    [120, 140, 160, 180, 200].map(x => P(`M${x} 96l-6-8M${x} 120l-6-8`, 'sk-l sk-thick')).join('') + T(270, 60, 'ATP', 'sk-t'),
+    A(60, 70, 90, 70, '', 'sk-green', 0) + A(260, 70, 230, 70, '', 'sk-green', 0) + T(160, 66, 'Muskel verkürzt sich', 'sk-s')
+  ]);
+  add('niere', 'Wie die Niere das Blut filtert', ['MEDI_PHYSIO_S04', 'MEDI_KOERPER_S03'], 'medizin', [
+    'Jeden Tag fließen rund 1800 Liter Blut durch die beiden Nieren.',
+    'In winzigen Filterknäueln, den Glomeruli, wird Flüssigkeit abgepresst – rund 180 Liter Primärharn am Tag.',
+    'In den Nierenkanälchen holt der Körper über 99 Prozent davon zurück: Wasser, Zucker und Salze, je nach Bedarf.',
+    'Übrig bleiben etwa anderthalb Liter Urin mit Abfallstoffen wie Harnstoff. Er sammelt sich im Nierenbecken und fließt zur Blase.'
+  ], [
+    F('M120 30q-60 0-60 70t60 70q20 0 20-30q-14-40 0-80q0-30-20-30z', 's4') + T(80, 176, '1800 l Blut/Tag', 'sk-s'),
+    C(200, 50, 16, 's5') + P('M188 44q12-12 24 0q-12 12-24 0', 'sk-l sk-red') + T(250, 30, 'Glomerulus', 'sk-s') + T(250, 44, '180 l', 'sk-s'),
+    P('M200 66V120Q200 140 220 140H260', 'sk-l sk-thick') + [80, 100, 120].map(y => A(204, y, 180, y, '', 'sk-blue', 0)).join('') + T(160, 100, '99 % zurück', 'sk-s'),
+    A(262, 140, 300, 160, '1,5 l Urin', '', -4)
+  ]);
+
+  /* ---------- Natur und Weltall ---------- */
+  add('regenbogen', 'Wie ein Regenbogen entsteht', ['NATU_PHYS1_S05', 'NATU_PHYS2_S02'], 'natur', [
+    'Ein Regenbogen entsteht, wenn die Sonne hinter einem steht und vor einem Regen fällt.',
+    'Sonnenlicht dringt in einen Regentropfen ein und wird gebrochen – jede Farbe ein bisschen anders.',
+    'An der Rückseite des Tropfens wird das Licht gespiegelt und beim Austreten noch einmal gebrochen. So fächern sich die Farben auf.',
+    'Jede Farbe kommt unter einem eigenen Winkel zurück, für Rot rund 42 Grad. Viele Tropfen zusammen bilden den Bogen: außen Rot, innen Violett.'
+  ], [
+    sun(30, 30, 12) + C(200, 90, 40, 's1') + T(200, 150, 'Regentropfen', 'sk-s'),
+    P('M44 40L168 72L196 60', 'sk-l sk-thick'),
+    P('M196 60L236 92L178 116', 'sk-l') + P('M178 116L60 146', 'sk-l sk-red') + P('M180 112L72 160', 'sk-l sk-blue'),
+    T(46, 142, 'Rot', 'sk-s') + T(56, 172, 'Violett', 'sk-s')
+  ]);
+  add('himmelblau', 'Warum der Himmel blau ist', ['NATU_PHYS2_S02', 'NATU_PHYS1_S05'], 'natur', [
+    'Sonnenlicht ist weiß – eine Mischung aller Farben.',
+    'In der Luft trifft es auf winzige Gasmoleküle. Sie streuen kurzwelliges blaues Licht viel stärker als rotes.',
+    'Das gestreute Blau erreicht uns aus allen Richtungen – deshalb leuchtet der ganze Himmel blau.',
+    'Steht die Sonne tief, ist der Weg durch die Luft viel länger. Das Blau wird unterwegs fast ganz weggestreut; übrig bleiben Gelb, Orange und Rot.'
+  ], [
+    sun(30, 40, 14) + P('M50 46H140', 'sk-l sk-thick') + T(90, 34, 'weißes Licht', 'sk-s'),
+    [0, 1, 2, 3, 4].map(i => C(150 + i * 14, 46 + (i % 2) * 8, 3, 's6')).join('') + [0, 1, 2, 3].map(i => { const t = i * 1.4 + .4; return A(170, 50, 170 + Math.cos(t) * 36, 50 + Math.sin(t) * 36, '', 'sk-blue', 0); }).join(''),
+    P('M0 170H320', 'sk-l') + F('M150 170a8 8 0 1 1 0.1 0z', 's6') + P('M150 156V140', 'sk-l') + [120, 180].map(x => A(x, 100, 152, 140, '', 'sk-blue', 0)).join(''),
+    sun(300, 150, 10) + P('M290 150Q200 166 160 160', 'sk-l sk-red sk-thick') + T(250, 132, 'Abendrot', 'sk-s')
+  ]);
+  add('vulkan', 'Wie ein Vulkan ausbricht', ['NATU_ERDE_S03', 'NATU_ERDE_S01'], 'natur', [
+    'In der Tiefe schmilzt Gestein zu Magma – oft dort, wo Erdplatten auseinanderdriften oder eine unter die andere abtaucht.',
+    'Magma ist leichter als das feste Gestein ringsum und steigt auf. Es sammelt sich in einer Magmakammer einige Kilometer unter der Oberfläche.',
+    'Im Magma sind Gase gelöst, wie Kohlensäure in einer Sprudelflasche. Steigt es höher, sinkt der Druck – die Gase bilden Blasen.',
+    'Die Blasen dehnen sich aus und treiben das Magma durch den Schlot. Zähes Magma explodiert, dünnflüssiges fließt als Lava aus.'
+  ], [
+    F('M0 170h320v12H0z', 's4') + T(60, 164, 'Magma entsteht|in der Tiefe', 'sk-s'),
+    E(160, 140, 60, 18, 's4') + A(160, 168, 160, 156, '', 'sk-red', 0) + T(250, 140, 'Magmakammer', 'sk-s', 'start'),
+    F('M60 110L140 30h40l80 80z', 's0') + P('M160 124V30', 'sk-l sk-thick sk-red') + [60, 80, 100].map((y, i) => C(156 + i * 4, y, 3 + i, 's6')).join(''),
+    F('M146 30q-20-20 4-30q10 10 20 0q20 10 4 30z', 's4') + P('M180 32q30 20 50 60', 'sk-l sk-red sk-thick') + T(250, 70, 'Lava', 'sk-s')
+  ]);
+  add('mondphasen', 'Wie die Mondphasen entstehen', ['NATU_KOSMOS_S01'], 'natur', [
+    'Die Sonne beleuchtet immer eine Hälfte des Mondes.',
+    'Der Mond umkreist die Erde; von Neumond zu Neumond dauert es rund 29,5 Tage. Dabei sehen wir unterschiedlich viel von seiner hellen Seite.',
+    'Steht er zwischen Erde und Sonne, ist uns die helle Seite abgewandt: Neumond. Auf der anderen Seite der Erde sehen wir sie ganz: Vollmond.',
+    'Dazwischen liegen Halbmond und Sichel. Auf der Nordhalbkugel wächst der zunehmende Mond von rechts.'
+  ], [
+    sun(24, 90, 14) + [0, 1, 2].map(i => A(44, 70 + i * 20, 90, 70 + i * 20, '', '', 0)).join(''),
+    C(200, 90, 18, 's1') + E(200, 90, 80, 62, 's0').replace('sk-f s0', 'sk-l sk-dash') + T(200, 94, 'Erde', 'sk-s'),
+    C(120, 90, 10, 's6') + F('M120 80a10 10 0 0 0 0 20z', 's3') + T(120, 70, 'Neumond', 'sk-s') + C(280, 90, 10, 's6') + F('M280 80a10 10 0 0 0 0 20z', 's3') + T(280, 70, 'Vollmond', 'sk-s'),
+    C(200, 28, 10, 's6') + F('M200 18a10 10 0 0 0 0 20z', 's3') + C(200, 152, 10, 's6') + F('M200 142a10 10 0 0 0 0 20z', 's3') + T(244, 28, 'Halbmond', 'sk-s')
+  ]);
+  add('baumwasser', 'Wie ein Baum Wasser nach oben bringt', ['NATU_PFLANZENWELT_S01', 'NATU_BIO1_S02'], 'natur', [
+    'Die Wurzeln nehmen Wasser und Nährsalze aus dem Boden auf.',
+    'In feinen Röhren im Holz, dem Xylem, steht eine durchgehende Wassersäule bis hinauf in die Blätter.',
+    'An der Blattunterseite verdunstet Wasser durch winzige Spaltöffnungen. Das erzeugt einen Sog.',
+    'Weil Wassermoleküle aneinander haften, zieht der Sog die ganze Säule nach oben – bei Mammutbäumen über 100 Meter hoch, ganz ohne Pumpe.'
+  ], [
+    P('M160 150l-30 30M160 150l30 28M160 150v32M150 160l-40 12M170 160l40 10', 'sk-l') + P('M0 150H320', 'sk-l sk-dash') + T(260, 172, 'Wurzeln', 'sk-s'),
+    R(150, 50, 20, 100, 's6') + P('M160 146V56', 'sk-l sk-blue sk-thick') + T(110, 100, 'Xylem', 'sk-s'),
+    E(160, 40, 80, 30, 's2') + [120, 160, 200].map(x => A(x, 24, x + 6, 6, '', 'sk-blue', 0)).join('') + T(270, 20, 'Verdunstung', 'sk-s'),
+    A(176, 140, 176, 70, 'Sog', 'sk-green', 0) + T(270, 110, 'bis über|100 m', 'sk-s')
+  ]);
+})();
+/* ===================== WIE FUNKTIONIERT DAS? – eigene Kategorie mit Gebieten, Suche und Fortschritt ===================== */
+const WF_GROUPS = [
+  ['technik', 'Technik & Verkehr'], ['haus', 'Haushalt & Alltag'], ['digital', 'Digital & Kommunikation'],
+  ['energie', 'Energie & Umwelt'], ['medizin', 'Körper & Medizin'], ['natur', 'Natur & Weltall'], ['gesell', 'Wirtschaft & Gesellschaft']
+];
+(function(){
+  const G = {
+    technik: 'viertakt eauto flugzeug triebwerk rakete dampfmaschine schiff schleuse',
+    haus: 'kuehlschrank mikrowelle led',
+    energie: 'waermepumpe solarzelle windrad wasserkraft akku strom kernspaltung batterie treibhaus',
+    digital: 'kamera touchscreen mobilfunk internet qrcode blockchain prozessor sprachmodell gps verschluesselung nnetz',
+    medizin: 'ct mrt schrittmacher kreislauf impfung verdauung atmung nerv auge ohr insulin gerinnung resistenz krebs metastase zellatmung gedaechtnis schlaf protein',
+    natur: 'platten photo wasser jahreszeiten gezeiten selektion mendel sterne urknall gewitter hochtief foehn monsun tsunami',
+    gesell: 'gesetz kanzler inflation eugesetz wahlrecht instanzen strafverfahren aktie rente bruttonetto kredit syllogismus verfassungsbeschwerde'
+  };
+  Object.entries(G).forEach(([g, ks]) => ks.split(' ').forEach(k => { if (ABL[k] && !ABL[k].g) ABL[k].g = g; }));
+  Object.keys(ABL_MAP).forEach(k => delete ABL_MAP[k]);
+  Object.entries(ABL).forEach(([k, a]) => (a.st || []).forEach(id => (ABL_MAP[id] = ABL_MAP[id] || []).push(k)));
+})();
+function wfList(){ return Object.entries(ABL).filter(([, a]) => a.g && !a.h); }
+function wfSeen(){ try { return JSON.parse(localStorage.getItem('abl_seen') || '{}'); } catch(e){ return {}; } }
+(function(){
+  const _open = ablOpen;
+  ablOpen = function(k){
+    try { const s = wfSeen(); if (!s[k]){ s[k] = todayNum(); localStorage.setItem('abl_seen', JSON.stringify(s)); } } catch(e){}
+    return _open.apply(this, arguments);
+  };
+})();
+const WF_STATE = { g:'', q:'' };
+let WF_BACK = null;
+function renderWie(back){
+  if (back) WF_BACK = back;
+  const main = document.getElementById('main'), all = wfList(), seen = wfSeen(), nSeen = all.filter(([k]) => seen[k]).length;
+  main.innerHTML = `<div class="al-view ab-view wf-view"><div class="netz-top"><button class="zeit-exit" id="wfBack" aria-label="Zurück">${chevSVG}</button><div class="netz-title"><b>Wie funktioniert das?</b><span>${all.length} Skizzen aus ${WF_GROUPS.length} Gebieten</span></div></div>
+    <p class="ka-intro">Antippen und zuschauen: Jede Skizze zeichnet sich Schritt für Schritt auf. Am Ende kannst du die Reihenfolge üben oder es selbst erklären.</p>
+    <div class="wf-prog"><i style="width:${Math.round(nSeen / Math.max(1, all.length) * 100)}%"></i></div><p class="wf-prog-t">${nSeen} von ${all.length} angeschaut</p>
+    <input class="wf-q" id="wfQ" type="search" placeholder="Suchen, z. B. Aufzug, Niere, WLAN" value="${zeitEsc(WF_STATE.q)}" autocomplete="off">
+    <div class="wf-chips" id="wfChips"><button class="zeit-chip ${WF_STATE.g ? '' : 'on'}" data-g="">Alle</button>${WF_GROUPS.map(([g, t]) => `<button class="zeit-chip ${WF_STATE.g === g ? 'on' : ''}" data-g="${g}">${t}</button>`).join('')}</div>
+    <div id="wfList"></div></div>`;
+  const draw = () => {
+    const q = WF_STATE.q.trim().toLowerCase();
+    const hit = ([k, a]) => (!WF_STATE.g || a.g === WF_STATE.g) && (!q || (a.t + ' ' + a.steps.map(s => s.c).join(' ')).toLowerCase().includes(q));
+    const card = ([k, a]) => `<button class="ab-card ${seen[k] ? 'wf-seen' : ''}" data-ab="${k}">${ablSvg(k)}<b>${zeitEsc(a.t)}</b><span>${a.steps.length} Schritte${seen[k] ? ' · angeschaut' : ''}</span></button>`;
+    const box = document.getElementById('wfList'); if (!box) return;
+    const groups = WF_GROUPS.filter(([g]) => !WF_STATE.g || WF_STATE.g === g).map(([g, t]) => { const xs = all.filter(x => x[1].g === g && hit(x)); return xs.length ? `<h3 class="ka-h">${t}</h3><div class="ab-grid">${xs.map(card).join('')}</div>` : ''; }).join('');
+    box.innerHTML = groups || `<p class="ka-intro">Nichts gefunden. Versuch einen anderen Begriff.</p>`;
+    box.querySelectorAll('.ab-card').forEach(c => c.onclick = () => ablOpen(c.dataset.ab));
+  };
+  draw();
+  document.getElementById('wfBack').onclick = () => { const b = WF_BACK; WF_BACK = null; (b || renderDashboard)(); };
+  document.getElementById('wfChips').onclick = ev => { const b = ev.target.closest('[data-g]'); if (!b) return; WF_STATE.g = b.dataset.g;
+    document.querySelectorAll('#wfChips .zeit-chip').forEach(x => x.classList.toggle('on', x === b)); draw(); };
+  document.getElementById('wfQ').oninput = ev => { WF_STATE.q = ev.target.value; draw(); };
+  window.scrollTo(0, 0);
+}
+/* Abläufe-Übersicht: Verweis auf die neue Kategorie, dazu die Geschichte */
+renderAblaeufe = function(back){
+  if (back) ABL_BACK = back;
+  const main = document.getElementById('main'), all = Object.entries(ABL), wf = wfList();
+  const card = ([k, a]) => `<button class="ab-card" data-ab="${k}">${ablSvg(k)}<b>${zeitEsc(a.t)}</b><span>${a.steps.length} Schritte</span></button>`;
+  const rest = all.filter(([, a]) => !a.h && !a.g);
+  main.innerHTML = `<div class="al-view ab-view"><div class="netz-top"><button class="zeit-exit" id="abBack" aria-label="Zurück">${chevSVG}</button><div class="netz-title"><b>Abläufe</b><span>${all.length} Skizzen, die sich Schritt für Schritt aufbauen</span></div></div>
+    <p class="ka-intro">Antippen, zurücklehnen, zuschauen. Jeder Schritt bleibt so lange stehen, bis man ihn gelesen hat.</p>
+    <button class="wf-teaser" id="abWie"><b>Wie funktioniert das?</b><span>${wf.length} Skizzen zu Technik, Alltag, Körper, Natur und Gesellschaft</span></button>
+    <h3 class="ka-h">Geschichte</h3><div class="ab-grid">${all.filter(([, a]) => a.h).map(card).join('')}</div>
+    ${rest.length ? `<h3 class="ka-h">Weitere</h3><div class="ab-grid">${rest.map(card).join('')}</div>` : ''}</div>`;
+  document.getElementById('abBack').onclick = () => { const b = ABL_BACK; ABL_BACK = null; (b || renderDashboard)(); };
+  document.getElementById('abWie').onclick = () => renderWie(() => renderAblaeufe());
+  main.querySelectorAll('.ab-card').forEach(c => c.onclick = () => ablOpen(c.dataset.ab));
+  window.scrollTo(0, 0);
+};
+/* Entdecken: eigene Kachel ganz vorn */
+(function(){
+  const _rd = renderDashboard;
+  renderDashboard = function(){
+    const r = _rd.apply(this, arguments);
+    try { const ent = document.querySelector('#main .entdecken'); if (!ent || document.getElementById('entWie')) return r;
+      const all = wfList(), seen = wfSeen(), n = all.filter(([k]) => seen[k]).length;
+      ent.insertAdjacentHTML('afterbegin', `<button class="ent-card ent-wie" id="entWie"><span class="ent-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></span><b>Wie funktioniert das?</b><span>${n} von ${all.length} Skizzen angeschaut</span><i class="ent-bar"><i style="width:${Math.round(n / Math.max(1, all.length) * 100)}%"></i></i></button>`);
+      document.getElementById('entWie').onclick = () => renderWie(() => renderDashboard());
+    } catch(e){}
     return r;
   };
 })();
