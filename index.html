@@ -3090,7 +3090,7 @@ circle.wn-n.dim{ opacity:.18; }
 .fd-ab .fd-ab-svg svg{ width:100%; height:auto; display:block; }
 .ab-ergo{ background:#fff; margin-top:6px; }
 /* mitlaufende Untertitel */
-.rl-t .rl-w{ opacity:.5; transition:opacity .18s linear; }
+.rl-t .rl-w{ opacity:1; }
 .rl-t .rl-w.sp{ opacity:1; }
 @media (prefers-reduced-motion: reduce){ .rl-t .rl-w{ opacity:1; } }
 .rl-filmx{ display:none; }
@@ -3125,7 +3125,7 @@ body.rl-film .rl-sc .rl-cap{ position:absolute !important; left:20px !important;
 body.rl-film .rl-t{ -webkit-line-clamp:unset !important; display:block !important; min-height:3.2em; font-size:clamp(21px, 3.1vh, 26px) !important; line-height:1.32 !important; font-weight:700 !important; letter-spacing:-.005em; }
 body.rl-film .rl-t .rl-chunk{ display:none; }
 body.rl-film .rl-t .rl-chunk.cur{ display:inline; animation:rlSub .32s ease-out both; }
-body.rl-film .rl-t .rl-w{ opacity:.42; } body.rl-film .rl-t .rl-w.sp{ opacity:1; }
+body.rl-film .rl-t .rl-w{ opacity:1; }
 @keyframes rlSub{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
 body.rl-film .rl-mk{ font-size:15px; }
 /* Bauchbinde: Stichwort oben links mit Akzentbalken */
@@ -3172,6 +3172,9 @@ body.rl-film .rl-sc .rl-cap{ padding-top:44px; }
 .ob-next:focus-visible, .ob-skip:focus-visible{ outline:2px solid #3a46d6; outline-offset:3px; }
 .ob-again{ border:0; background:none; color:inherit; font:inherit; text-decoration:underline; cursor:pointer; padding:0; }
 @media (prefers-reduced-motion: reduce){ .ob-card, .ob-ic{ transition:none; animation:none; } }
+/* Ohne Ton: alle Audio-Einstiege ausblenden */
+#lessonSpeak, .ent-card[data-open="hoer"], #entSprech, .ent-sprech, #zusHoerAll, #zusHoer,
+.tutor-msg [data-act="hoer"], [data-zs="hoer"], #persHoer, .hoer-mini[data-hoer], .ab-voice, .rl-snd, .rl-mus{ display:none !important; }
 /* ===================== DESIGN-FEINSCHLIFF: einheitliche Maße ===================== */
 :root{ --r-card:20px; --r-row:16px; --r-pill:999px; }
 /* Karten: ein Radius für alle großen Flächen */
@@ -3261,7 +3264,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-23j · Geräte-Sync repariert';
+const APP_VERSION = '2026-11-23k · Ohne Ton';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -11892,7 +11895,6 @@ const ALB_ACH = [
   { id:'staffel', n:'Serienfan', d:'Das Finale einer Staffel bestanden', ic:'▶' },
   { id:'staffeln', n:'Showrunner', d:'Alle Staffeln abgeschlossen', ic:'▶▶' },
   { id:'lokal', n:'Lokalpatriot', d:'Alle Ereignisse aus Freiburg und dem Oberrhein gelesen', ic:'⌂' },
-  { id:'sprech', n:'Redner', d:'Im Sprech-Modus 8 von 10 gewusst', ic:'◉' },
   { id:'gedaechtnis', n:'Gedächtniskünstler', d:'100 Dinge sicher im Kopf', ic:'❖' }
 ];
 function albRarity(p){ const n = p.ids.length; return n >= 4 ? 'leg' : n >= 2 ? 'sel' : 'gew'; }
@@ -13679,7 +13681,10 @@ function alQuiz(){
    =============================================================== */
 const RL = { i:-1, sc:0, timer:null, nextT:null, paused:false, token:0 };
 function rlStore(){ const g = loadGlobal(); g.reels = g.reels || { snd:true }; return g; }
-function rlSound(){ return rlStore().reels.snd !== false; }
+/* Ohne Ton: Reels laufen stumm, das Tempo richtet sich nach der Lesezeit */
+function rlSound(){ return false; }
+function rlReadMs(t){ const w = String(t || '').trim().split(/\s+/).filter(Boolean).length; return Math.max(3200, 1300 + w * 310); }
+function rlSceneText(s){ return [s.h, s.t].filter(Boolean).join(' ') || s.say || ''; }
 /* Reels aus Stationen, „Alltag erklärt“, Personen und Zusammenhangs-Ketten.
    Bild je Szene: Skizze (sk), Körperatlas (med), Karte (map), Porträt (ava) oder Typo (ty). */
 function rlSent(t){ return String(t || '').split(/(?<=[.!?])(?<!\b(?:v|n|z|B|ca|Nr|St|Dr|bzw|vgl|u|d|o|Mio|Mrd|Jh|Jhd|Hl)\.)\s+(?=[A-ZÄÖÜ0-9„])/).map(x => x.trim()).filter(Boolean); }
@@ -13844,7 +13849,7 @@ function rlBuild(pool, add){
 const RL_SER = {};
 function rlFinish(pool){
   const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, '0')}`;
-  pool.v.forEach(v => { const sec = v.scenes.reduce((a, x) => a + (2200 + String(x.say || '').length * 68) / 1000, 0) + (v.q || v.yq ? 6 : 0);
+  pool.v.forEach(v => { const sec = v.scenes.reduce((a, x) => a + (x.k === 'ask' ? 6000 : rlReadMs(rlSceneText(x))) / 1000, 0) + (v.q || v.yq ? 6 : 0);
     v.dur = sec; v.scenes[0].t = `▶ ${fmt(sec)} · ${v.scenes[0].t}`; });
   const by = Object.fromEntries(pool.v.map(v => [v.id, v]));
   Object.values(PATH_INLINE || {}).forEach(p => { const ids = (p.stationen || []).map(st => `v:${st.id}`).filter(id => by[id]);
@@ -13901,8 +13906,6 @@ function rlCardHTML(c, i){
     <div class="rl-rail">
       <button class="rl-rb fd-save ${sv ? 'on' : ''}" data-i="${i}" aria-label="Merken">${RL_IC.save}<span>${sv ? 'Gemerkt' : 'Merken'}</span></button>
       ${more ? `<button class="rl-rb fd-more" data-i="${i}" aria-label="Mehr dazu">${RL_IC.more}<span>Mehr</span></button>` : ''}
-      <button class="rl-rb rl-mus ${rlMusicOn() ? 'on' : ''}" aria-label="Musik">${RL_IC.mus}<span>${rlMusicOn() ? 'Musik an' : 'Musik aus'}</span></button>
-      <button class="rl-rb rl-snd" aria-label="Ton">${rlSound() ? RL_IC.on : RL_IC.off}<span>${rlSound() ? 'Ton an' : 'Ton aus'}</span></button>
     </div>
     <div class="rl-nav rl-nav-l" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></div>
     <div class="rl-nav rl-nav-r" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></div>
@@ -13941,6 +13944,7 @@ function rlDraw(sc){
 let RL_AUDIO = null, RL_UNLOCKED = false;
 function rlAudio(){ if (!RL_AUDIO){ RL_AUDIO = new Audio(); RL_AUDIO.preload = 'auto'; RL_AUDIO.setAttribute('playsinline', ''); } return RL_AUDIO; }
 function rlUnlock(){
+  return; /* stumm: kein Audio freischalten */
   try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
   if (RL_UNLOCKED) return; const a = rlAudio();
   try { const m = rlMusicEl(); if (!m.src || m.paused){ if (!m.src) m.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; m.muted = true; const pm = m.play(); const done = () => { m.pause(); m.muted = false; }; if (pm && pm.then) pm.then(done).catch(() => { m.muted = false; }); else done(); } } catch(e){}
@@ -13977,7 +13981,7 @@ function rlStop(){ clearTimeout(RL.timer); clearTimeout(RL.nextT); rlStopVoice()
    leise WAV-Schleife über ein <audio>-Element abgespielt. So läuft sie auf dem iPhone
    wie die Sprache als Medienton – auch wenn der Stummschalter an ist. */
 let RL_MUS = null; const RL_MUS_EL = {}, RL_MUS_URL = {};
-function rlMusicOn(){ return rlStore().reels.mus !== false; }
+function rlMusicOn(){ return false; }
 function rlAC(){ return null; }
 const RL_PROG = { gesch:[[57,60,64],[53,57,60],[60,64,67],[55,59,62]], natur:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]], koerper:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]],
   gesell:[[55,59,62],[52,55,59],[60,64,67],[57,60,64]], kultur:[[64,67,71],[60,64,67],[57,60,64],[62,65,69]], geo:[[59,62,66],[55,59,62],[57,61,64],[52,55,59]], alltag:[[60,64,67],[65,69,72],[57,60,64],[55,59,62]] };
@@ -14066,9 +14070,11 @@ function rlShow(j){
     const step = t => { const k = Math.min(1, (t - t0) / D), e2 = 1 - Math.pow(1 - k, 3), v = Math.round(from + (to - from) * e2); el.textContent = fdYear(v === 0 ? 1 : v); if (k < 1 && el.isConnected) requestAnimationFrame(step); };
     requestAnimationFrame(step); });
   const nx = c.scenes[j + 1]; rlPrefetch(nx ? nx.say : (c.yq ? 'In welchem Jahr? ' + c.ytext : c.q ? 'Wahr oder falsch? ' + c.q : ''));
-  rlSetBar(j, rlSound() ? 2200 + s.say.length * 68 : Math.max(3800, s.say.length * 62));
+  const ms = rlReadMs(rlSceneText(s));
+  rlSetBar(j, ms);
   if (RL.paused) return;
-  rlSay(s.say, () => { if (!RL.paused) rlShow(j + 1); });
+  const tk = ++RL.token; clearTimeout(RL.timer);
+  RL.timer = setTimeout(() => { if (tk === RL.token && !RL.paused) rlShow(j + 1); }, ms);
 }
 function rlAutoNext(ms){
   const i = RL.i; clearTimeout(RL.nextT);
@@ -14090,8 +14096,7 @@ function rlQuizReveal(box, c, pick){
   if (ok){ const h = box.querySelector('.rl-heart'); h.classList.remove('go'); void h.offsetWidth; h.classList.add('go'); }
   const say = ok === null ? (c.yq ? `Es war ${fdYear(c.yr)}.` : (c.r ? 'Das stimmt.' : 'Das stimmt nicht.')) : ok ? 'Richtig!' : (c.yq ? `Nicht ganz. Es war ${fdYear(c.yr)}.` : 'Nicht ganz.');
   rlSetBar(+q.dataset.j + 1);
-  if (rlSound()) rlSay(say, () => {}); 
-  rlAutoNext(rlSound() ? 3200 : 2600);
+  rlAutoNext(Math.max(2600, rlReadMs(fb.textContent) - 600));
 }
 function rlAskReveal(box, c, j, pick){
   const s = c.scenes[j], sc = box.querySelector(`.rl-sc[data-j="${j}"]`), a = sc && sc.querySelector('.rl-asks'); if (!a || a.classList.contains('done')) return;
@@ -14103,7 +14108,7 @@ function rlAskReveal(box, c, j, pick){
   if (ok){ const h = box.querySelector('.rl-heart'); h.style.left = ''; h.style.top = ''; h.classList.remove('go'); void h.offsetWidth; h.classList.add('go'); if (typeof zeitAwardXP === 'function') try { zeitAwardXP(1); } catch(_){} }
   const go = () => { if (RL.i >= 0 && rlCard() === box && !RL.paused && RL.sc === j) rlShow(j + 1); };
   if (rlSound()) rlSay(ok === null ? 'Die Auflösung.' : ok ? 'Richtig!' : 'Nicht ganz.', () => setTimeout(go, 900));
-  else RL.timer = setTimeout(go, 2200);
+  else RL.timer = setTimeout(go, Math.max(2200, rlReadMs(fb.textContent) - 800));
 }
 /* Verlauf, Interessen, Wiederholung */
 function rlHist(){ return (rlStore().reels.hist || []); }
@@ -16907,10 +16912,9 @@ function ablOpen(k){
   const o = document.createElement('div'); o.className = 'sk-lb ab-lb';
   o.innerHTML = `<div class="sk-lb-in ab-in"><button class="bild-lb-x" aria-label="Schließen">×</button><b class="ab-title">${zeitEsc(a.t)}</b>${ablSvg(k, -1)}
     <p class="ab-cap" aria-live="polite"></p><div class="ab-dots">${a.steps.map((_, i) => `<i data-i="${i}"></i>`).join('')}</div>
-    <div class="ab-ctl"><button class="ab-b" data-a="prev" aria-label="Zurück">‹</button><button class="ab-b main" data-a="play" aria-label="Abspielen">▶</button><button class="ab-b" data-a="next" aria-label="Weiter">›</button><button class="ab-b ab-voice" data-a="voice" aria-label="Vorlesen an/aus">${typeof speakIcon === 'function' ? speakIcon() : 'Ton'}</button></div></div>`;
+    <div class="ab-ctl"><button class="ab-b" data-a="prev" aria-label="Zurück">‹</button><button class="ab-b main" data-a="play" aria-label="Abspielen">▶</button><button class="ab-b" data-a="next" aria-label="Weiter">›</button></div></div>`;
   document.body.appendChild(o); requestAnimationFrame(() => o.classList.add('on'));
-  const P = ABL_P = { k, o, i:-1, play:false, voice: localStorage.getItem('abl_voice') === '1', tm:null };
-  o.querySelector('.ab-voice').classList.toggle('on', P.voice);
+  const P = ABL_P = { k, o, i:-1, play:false, voice: false, tm:null };
   o.onclick = ev => {
     if (ev.target === o || ev.target.closest('.bild-lb-x')) return ablClose();
     const b = ev.target.closest('[data-a]'); if (!b) return; const act = b.dataset.a;
@@ -16936,7 +16940,7 @@ function ablGo(i, silent){
 function ablTick(){
   const P = ABL_P; if (!P || !P.play) return; const a = ABL[P.k];
   if (P.i >= a.steps.length - 1){ P.play = false; ablBtn(); return; }
-  ablGo(P.i + 1); const cap = a.steps[P.i].c, min = 1800 + cap.length * 30;
+  ablGo(P.i + 1); const cap = a.steps[P.i].c, min = 2000 + cap.trim().split(/\s+/).length * 320; /* Lesezeit, ohne Ton */
   const next = () => { if (ABL_P === P && P.play) P.tm = setTimeout(ablTick, 600); };
   if (P.voice && typeof speakLesson === 'function'){ let t0 = Date.now(), ended = false;
     speakLesson(cap, on => { if (!on && !ended){ ended = true; const w = Math.max(0, 1800 - (Date.now() - t0)); P.tm = setTimeout(next, w); } }); }
@@ -18051,8 +18055,9 @@ function rlKwLoop(){
     const a = typeof RL_AUDIO !== 'undefined' && RL_AUDIO;
     if (rlSound() && a && !a.paused && a.duration && isFinite(a.duration)) p = Math.min(1, a.currentTime / a.duration + .04);
     else p = RL.paused ? null : Math.min(1, (performance.now() - RL_KW.t0) / RL_KW.est);
-    if (p != null){ const ws = el.querySelectorAll('.rl-w'), n = Math.floor(p * ws.length + .5); ws.forEach((w, k) => w.classList.toggle('sp', k < n));
-      const cur = ws[Math.min(ws.length - 1, Math.max(0, n))], ch = cur && cur.parentElement;
+    if (p != null){ /* stumm: Untertitel-Häppchen nach Lesezeit (Zeichenanteil) wechseln */
+      const cs = [...el.querySelectorAll('.rl-chunk')], tot = cs.reduce((a, x) => a + x.textContent.length + 8, 0);
+      let acc = 0, ch = cs[cs.length - 1]; for (const x of cs){ acc += x.textContent.length + 8; if (acc / tot > p * .97){ ch = x; break; } }
       if (ch && !ch.classList.contains('cur')){ el.querySelectorAll('.rl-chunk.cur').forEach(x => x.classList.remove('cur')); ch.classList.add('cur'); } }
     RL_KW.raf = requestAnimationFrame(step);
   };
@@ -18069,7 +18074,7 @@ function rlKwLoop(){
       const el = sc.querySelector('.rl-t'); if (!el) return r;
       rlWordify(el); el.querySelectorAll('.rl-w').forEach(w => w.classList.remove('sp'));
       el.querySelectorAll('.rl-chunk').forEach((x, k) => x.classList.toggle('cur', k === 0));
-      Object.assign(RL_KW, { el, i:RL.i, j, t0:performance.now(), est: rlSound() ? 2200 + (s.say || '').length * 68 : Math.max(3800, (s.say || '').length * 62) });
+      Object.assign(RL_KW, { el, i:RL.i, j, t0:performance.now(), est: rlReadMs(rlSceneText(s)) });
       rlKwLoop();
     } catch(e){}
     return r;
@@ -18107,7 +18112,7 @@ function rlKwLoop(){
 })();
 const OB_SLIDES = [
   { ic:'<svg viewBox="0 0 24 24"><path d="M3 6.5C5.5 5 8.5 5 12 7c3.5-2 6.5-2 9-.5V19c-2.5-1.5-5.5-1.5-9 .5-3.5-2-6.5-2-9-.5z"/><path d="M12 7v12.5"/></svg>', t:'Willkommen im Lern·Archiv', d:'Allgemeinwissen, das bleibt: über 1500 Lernstationen in 15 Bereichen – von Philosophie bis Medizin, von der Steinzeit bis heute.' },
-  { ic:'<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M12 8v6M9.5 11.5 12 14l2.5-2.5"/></svg>', t:'Feed: einfach wischen', d:'Karten, Fragen und Reels zum Durchwischen. Doppelt tippen merkt eine Karte. Reels laufen als kurzer Film mit Stimme und Untertiteln.' },
+  { ic:'<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M12 8v6M9.5 11.5 12 14l2.5-2.5"/></svg>', t:'Feed: einfach wischen', d:'Karten, Fragen und Reels zum Durchwischen. Doppelt tippen merkt eine Karte. Reels laufen als stummer Kurzfilm mit Untertiteln – im Lesetempo. Antippen hält an.' },
   { ic:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9"/></svg>', t:'Heute: dein Lernplan', d:'„Dein Tag“ sagt dir, was dran ist: Heute-Runde, Festigen, Tagesquiz und ein Ablauf. Wiederholt wird genau dann, wenn du kurz vor dem Vergessen bist.' },
   { ic:'<svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="17" r="2.3"/><path d="M8.2 7.6 15.8 6.4M7 9.1l3.8 5.9M17 8.2l-3.8 6.8"/></svg>', t:'Verstehen statt auswendig', d:'Abläufe zeichnen sich Schritt für Schritt auf, Brücken verbinden die Bereiche, und mit „Erklär’s mir“ prüft die KI, ob du es wirklich erklären kannst.' },
   { ic:'<svg viewBox="0 0 24 24"><path d="M12 3v11M7.5 9.5 12 14l4.5-4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>', t:'Dein Fortschritt ist sicher', d:'Sichere deinen Stand ab und zu unten im Heute-Tab – oder verbinde Geräte per Sync-PIN. Viel Spaß beim Lernen!' }
@@ -18139,6 +18144,14 @@ function obShow(force){
     try { const v = document.querySelector('#main .dash-version'); if (v && !v.querySelector('.ob-again')){ v.insertAdjacentHTML('beforeend', ' · <button class="ob-again">Einführung</button>'); v.querySelector('.ob-again').onclick = () => obShow(true); } } catch(e){}
     return r;
   };
+})();
+/* ===================== OHNE TON: Vorlesen, Hörmodus, Sprech-Modus und Musik sind abgeschaltet ===================== */
+(function(){
+  hoerSupported = function(){ return false; };
+  hoerBtnHTML = function(){ return ''; };
+  speakLesson = function(text, cb){ if (typeof cb === 'function') setTimeout(() => cb(false), 0); };
+  hoerSpeakText = function(){};
+  try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch(e){}
 })();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
