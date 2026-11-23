@@ -3261,7 +3261,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-23i · Profi-Feinschliff: Symbol, Einführung, Design, Lektorat, Bilder';
+const APP_VERSION = '2026-11-23j · Geräte-Sync repariert';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -7855,7 +7855,7 @@ const SYNC = (function(){
     if (!ready || applying || !ref) return;
     const ts = Date.now();
     localStorage.setItem('sync_ts', String(ts));
-    ref.set({ ts, data: collectLocal() }).catch(()=>{});
+    ref.set({ ts, data: collectLocal() }).then(()=>{ window.__syncErr = null; window.__syncOk = Date.now(); }).catch(e=>{ window.__syncErr = String(e && e.message || e); });
   }
 
   // localStorage.setItem abfangen → Änderungen automatisch synchronisieren
@@ -16332,8 +16332,12 @@ function wnZoom(ds, idx){
   };
 })();
 /* ---- Sicherung: alle Lerndaten sichern (nicht nur die alten Schlüssel) ---- */
-const BK_SKIP = ['sync_pin','sync_ts','app_reset','last_backup','wissen_bilder_v1','wissen_bilddesc_v1','rl_gal_v1'];
-function backupOk(k){ return !!k && BK_SKIP.indexOf(k) < 0 && !/cache/i.test(k); }
+/* Nur Schlüssel dieser App: Andere Apps auf derselben github.io-Adresse teilen sich den Speicher und dürfen weder gesichert noch gelöscht werden */
+const BK_KEYS = ['wissen_global','wissen_activity','weekly_goal','shop_state','sr_wissen','sr_zeit','zeit_newcount','vocab_autospeak','last_open',
+  'fehlerbuch','st_learned','tq_adapt','mp_hist','dp_meta','bridge_v1','wissen_sprech','wissen_tutor_n','wissen_zm_n','wissen_hoer','zeit_box',
+  'lern_log','erklaer_hist','abl_sr','themenwoche','tw_hist','sr_zahlwoerter','abl_voice'];
+const BK_PRE = ['path_','sr_','mega_','lektionen_'];
+function backupOk(k){ return !!k && (BK_KEYS.indexOf(k) >= 0 || BK_PRE.some(p => k.indexOf(p) === 0)) && !/[.#$\[\]\/]/.test(k); }
 backupKeys = function(){ const out = []; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (backupOk(k)) out.push(k); } return out; };
 function bkPayload(){ const data = {}; backupKeys().forEach(k => { data[k] = localStorage.getItem(k); }); return { app:'lern-archiv', version:APP_VERSION, exported:new Date().toISOString(), data }; }
 function bkStamp(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
@@ -16369,7 +16373,7 @@ function bkInfo(){
       const i = bkInfo();
       row.insertAdjacentHTML('beforebegin', `<div class="bk-card${i.warn ? ' warn' : ''}">
         <span class="tr-br-ic bk-ic"><svg viewBox="0 0 24 24"><path d="M12 3v11M7.5 9.5 12 14l4.5-4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span>
-        <span class="bk-t"><b>Fortschritt sichern</b><em>${i.sync ? 'Geräte-Sync ist an · ' : ''}Letzte Sicherung: ${i.when}${i.warn ? ' – sicher deinen Stand als Datei' : ''}</em></span>
+        <span class="bk-t"><b>Fortschritt sichern</b><em>${i.sync ? (window.__syncErr ? `<b style="color:#d6453d">Sync-Fehler: ${zeitEsc(String(window.__syncErr).slice(0, 60))}</b> · ` : 'Geräte-Sync ist an · ') : ''}Letzte Sicherung: ${i.when}${i.warn ? ' – sicher deinen Stand als Datei' : ''}</em></span>
         <span class="bk-btns"><button class="bk-b main" id="bkSave">Sichern</button><button class="bk-b" id="bkLoad">Laden</button></span>
       </div>`);
       const save = document.getElementById('bkSave'), load = document.getElementById('bkLoad');
@@ -18144,7 +18148,7 @@ function obShow(force){
     if (localStorage.getItem('app_reset') !== M){
       const keep = new Set(['sync_pin', 'shop_state', 'wissen_bilder_v1', 'app_reset']);
       const ks = []; for (let i = 0; i < localStorage.length; i++) ks.push(localStorage.key(i));
-      ks.forEach(k => { if (!keep.has(k) && !/cache|bild|tts/i.test(k)) localStorage.removeItem(k); });
+      ks.forEach(k => { if (!keep.has(k) && typeof backupOk === 'function' && backupOk(k)) localStorage.removeItem(k); });
       try { const sh = JSON.parse(localStorage.getItem('shop_state') || '{}'); localStorage.setItem('shop_state', JSON.stringify({ theme: sh.theme || 'default', owned: sh.owned || [] })); } catch(e){}
       localStorage.setItem('wissen_global', '{}');
       localStorage.setItem('sync_ts', String(Date.now()));
