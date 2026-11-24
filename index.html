@@ -1667,47 +1667,6 @@ figure.bild[data-zoom]::before{ content:''; position:absolute; z-index:2; top:10
 .bild-lb-src{ font-size:12px; color:rgba(255,255,255,.5); margin:0; } .bild-lb-src a{ color:rgba(255,255,255,.75); }
 .bild-lb-busy{ font-size:14px; color:rgba(255,255,255,.6); }
 body.bild-lb-open{ overflow:hidden; } body.bild-lb-open .tabbar{ display:none !important; }
-/* ---------- Hörmodus ---------- */
-.hoer-view{ max-width:620px; margin:0 auto; }
-.hoer-head h2{ margin:4px 0 14px; }
-.hoer-card{ position:relative; padding:14px; border-radius:24px; background:var(--glass-strong, #fff); border:1px solid var(--glass-line, rgba(0,0,0,.06)); box-shadow:0 18px 40px -24px rgba(0,0,0,.35); }
-.bild-hoer{ aspect-ratio:4/3; max-height:340px; margin:0 0 12px; border-radius:16px; }
-.hoer-pos{ font:600 12px/1 var(--font); color:var(--muted, #6e6e73); margin:4px 2px 6px; }
-.hoer-title{ font:650 20px/1.3 var(--font); margin:4px 2px 12px; }
-.hoer-bar{ height:4px; border-radius:4px; background:color-mix(in srgb, var(--ep) 15%, transparent); overflow:hidden; }
-.hoer-bar i{ display:block; height:100%; width:0; background:var(--ep); transition:width .5s ease; }
-.hoer-dots{ display:flex; flex-wrap:wrap; justify-content:center; gap:7px; margin:16px 0 6px; }
-.hoer-dot{ width:9px; height:9px; padding:0; border-radius:50%; border:0; background:color-mix(in srgb, var(--ep) 22%, transparent); cursor:pointer; }
-.hoer-dot.past{ background:color-mix(in srgb, var(--ep) 55%, transparent); }
-.hoer-dot.on{ background:var(--ep); transform:scale(1.35); }
-.hoer-ctrl{ display:flex; justify-content:center; align-items:center; gap:22px; margin:14px 0 8px; }
-.hoer-btn{ width:54px; height:54px; border-radius:50%; border:1px solid var(--glass-line, rgba(0,0,0,.08)); background:var(--glass-strong, #fff); display:grid; place-items:center; cursor:pointer; color:var(--ep); }
-.hoer-btn svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
-.hoer-btn.main{ width:76px; height:76px; background:var(--ep); color:#fff; border:0; box-shadow:0 14px 30px -12px var(--ep); }
-.hoer-btn.main svg{ width:30px; height:30px; fill:currentColor; stroke:currentColor; stroke-width:1.5; }
-.hoer-view.playing .hoer-btn.main{ animation:hoerPulse 2.2s ease-in-out infinite; }
-@keyframes hoerPulse{ 0%,100%{ box-shadow:0 14px 30px -12px var(--ep), 0 0 0 0 color-mix(in srgb, var(--ep) 35%, transparent); } 50%{ box-shadow:0 14px 30px -12px var(--ep), 0 0 0 12px transparent; } }
-.hoer-end{ margin:10px 0; padding:16px; border-radius:20px; background:color-mix(in srgb, var(--ep) 9%, var(--glass-strong, #fff)); display:grid; gap:8px; }
-.hoer-end-t{ font:650 16px/1.3 var(--font); }
-.hoer-auto{ font-size:13px; color:var(--muted, #6e6e73); margin:0; }
-.hoer-set{ display:grid; gap:10px; margin:18px 0 6px; padding:14px 16px; border-radius:20px; background:var(--glass, rgba(255,255,255,.6)); border:1px solid var(--glass-line, rgba(0,0,0,.06)); font-size:14px; }
-.hoer-set label{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
-.hoer-set select{ font:inherit; padding:6px 10px; border-radius:10px; border:1px solid var(--line, #ddd); background:var(--glass-strong, #fff); color:inherit; max-width:60%; }
-.hoer-chk{ justify-content:flex-start !important; }
-.hoer-note{ font-size:12.5px; color:var(--muted, #6e6e73); text-align:center; margin:10px 8px 0; }
-.hoer-mini{ display:inline-flex; align-items:center; gap:6px; font:600 13px/1 var(--font); padding:8px 12px; border-radius:999px; border:1px solid var(--glass-line, rgba(0,0,0,.08)); background:var(--glass-strong, #fff); color:var(--ep, var(--accent)); cursor:pointer; margin:0 0 12px; }
-.hoer-mini svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.hoer-mini.on{ background:var(--ep, var(--accent)); color:#fff; }
-.zus-kette-acts{ display:flex; gap:8px; flex-wrap:wrap; margin:0 0 14px; }
-.zus-kette-acts .zeit-continue{ margin:0; }
-@media (prefers-reduced-motion: reduce){ .hoer-view.playing .hoer-btn.main{ animation:none; } }
-.ent-wide{ grid-column:1 / -1; order:3; }
-.zus-qb-acts{ display:flex; gap:8px; flex-wrap:wrap; }
-.zus-qb-acts .zeit-continue{ margin:0; }
-.hoer-ctrl .hoer-btn{ flex:0 0 auto; width:54px !important; height:54px !important; min-width:0; padding:0; aspect-ratio:1; }
-.hoer-ctrl .hoer-btn.main{ width:76px !important; height:76px !important; }
-.hoer-end[hidden]{ display:none; }
-.hoer-note.warn{ color:#c4302b; font-weight:600; }
 /* ---------- Weltkarte ---------- */
 .karte-view canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab; }
 .karte-chips{ position:absolute; top:calc(max(12px, env(safe-area-inset-top)) + 64px); left:12px; right:12px; display:flex; gap:6px; overflow-x:auto; padding:2px; scrollbar-width:none; }
@@ -2304,6 +2263,45 @@ body.tutor-open #tabbar{ display:none; }
 .k-scan{ fill:#e6ebf0; } .k-bore{ fill:#fffdf8; } .k-table{ fill:#aab7c4; } .k-linac{ fill:#d5dde5; } .ka-svg .k-beam{ stroke:#e0a800; stroke-width:2; fill:none; stroke-dasharray:4 3; }
 .k-steel{ fill:#cfd8dc; } .k-handle{ fill:#5d6d7e; } .k-seed{ fill:#e0a800; } .k-stair{ fill:#cfe2f7; } .k-paper{ fill:#fffdf8; }
 .ka-svg .k-tnm{ font:700 12px var(--ui, system-ui, sans-serif); fill:#8e5bb5; } .k-pill{ fill:#e74c3c; } .k-pill2{ fill:#fdfefe; }
+/* Körperatlas 2: farbige Anatomie statt Tusche, Karten mit Fortschrittsring */
+.ka2 .ka-stage.ka2-stage{ background:radial-gradient(ellipse at 50% 40%, color-mix(in srgb, #eaf2fb 80%, var(--bg)), var(--bg-panel)); border:1px solid var(--line); border-radius:22px; padding:8px 0; max-width:460px; }
+.ka2 .ka-svg.ka-col .ka-body{ fill:#f3dccb; stroke:#c9a089; stroke-width:1.2; }
+.ka2 .ka-svg.ka-col .k-f{ stroke:rgba(80,40,30,.55); stroke-width:1; }
+.ka2 .ka-svg.ka-col .k-ln{ stroke:rgba(80,40,30,.45); fill:none; }
+.ka2 .k2-bone path, .ka2 .k2-bone circle{ fill:none; stroke:#e8d8c4; stroke-width:3; stroke-linecap:round; }
+.ka2 .k2-vessel{ fill:none; stroke-width:2.2; stroke-linecap:round; opacity:.75; }
+.ka2 .k2-vessel.art{ stroke:#d64545; } .ka2 .k2-vessel.vein{ stroke:#5b7fc4; }
+.ka2 .k2-thyroid{ fill:#c98fb3; }
+.ka2 .k2-lymph circle{ fill:#9ccc65; stroke:#5d8f2e; stroke-width:.8; }
+.ka2 .ka-sheetwrap.ka2-sk{ background:linear-gradient(180deg, color-mix(in srgb, #f6f1ea 70%, var(--bg)), var(--bg-panel)); border:1px solid var(--line); }
+.ka2 .ka-sk.ka-col .k-lab{ font-weight:600; }
+.k2-prog{ height:6px; border-radius:3px; background:var(--line); overflow:hidden; margin:4px 2px 10px; }
+.k2-prog i{ display:block; height:100%; background:var(--accent); border-radius:inherit; }
+.k2-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+@media (min-width:700px){ .k2-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+.k2-card{ display:flex; gap:10px; align-items:center; text-align:left; padding:11px 12px; border-radius:16px; border:1px solid var(--line); background:var(--bg-panel); color:var(--ink); font:inherit; cursor:pointer; min-height:62px; }
+.k2-ring{ width:36px; height:36px; flex:none; }
+.k2-ring circle{ fill:none; stroke-width:5; }
+.k2-ring .bg{ stroke:var(--line); } .k2-ring .fg{ stroke:#34c759; stroke-linecap:round; }
+.k2-ct{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.k2-ct b{ font-size:14px; line-height:1.25; }
+.k2-ct span{ font-size:11.5px; color:var(--ink-faint); line-height:1.3; }
+.k2-ct em{ font-style:normal; color:#c77700; font-weight:600; }
+.k2-facts{ margin:14px 0 6px; padding:14px 16px; border-radius:16px; background:var(--bg-panel); border:1px solid var(--line); }
+.k2-facts h3{ margin:0 0 6px; font-size:14px; color:var(--accent); }
+.k2-facts ul{ margin:0; padding-left:18px; } .k2-facts li{ font-size:14.5px; line-height:1.45; margin:3px 0; }
+.k2-acts{ display:grid; gap:8px; margin:12px 0 6px; }
+.k2-done{ text-align:center; font-weight:600; color:#2e8b47; padding:10px; }
+.k2-gh{ font-size:14px; color:var(--ink-faint); font-weight:600; margin:18px 2px 8px; }
+.ka2 .ka-row .ka-chev{ width:16px; height:16px; margin-left:auto; flex:none; opacity:.4; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.k2-merke{ margin:10px 0 14px; padding:10px 14px; border-radius:12px; background:color-mix(in srgb, var(--accent) 7%, var(--bg-panel)); }
+.k2-merke b{ font-size:12.5px; color:var(--accent); } .k2-merke ul{ margin:4px 0 0; padding-left:18px; } .k2-merke li{ font-size:14px; line-height:1.4; }
+.k2-ring text{ font:700 10px var(--font, system-ui); fill:var(--ink-faint); }
+.ka-col .k2-gland{ fill:#c98fb3; } .ka-col .k2-adr{ fill:#e8b04b; } .ka-col .k2-alpha{ fill:#9ec9e8; } .ka-col .k2-beta{ fill:#f3c98b; }
+.ka-col .k2-bone{ fill:#f1e8d8; } .ka-col .k2-vert{ fill:#ead9bf; } .ka-col .k2-cart{ fill:#bfe0ea; } .ka-col .k2-menis{ fill:#9cc7d6; }
+.ka-col .k2-musc{ fill:#d9655c; fill-opacity:.85; } .ka-col .k2-spong{ fill:#f7e0b8; } .ka-col .k2-marrow{ fill:#e0544b; }
+.ka-col .k2-rib, .ka-col .k2-long{ fill:none; stroke:#cbb796; stroke-width:4; stroke-linecap:round; }
+.ka-col .k2-long{ stroke-width:7; } .ka-col .k2-lig{ fill:none; stroke:#c0392b; stroke-width:2.2; stroke-linecap:round; } .ka-col .k2-trab{ stroke:#d8b98a; stroke-width:1.4; }
 /* ---------- Wissenslandkarte ---------- */
 .wl-view{ padding:72px 0 40px; }
 .wl-sea{ border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #bcdcec, #a6cde3); border:1px solid var(--glass-line); }
@@ -2374,49 +2372,49 @@ body.tutor-open #tabbar{ display:none; }
 .sk-lb-in .bild-lb-x{ background:rgba(74,61,51,.12) !important; color:#3d322c !important; }
 .lesson-card h3{ clear:both; }
 /* ---------- Tusche-Stil ---------- */
-.sk-fig, .ka-sheetwrap, .ka-lens-c, .sk-lb-in, .ka-stage{
+.sk-fig, .ka-sheetwrap:not(.ka2-sk), .ka-lens-c, .sk-lb-in, .ka-stage:not(.ka2-stage){
   background-color:#fff !important;
   background-image:linear-gradient(rgba(60,60,60,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(60,60,60,.09) 1px, transparent 1px) !important;
   background-size:14px 14px !important; }
-.ka-stage{ border-radius:22px; border:1px solid var(--glass-line); padding:6px 0; }
+.ka-stage:not(.ka2-stage){ border-radius:22px; border:1px solid var(--glass-line); padding:6px 0; }
 .sk-fig figcaption{ color:#262626; } .sk-fig figcaption span{ color:#707070; }
 .sk-lb-in p{ color:#262626; }
 /* alle Linien in Tusche */
-.sk-svg .sk-f, .sk-svg .sk-l, .sk-svg .sk-a, .ka-svg .k-f, .ka-svg .k-ln, .ka-body,
-.ka-svg [class*="k-"]:not(.k-lab):not(.k-cap):not(.k-tnm):not(.k-dot){ stroke:#262626 !important; }
-.sk-svg .sk-f, .ka-svg .k-f, .ka-body{ stroke-width:1.35 !important; fill:#fff !important; }
+.sk-svg .sk-f, .sk-svg .sk-l, .sk-svg .sk-a, .ka-svg:not(.ka-col) .k-f, .ka-svg:not(.ka-col) .k-ln, .ka-svg:not(.ka-col) .ka-body,
+.ka-svg:not(.ka-col) [class*="k-"]:not(.k-lab):not(.k-cap):not(.k-tnm):not(.k-dot){ stroke:#262626 !important; }
+.sk-svg .sk-f, .ka-svg:not(.ka-col) .k-f, .ka-svg:not(.ka-col) .ka-body{ stroke-width:1.35 !important; fill:#fff !important; }
 .sk-svg .sk-l, .sk-svg .sk-a{ stroke-width:1.25; }
-.sk-svg .sk-thick, .ka-svg .k-br, .ka-svg .k-duct, .ka-svg .k-uret, .ka-svg .k-tube, .ka-svg .k-vessel, .ka-svg .k-hair{ stroke-width:2.1 !important; }
+.sk-svg .sk-thick, .ka-svg:not(.ka-col) .k-br, .ka-svg:not(.ka-col) .k-duct, .ka-svg:not(.ka-col) .k-uret, .ka-svg:not(.ka-col) .k-tube, .ka-svg:not(.ka-col) .k-vessel, .ka-svg:not(.ka-col) .k-hair{ stroke-width:2.1 !important; }
 .sk-svg .sk-red{ stroke-dasharray:7 3; } .sk-svg .sk-green{ stroke-dasharray:2 3; }
 .sk-svg .sk-river{ stroke-width:1.4 !important; }
 .sk-svg .sk-money{ stroke-dasharray:3 3; }
 /* Flächen: Schraffur statt Farbe */
 .sk-svg .s1{ fill:url(#skH) !important; } .sk-svg .s2{ fill:url(#skD) !important; } .sk-svg .s3{ fill:url(#skHo) !important; }
 .sk-svg .s4{ fill:url(#skX) !important; } .sk-svg .s5{ fill:url(#skV) !important; } .sk-svg .s0, .sk-svg .s6{ fill:#fff !important; } .sk-svg .s-dark{ fill:#262626 !important; }
-.ka-svg .k-heart, .ka-svg .k-liver, .ka-svg .k-kidney, .ka-svg .k-artery, .ka-svg .k-retina, .ka-svg .k-wall, .ka-svg .k-marrow, .ka-svg .k-rbc,
-.ka-svg .k-basal, .ka-svg .k-tumorn, .ka-svg .k-nucl, .ka-svg .k-rsn, .ka-svg .k-wbcn, .ka-svg .k-iris, .ka-svg .k-cereb{ fill:url(#skH2) !important; }
-.ka-svg .k-lung, .ka-svg .k-stomach, .ka-svg .k-colon, .ka-svg .k-rect, .ka-svg .k-prost, .ka-svg .k-penis, .ka-svg .k-test, .ka-svg .k-uter, .ka-svg .k-cervix,
-.ka-svg .k-derm, .ka-svg .k-lobe2, .ka-svg .k-lobe4, .ka-svg .k-tcelln, .ka-svg .k-nuc, .ka-svg .k-gall, .ka-svg .k-donor, .ka-svg .k-blad{ fill:url(#skH) !important; }
-.ka-svg .k-brain, .ka-svg .k-lobe1, .ka-svg .k-lobe3, .ka-svg .k-fat, .ka-svg .k-sub, .ka-svg .k-panc, .ka-svg .k-lnode, .ka-svg .k-epi, .ka-svg .k-mast,
-.ka-svg .k-vesselw, .ka-svg .k-tumorcell, .ka-svg .k-ovar, .ka-svg .k-coch, .ka-svg .k-bact, .ka-svg .k-virus, .ka-svg .k-pig{ fill:url(#skD) !important; }
-.ka-svg .k-tumor, .ka-svg .k-vein, .ka-svg .k-vein2, .ka-svg .k-imat, .ka-svg .k-car{ fill:url(#skX) !important; }
-.ka-svg .k-trachea, .ka-svg .k-stem, .ka-svg .k-canal, .ka-svg .k-nerve, .ka-svg .k-neuron, .ka-svg .k-vag, .ka-svg .k-kin{ fill:url(#skV) !important; }
-.ka-svg .k-melano, .ka-svg .k-spot, .ka-svg .k-chemo, .ka-svg .k-payload, .ka-svg .k-her2d, .ka-svg .k-rbci, .ka-svg .k-blast, .ka-svg .k-gran, .ka-svg .k-seed{ fill:#262626 !important; }
-.ka-svg .k-lob circle, .ka-svg .k-alv circle, .ka-svg .k-fatc ellipse, .ka-svg .k-node ellipse, .ka-svg .k-mito ellipse{ fill:url(#skD) !important; stroke:#262626 !important; }
-.ka-svg .k-cig rect, .ka-svg .k-vax rect, .ka-svg .k-plt ellipse{ fill:#fff !important; stroke:#262626 !important; }
-.ka-svg .k-ab path, .ka-svg .k-her2, .ka-svg .k-rec path, .ka-svg .k-lig path, .ka-svg .k-dna, .ka-svg .k-dna2{ stroke:#262626 !important; }
-.ka-svg .k-rec rect{ fill:#262626 !important; }
-.ka-svg .k-gut{ stroke:#262626 !important; stroke-width:6 !important; stroke-opacity:.0; }
-.ka-svg .k-gut{ stroke-opacity:1; fill:none !important; stroke-dasharray:none; }
-.ka-svg .k-ray, .ka-svg .k-beam, .ka-svg .k-cath, .ka-svg .k-smoke, .ka-svg .k-motor, .ka-svg .k-block, .ka-svg .k-zap, .ka-svg .k-mut, .ka-svg .k-sun{ stroke:#262626 !important; }
-.ka-svg .k-inset{ fill:#fff !important; stroke:#262626 !important; }
-.ka-svg .k-lead{ stroke:#262626 !important; } .ka-svg .k-dot{ fill:#262626 !important; }
-.ka-svg .k-lab, .ka-svg .k-cap, .sk-svg .sk-t, .sk-svg .sk-s, .sk-svg .sk-big{ fill:#1e1e1e !important; paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round; }
-.ka-svg .k-tnm{ fill:#1e1e1e !important; }
+.ka-svg:not(.ka-col) .k-heart, .ka-svg:not(.ka-col) .k-liver, .ka-svg:not(.ka-col) .k-kidney, .ka-svg:not(.ka-col) .k-artery, .ka-svg:not(.ka-col) .k-retina, .ka-svg:not(.ka-col) .k-wall, .ka-svg:not(.ka-col) .k-marrow, .ka-svg:not(.ka-col) .k-rbc,
+.ka-svg:not(.ka-col) .k-basal, .ka-svg:not(.ka-col) .k-tumorn, .ka-svg:not(.ka-col) .k-nucl, .ka-svg:not(.ka-col) .k-rsn, .ka-svg:not(.ka-col) .k-wbcn, .ka-svg:not(.ka-col) .k-iris, .ka-svg:not(.ka-col) .k-cereb{ fill:url(#skH2) !important; }
+.ka-svg:not(.ka-col) .k-lung, .ka-svg:not(.ka-col) .k-stomach, .ka-svg:not(.ka-col) .k-colon, .ka-svg:not(.ka-col) .k-rect, .ka-svg:not(.ka-col) .k-prost, .ka-svg:not(.ka-col) .k-penis, .ka-svg:not(.ka-col) .k-test, .ka-svg:not(.ka-col) .k-uter, .ka-svg:not(.ka-col) .k-cervix,
+.ka-svg:not(.ka-col) .k-derm, .ka-svg:not(.ka-col) .k-lobe2, .ka-svg:not(.ka-col) .k-lobe4, .ka-svg:not(.ka-col) .k-tcelln, .ka-svg:not(.ka-col) .k-nuc, .ka-svg:not(.ka-col) .k-gall, .ka-svg:not(.ka-col) .k-donor, .ka-svg:not(.ka-col) .k-blad{ fill:url(#skH) !important; }
+.ka-svg:not(.ka-col) .k-brain, .ka-svg:not(.ka-col) .k-lobe1, .ka-svg:not(.ka-col) .k-lobe3, .ka-svg:not(.ka-col) .k-fat, .ka-svg:not(.ka-col) .k-sub, .ka-svg:not(.ka-col) .k-panc, .ka-svg:not(.ka-col) .k-lnode, .ka-svg:not(.ka-col) .k-epi, .ka-svg:not(.ka-col) .k-mast,
+.ka-svg:not(.ka-col) .k-vesselw, .ka-svg:not(.ka-col) .k-tumorcell, .ka-svg:not(.ka-col) .k-ovar, .ka-svg:not(.ka-col) .k-coch, .ka-svg:not(.ka-col) .k-bact, .ka-svg:not(.ka-col) .k-virus, .ka-svg:not(.ka-col) .k-pig{ fill:url(#skD) !important; }
+.ka-svg:not(.ka-col) .k-tumor, .ka-svg:not(.ka-col) .k-vein, .ka-svg:not(.ka-col) .k-vein2, .ka-svg:not(.ka-col) .k-imat, .ka-svg:not(.ka-col) .k-car{ fill:url(#skX) !important; }
+.ka-svg:not(.ka-col) .k-trachea, .ka-svg:not(.ka-col) .k-stem, .ka-svg:not(.ka-col) .k-canal, .ka-svg:not(.ka-col) .k-nerve, .ka-svg:not(.ka-col) .k-neuron, .ka-svg:not(.ka-col) .k-vag, .ka-svg:not(.ka-col) .k-kin{ fill:url(#skV) !important; }
+.ka-svg:not(.ka-col) .k-melano, .ka-svg:not(.ka-col) .k-spot, .ka-svg:not(.ka-col) .k-chemo, .ka-svg:not(.ka-col) .k-payload, .ka-svg:not(.ka-col) .k-her2d, .ka-svg:not(.ka-col) .k-rbci, .ka-svg:not(.ka-col) .k-blast, .ka-svg:not(.ka-col) .k-gran, .ka-svg:not(.ka-col) .k-seed{ fill:#262626 !important; }
+.ka-svg:not(.ka-col) .k-lob circle, .ka-svg:not(.ka-col) .k-alv circle, .ka-svg:not(.ka-col) .k-fatc ellipse, .ka-svg:not(.ka-col) .k-node ellipse, .ka-svg:not(.ka-col) .k-mito ellipse{ fill:url(#skD) !important; stroke:#262626 !important; }
+.ka-svg:not(.ka-col) .k-cig rect, .ka-svg:not(.ka-col) .k-vax rect, .ka-svg:not(.ka-col) .k-plt ellipse{ fill:#fff !important; stroke:#262626 !important; }
+.ka-svg:not(.ka-col) .k-ab path, .ka-svg:not(.ka-col) .k-her2, .ka-svg:not(.ka-col) .k-rec path, .ka-svg:not(.ka-col) .k-lig path, .ka-svg:not(.ka-col) .k-dna, .ka-svg:not(.ka-col) .k-dna2{ stroke:#262626 !important; }
+.ka-svg:not(.ka-col) .k-rec rect{ fill:#262626 !important; }
+.ka-svg:not(.ka-col) .k-gut{ stroke:#262626 !important; stroke-width:6 !important; stroke-opacity:.0; }
+.ka-svg:not(.ka-col) .k-gut{ stroke-opacity:1; fill:none !important; stroke-dasharray:none; }
+.ka-svg:not(.ka-col) .k-ray, .ka-svg:not(.ka-col) .k-beam, .ka-svg:not(.ka-col) .k-cath, .ka-svg:not(.ka-col) .k-smoke, .ka-svg:not(.ka-col) .k-motor, .ka-svg:not(.ka-col) .k-block, .ka-svg:not(.ka-col) .k-zap, .ka-svg:not(.ka-col) .k-mut, .ka-svg:not(.ka-col) .k-sun{ stroke:#262626 !important; }
+.ka-svg:not(.ka-col) .k-inset{ fill:#fff !important; stroke:#262626 !important; }
+.ka-svg:not(.ka-col) .k-lead{ stroke:#262626 !important; } .ka-svg:not(.ka-col) .k-dot{ fill:#262626 !important; }
+.ka-svg:not(.ka-col) .k-lab, .ka-svg:not(.ka-col) .k-cap, .sk-svg .sk-t, .sk-svg .sk-s, .sk-svg .sk-big{ fill:#1e1e1e !important; paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round; }
+.ka-svg:not(.ka-col) .k-tnm{ fill:#1e1e1e !important; }
 .sk-svg .sk-dot{ fill:#262626; }
 /* Körperübersicht */
 .ka-over .k-gut{ stroke-width:3 !important; }
-.ka-over .ka-body{ fill:#fff !important; }
+.ka-over .ka-svg:not(.ka-col) .ka-body{ fill:#fff !important; }
 /* Funktionale Farben bleiben: Pins, Markierung */
 .sk-svg .sk-ring{ stroke:#ff3b30 !important; } .sk-svg .sk-ring2{ fill:#ff3b30 !important; stroke:#fff !important; }
 /* ---------- Alltag erklärt ---------- */
@@ -3398,6 +3396,25 @@ body.rl-film .rl-sc .rl-cap{ padding-top:44px; }
 .nv-ich .dash-statlink{ width:100%; }
 .nv-ich .dash-section-label{ margin-top:22px; }
 .nv-card .qc-ic{ color:var(--accent); }
+.ssr-card{ margin-top:12px; border-color:rgba(255,149,0,.45); }
+.ssr-card b{ color:var(--ink); }
+.ssr-map{ width:100%; height:220px; display:block; border-radius:14px; border:1px solid var(--line); margin:4px 0 14px; }
+.ssr-sea{ fill:#dfe9f2; }
+.ssr-land{ fill:#f7f5ef; stroke:#9aa3ad; stroke-width:.6; }
+.ssr-land.on{ fill:#ff9500; stroke:#a14d00; }
+.ssr-out{ margin:6px 0 14px; }
+@media (prefers-color-scheme: dark){ .ssr-sea{ fill:#1d2a36; } .ssr-land{ fill:#3a3d42; stroke:#6b737c; } }
+.erf-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; margin:8px 0 10px; }
+@media (min-width:700px){ .erf-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+.erf{ display:flex; flex-direction:column; gap:3px; padding:12px; border-radius:14px; border:1px dashed var(--line); background:transparent; color:var(--ink-faint); }
+.erf b{ font-size:14px; color:var(--ink); opacity:.55; }
+.erf span{ font-size:12px; line-height:1.35; }
+.erf i{ font-style:normal; font-size:11.5px; color:var(--accent); margin-top:2px; }
+.erf-ic svg{ width:26px; height:26px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linejoin:round; }
+.erf.on{ border:1px solid rgba(255,159,10,.5); background:var(--bg-panel); color:var(--ink-faint); }
+.erf.on b{ opacity:1; }
+.erf.on .erf-ic svg{ fill:#ff9f0a; stroke:#c46f00; }
+.erf-toast span{ color:rgba(255,255,255,.88); }
 /* ===================== DESIGN-FEINSCHLIFF: einheitliche Maße ===================== */
 :root{ --r-card:20px; --r-row:16px; --r-pill:999px; }
 /* Karten: ein Radius für alle großen Flächen */
@@ -3493,7 +3510,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-24f · Neuer Aufbau: Heute, Feed, Lernen, Spielen, Ich';
+const APP_VERSION = '2026-11-24j · Körperatlas: Hormone und Bewegungsapparat gezeichnet';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -8288,246 +8305,16 @@ document.addEventListener('click', e => {
   if (!fig || e.target.closest('figcaption')) return;
   e.preventDefault(); e.stopPropagation(); bildOpen(fig);
 }, true);
-/* ============================ HÖRMODUS ============================
-   Ketten werden mit der Sprachausgabe des Geräts vorgelesen, wie ein kurzer Podcast.
-   ================================================================= */
-const HOER_KEY = 'wissen_hoer';
-const HOER = { on:false, k:null, i:0, chunks:[], ci:0, playing:false, lock:null, auto:false, gen:0 };
-function hoerPrefs(){ try { return Object.assign({ rate:1, voice:'online', auto:true }, JSON.parse(localStorage.getItem(HOER_KEY) || '{}')); } catch(e){ return { rate:1, voice:'', auto:true }; } }
-function hoerSavePrefs(p){ try { localStorage.setItem(HOER_KEY, JSON.stringify(p)); } catch(e){} }
-function hoerSupported(){ return typeof Audio !== 'undefined' || 'speechSynthesis' in window; }
-function hoerVoices(){
-  if (!('speechSynthesis' in window)) return [];
-  return speechSynthesis.getVoices().filter(v => /^de/i.test(v.lang))
-    .sort((a,b) => hoerVoiceScore(b) - hoerVoiceScore(a));
-}
-function hoerVoiceScore(v){ let s = 0; if (/premium|enhanced|natural|neural|online/i.test(v.name)) s += 4; if (/de-DE/i.test(v.lang)) s += 2; if (v.localService) s += 1; return s; }
-function hoerPickVoice(){
-  const p = hoerPrefs(), vs = hoerVoices();
-  return vs.find(v => v.voiceURI === p.voice) || vs[0] || null;
-}
-/* Text für die Aussprache aufbereiten */
-function hoerSay(t){
-  return String(t)
-    .replace(/(\d)\s*v\.\s*Chr\./g, '$1 vor Christus').replace(/(\d)\s*n\.\s*Chr\./g, '$1 nach Christus')
-    .replace(/\bv\.\s*Chr\./g, 'vor Christus').replace(/\bn\.\s*Chr\./g, 'nach Christus')
-    .replace(/\bz\.\s*B\./g, 'zum Beispiel').replace(/\bu\.\s*a\./g, 'unter anderem').replace(/\bca\./g, 'circa')
-    .replace(/\bJh\./g, 'Jahrhundert').replace(/\bMio\./g, 'Millionen').replace(/\bMrd\./g, 'Milliarden')
-    .replace(/[„“”]/g, '').replace(/\s*[–—]\s*/g, ', ');
-}
-function hoerYear(j){ return j < 0 ? `${-j} vor Christus` : String(j); }
-function hoerSplit(t){
-  // in Sätze teilen, damit lange Texte auf iOS nicht abbrechen
-  return __splitForTts(hoerSay(t), 185);
-}
-function hoerChunksFor(c, i){
-  const id = c.ids[i], it = ZEITSTRAHL_DATA[id], k = ZEIT_KONTEXT[id];
-  const ch = [];
-  if (i === 0) ch.push(...hoerSplit(`${c.t}. ${c.s.replace(/[.!?]\s*$/, "")}.`));
-  ch.push(`${hoerYear(it.jahr)}.`);
-  ch.push(...hoerSplit(it.text + '.'));
-  ch.push('Hintergrund.'); ch.push(...hoerSplit(k[0]));
-  ch.push('Die Folgen.'); ch.push(...hoerSplit(k[1]));
-  if (i === c.ids.length - 1) ch.push(`Das war die Kette ${c.t}.`);
-  return ch;
-}
-
-/* ---------- Abspielen ---------- */
-/* Wiedergabe: bevorzugt die Online-Stimme (wie beim Vorlesen der Lektionen) über ein
-   einziges Audio-Element – das läuft auf dem iPhone auch im Stumm-Modus und bei
-   gesperrtem Bildschirm. Fallback: Gerätestimme (speechSynthesis). */
-function hoerUseDevice(){ const p = hoerPrefs(); return !!p.voice && p.voice !== 'online' && 'speechSynthesis' in window; }
-function hoerAudio(){
-  if (!HOER.audio){
-    HOER.audio = new Audio(); HOER.audio.preload = 'auto';
-    try { HOER.audio.setAttribute('playsinline', ''); } catch(e){}
-  }
-  return HOER.audio;
-}
-function hoerUrl(t){ return TTS_ENDPOINT + '?text=' + encodeURIComponent(t) + '&lang=de'; }
-function hoerSpeakNext(){
-  if (!HOER.on || !HOER.playing) return;
-  const c = ZEIT_KETTEN.find(x => x.k === HOER.k);
-  if (HOER.ci >= HOER.chunks.length){
-    zkMarkSeen && zkMarkSeen(c.ids[HOER.i]);
-    if (HOER.i < c.ids.length - 1){ HOER.i++; HOER.ci = 0; HOER.chunks = hoerChunksFor(c, HOER.i); hoerRender(); return hoerSpeakNext(); }
-    return hoerChainDone(c);
-  }
-  const text = HOER.chunks[HOER.ci], gen = HOER.gen, rate = hoerPrefs().rate;
-  const next = () => { if (gen !== HOER.gen) return; HOER.ci++; hoerSpeakNext(); };
-  hoerProgress();
-  if (hoerUseDevice() || HOER.offline){ return hoerDeviceSay(text, rate, next, gen); }
-  const a = hoerAudio();
-  a.onended = next;
-  a.onerror = () => { if (gen !== HOER.gen) return; HOER.offline = true; hoerDeviceSay(text, rate, next, gen); };
-  a.src = hoerUrl(text);
-  a.playbackRate = rate; a.defaultPlaybackRate = rate;
-  try { a.preservesPitch = true; } catch(e){}
-  const p = a.play();
-  if (p && p.catch) p.catch(err => { if (gen !== HOER.gen) return;
-    if (err && err.name === 'NotAllowedError'){ HOER.playing = false; hoerButtons(); hoerHint('Tippe noch einmal auf Play.'); }
-    else { HOER.offline = true; hoerDeviceSay(text, rate, next, gen); } });
-  hoerMedia();
-}
-function hoerDeviceSay(text, rate, done, gen){
-  if (!('speechSynthesis' in window)){ hoerHint('Keine Sprachausgabe verfügbar. Bitte Internetverbindung prüfen.'); HOER.playing = false; hoerButtons(); return; }
-  const u = new SpeechSynthesisUtterance(text);
-  const v = hoerPickVoice(); if (v){ u.voice = v; u.lang = v.lang; } else u.lang = 'de-DE';
-  u.rate = rate;
-  u.onend = done;
-  u.onerror = (e) => { if (gen !== HOER.gen || e.error === 'interrupted' || e.error === 'canceled') return; done(); };
-  speechSynthesis.speak(u);
-}
-function hoerHint(t){ const n = document.querySelector('.hoer-note'); if (n){ n.textContent = t; n.classList.add('warn'); } }
-function hoerMedia(){
-  try {
-    if (!('mediaSession' in navigator)) return;
-    const c = ZEIT_KETTEN.find(x => x.k === HOER.k); const it = ZEITSTRAHL_DATA[c.ids[HOER.i]];
-    navigator.mediaSession.metadata = new MediaMetadata({ title: `${zkYear(it.jahr)}: ${it.text}`, artist: c.t, album: 'Lern-Archiv' });
-    navigator.mediaSession.setActionHandler('play', () => hoerPlay());
-    navigator.mediaSession.setActionHandler('pause', () => hoerPause());
-    navigator.mediaSession.setActionHandler('nexttrack', () => hoerJump(1));
-    navigator.mediaSession.setActionHandler('previoustrack', () => hoerJump(-1));
-  } catch(e){}
-}
-function hoerPlay(){
-  HOER.playing = true; HOER.gen++;
-  try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch(e){}
-  hoerWake(true);
-  hoerSpeakNext(); hoerButtons();
-}
-function hoerPause(){
-  HOER.playing = false; HOER.gen++;
-  try { if (HOER.audio) HOER.audio.pause(); } catch(e){}
-  try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch(e){}
-  hoerWake(false); hoerButtons();
-}
-function hoerJump(d){
-  const c = ZEIT_KETTEN.find(x => x.k === HOER.k);
-  const ni = HOER.i + d;
-  if (ni < 0 || ni >= c.ids.length) return;
-  const was = HOER.playing; hoerPause();
-  HOER.i = ni; HOER.ci = 0; HOER.chunks = hoerChunksFor(c, ni);
-  hoerRender(); if (was) hoerPlay();
-}
-function hoerStop(){
-  if (!HOER.on) return;
-  HOER.on = false; HOER.playing = false; HOER.gen++;
-  try { if (HOER.audio) HOER.audio.pause(); } catch(e){}
-  try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch(e){}
-  hoerWake(false);
-}
-async function hoerWake(on){
-  try {
-    if (on && 'wakeLock' in navigator && !HOER.lock){ HOER.lock = await navigator.wakeLock.request('screen'); HOER.lock.addEventListener('release', () => HOER.lock = null); }
-    if (!on && HOER.lock){ await HOER.lock.release(); HOER.lock = null; }
-  } catch(e){}
-}
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && HOER.playing) hoerWake(true); });
-function hoerChainDone(c){
-  HOER.playing = false; hoerWake(false);
-  zusMarkRead(c.k); zkMarkSeen && zkMarkSeen(c.ids);
-  zeitAwardXP && zeitAwardXP(5);
-  const next = hoerNextChain(c.k);
-  const box = document.getElementById('hoerEnd');
-  if (!box) return;
-  box.hidden = false;
-  box.innerHTML = `<div class="hoer-end-t">Kette fertig gehört</div>
-    <button class="zeit-continue" id="hoerQuiz">Kurzes Quiz zur Kette</button>
-    ${next ? `<button class="zeit-continue outline" id="hoerNext">Weiter hören: ${zeitEsc(next.t)}</button>` : ''}
-    ${next && hoerPrefs().auto ? `<p class="hoer-auto" id="hoerAutoTxt">Die nächste Kette startet gleich …</p>` : ''}`;
-  document.getElementById('hoerQuiz').onclick = () => { clearTimeout(HOER.autoT); hoerStop(); startZeitZus('K:' + c.k, () => openHoeren(c.k)); };
-  if (next){
-    document.getElementById('hoerNext').onclick = () => { clearTimeout(HOER.autoT); openHoeren(next.k, true); };
-    if (hoerPrefs().auto) HOER.autoT = setTimeout(() => { if (HOER.on && HOER.k === c.k) openHoeren(next.k, true); }, 6000);
-  }
-  hoerButtons();
-}
-function hoerNextChain(k){
-  const read = zusRead(), idx = ZEIT_KETTEN.findIndex(c => c.k === k);
-  const rest = ZEIT_KETTEN.slice(idx + 1).concat(ZEIT_KETTEN.slice(0, idx));
-  return rest.find(c => !read[c.k]) || rest[0] || null;
-}
-
-/* ---------- Ansicht ---------- */
-function openHoeren(k, autoplay){
-  if (!k){ const h = heuteState(); const it = heuteKetteItem(h); k = it ? it.c.k : (hoerNextChain(ZEIT_KETTEN[0].k) || ZEIT_KETTEN[0]).k; }
-  const c = ZEIT_KETTEN.find(x => x.k === k); if (!c) return;
-  hoerStop(); clearTimeout(HOER.autoT);
-  Object.assign(HOER, { on:true, k, i:0, ci:0, chunks:hoerChunksFor(c, 0), playing:false });
-  activeId = null;
-  const main = document.getElementById('main');
-  const p = hoerPrefs();
-  const vs = hoerVoices();
-  main.innerHTML = `<div class="stats-view hoer-view" data-ep="${ZEIT_EP_KEY[c.e]}">
-    ${zusTop('Zurück')}
-    <div class="hoer-head">
-      <div class="zus-kette-meta">Anhören · ${zeitEsc(c.e)}, ${zkSpan(c)}</div>
-      <h2>${zeitEsc(c.t)}</h2>
-    </div>
-    <div id="hoerNow"></div>
-    <div class="hoer-dots" id="hoerDots">${c.ids.map((_,i) => `<button class="hoer-dot" data-i="${i}" aria-label="Teil ${i+1}"></button>`).join('')}</div>
-    <div class="hoer-ctrl">
-      <button class="hoer-btn" id="hoerPrev" aria-label="Vorheriges Ereignis"><svg viewBox="0 0 24 24"><path d="M6 5v14M19 5 9 12l10 7z"/></svg></button>
-      <button class="hoer-btn main" id="hoerPlay" aria-label="Abspielen"></button>
-      <button class="hoer-btn" id="hoerNextBtn" aria-label="Nächstes Ereignis"><svg viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></button>
-    </div>
-    <div class="hoer-end" id="hoerEnd" hidden></div>
-    <div class="hoer-set">
-      <label>Tempo <select id="hoerRate">${[0.85,1,1.15,1.3,1.5].map(r => `<option value="${r}" ${r==p.rate?'selected':''}>${String(r).replace('.',',')}×</option>`).join('')}</select></label>
-      <label>Stimme <select id="hoerVoice"><option value="online" ${!p.voice||p.voice==='online'?'selected':''}>Online-Stimme (natürlich)</option>${vs.map(v => `<option value="${zeitEsc(v.voiceURI)}" ${v.voiceURI===p.voice?'selected':''}>Gerät: ${zeitEsc(v.name)}</option>`).join('')}</select></label>
-      <label class="hoer-chk"><input type="checkbox" id="hoerAuto" ${p.auto?'checked':''}> Danach automatisch weiter</label>
-    </div>
-    <p class="hoer-note">Die Online-Stimme läuft auch im Stumm-Modus und bei gesperrtem Bildschirm weiter. Ohne Internet springt die Gerätestimme ein.</p>
-  </div>`;
-  zeitWireExit(() => { hoerStop(); renderZusKette(k); });
-  document.getElementById('hoerPlay').onclick = () => HOER.playing ? hoerPause() : hoerPlay();
-  document.getElementById('hoerPrev').onclick = () => hoerJump(-1);
-  document.getElementById('hoerNextBtn').onclick = () => hoerJump(1);
-  main.querySelectorAll('.hoer-dot').forEach(b => b.onclick = () => hoerJump(+b.dataset.i - HOER.i));
-  document.getElementById('hoerRate').onchange = (e) => { const q = hoerPrefs(); q.rate = +e.target.value; hoerSavePrefs(q); if (HOER.playing){ hoerPause(); hoerPlay(); } };
-  document.getElementById('hoerVoice').onchange = (e) => { const q = hoerPrefs(); q.voice = e.target.value; hoerSavePrefs(q); if (HOER.playing){ hoerPause(); hoerPlay(); } };
-  document.getElementById('hoerAuto').onchange = (e) => { const q = hoerPrefs(); q.auto = e.target.checked; hoerSavePrefs(q); };
-  if ('speechSynthesis' in window && !vs.length) speechSynthesis.onvoiceschanged = () => { if (HOER.on && HOER.k === k && !HOER.playing){ const sel = document.getElementById('hoerVoice'); const v2 = hoerVoices(); if (sel && v2.length) sel.innerHTML = '<option value="online">Online-Stimme (natürlich)</option>' + v2.map(v => `<option value="${zeitEsc(v.voiceURI)}">Gerät: ${zeitEsc(v.name)}</option>`).join(''); } };
-  hoerRender(); hoerButtons();
-  window.scrollTo(0,0);
-  if (autoplay) hoerPlay();
-}
-function hoerRender(){
-  const c = ZEIT_KETTEN.find(x => x.k === HOER.k); const now = document.getElementById('hoerNow');
-  if (!c || !now) return;
-  const id = c.ids[HOER.i], it = ZEITSTRAHL_DATA[id];
-  now.innerHTML = `<div class="hoer-card" data-ep="${zkEp(it)}">
-      ${bildEvHTML(id, 'bild-hoer')}
-      <div class="hoer-pos">Teil ${HOER.i+1} von ${c.ids.length}</div>
-      <div class="zus-node-year">${zkYear(it.jahr)}</div>
-      <div class="hoer-title">${zeitEsc(it.text)}</div>
-      <div class="hoer-bar"><i id="hoerBar"></i></div>
-    </div>`;
-  document.querySelectorAll('.hoer-dot').forEach((d,i) => { d.classList.toggle('on', i === HOER.i); d.classList.toggle('past', i < HOER.i); });
-  const end = document.getElementById('hoerEnd'); if (end && HOER.ci === 0 && HOER.i < c.ids.length) end.hidden = true;
-  hoerProgress();
-}
-function hoerProgress(){ const b = document.getElementById('hoerBar'); if (b) b.style.width = (HOER.chunks.length ? (HOER.ci / HOER.chunks.length * 100) : 0).toFixed(1) + '%'; }
-function hoerButtons(){
-  const b = document.getElementById('hoerPlay'); if (!b) return;
-  b.innerHTML = HOER.playing ? '<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>';
-  b.setAttribute('aria-label', HOER.playing ? 'Pause' : 'Abspielen');
-  document.querySelector('.hoer-view') && document.querySelector('.hoer-view').classList.toggle('playing', HOER.playing);
-}
-/* Einzelnes Ereignis vorlesen (Ereignisansicht, Heute) */
-function hoerEventOnce(id, btn){
-  if (btn && btn.classList.contains('on')){ stopLessonSpeak(); btn.classList.remove('on'); return; }
-  const it = ZEITSTRAHL_DATA[id], k = ZEIT_KONTEXT[zkId(id)];
-  const text = hoerSay(`${hoerYear(it.jahr)}. ${it.text}. Hintergrund: ${k[0]} Die Folgen: ${k[1]}`);
-  speakLesson(text, on => { if (btn) btn.classList.toggle('on', !!on); }, 'de');
-}
-function hoerSpeakText(text, btn){
-  if (btn && btn.classList.contains('on')){ stopLessonSpeak(); btn.classList.remove('on'); return; }
-  speakLesson(hoerSay(text), on => { if (btn) btn.classList.toggle('on', !!on); }, 'de');
-}
-function hoerBtnHTML(id){ return hoerSupported() ? `<button class="hoer-mini" data-hoer="${id}"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg>Vorlesen</button>` : ''; }
-document.addEventListener('click', (e) => { const b = e.target.closest && e.target.closest('[data-hoer]'); if (b){ e.stopPropagation(); hoerEventOnce(+b.dataset.hoer, b); } }, true);
+/* ===================== OHNE TON: Hörmodus und Sprech-Modus sind entfernt – nur leere Platzhalter, damit ältere Verweise nicht ins Leere laufen ===================== */
+const HOER = { on:false }; const SP = { on:false };
+function hoerSupported(){ return false; }
+function hoerBtnHTML(){ return ''; }
+function hoerSpeakText(){}
+function hoerStop(){}
+function openHoeren(){ if (typeof renderZusHub === 'function') renderZusHub(); }
+function openSprechen(){ if (typeof renderDashboard === 'function') renderDashboard(); }
+function spStop(){}
+function spEnd(){}
 /* ============================ WELTKARTE ============================
    Alle Schlüsseldaten auf einer Weltkarte (Miller-Projektion, Küsten aus
    Natural Earth). Ketten als Route, Quiz „Wo geschah das?“.
@@ -11317,364 +11104,6 @@ function memGo(k){
   if (k === 'pers'){ const due = memDuePers().slice(0, 10).map(x => PERS_BY_K[x]); return startPersQuiz(() => renderGedaechtnis(), due); }
   if (k === 'mega'){ const m = MEGA_LISTS.find(x => x.id === memDueMega()[0]); if (m) return openMega(m); }
 }
-/* ============================ SPRECH-MODUS ============================
-   Freihändig lernen: Die App liest eine Frage vor, du antwortest laut,
-   sie erkennt die Antwort und sagt, ob es stimmt. Ohne Spracherkennung:
-   Selbstabfrage (Frage – Pause – Antwort).
-   ===================================================================== */
-const SP_SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-const SP = { on:false, gen:0, items:[], i:0, ok:0, n:0, mode:'mix', hands:true, audio:null, rec:null, lock:null, stopListen:null, mega:null };
-function spPrefs(){ try { return Object.assign({ mode:'mix', hands:true }, JSON.parse(localStorage.getItem('wissen_sprech') || '{}')); } catch(e){ return { mode:'mix', hands:true }; } }
-function spSavePrefs(p){ try { localStorage.setItem('wissen_sprech', JSON.stringify(p)); } catch(e){} }
-
-/* ---------- Sprechen (Ausgabe) ---------- */
-function spAudio(){ if (!SP.audio){ SP.audio = new Audio(); SP.audio.preload = 'auto'; try { SP.audio.setAttribute('playsinline', ''); } catch(e){} } return SP.audio; }
-function spSay(text){
-  const gen = SP.gen;
-  const chunks = hoerSplit(text);
-  return new Promise(res => {
-    let i = 0;
-    const next = () => {
-      if (gen !== SP.gen) return res(false);
-      if (i >= chunks.length) return res(true);
-      const t = chunks[i++];
-      if (hoerUseDevice() || SP.offline) return dev(t);
-      const a = spAudio();
-      a.onended = next;
-      a.onerror = () => { SP.offline = true; dev(t); };
-      a.src = hoerUrl(t); a.playbackRate = hoerPrefs().rate || 1;
-      const p = a.play(); if (p && p.catch) p.catch(() => { SP.offline = true; dev(t); });
-    };
-    const dev = t => {
-      if (!('speechSynthesis' in window)) return next();
-      const u = new SpeechSynthesisUtterance(t); const v = hoerPickVoice(); if (v){ u.voice = v; u.lang = v.lang; } else u.lang = 'de-DE';
-      u.onend = next; u.onerror = next; speechSynthesis.speak(u);
-    };
-    next();
-  });
-}
-function spBeep(ok){
-  try {
-    const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
-    SP.ctx = SP.ctx || new C(); const c = SP.ctx, o = c.createOscillator(), g = c.createGain();
-    o.frequency.value = ok ? 880 : 300; g.gain.value = .08; o.connect(g); g.connect(c.destination);
-    o.start(); g.gain.exponentialRampToValueAtTime(.0001, c.currentTime + .25); o.stop(c.currentTime + .26);
-  } catch(e){}
-}
-
-/* ---------- Zuhören (Eingabe) ---------- */
-function spListen(ms, continuous, onPart){
-  return new Promise((res, rej) => {
-    if (!SP_SR) return res(null);
-    const r = new SP_SR(); SP.rec = r;
-    r.lang = 'de-DE'; r.interimResults = true; r.maxAlternatives = 4; r.continuous = !!continuous;
-    const alts = []; let done = false, tmo = null;
-    const finish = () => { if (done) return; done = true; clearTimeout(tmo); SP.stopListen = null; spMic(false); res(alts); };
-    SP.stopListen = () => { try { r.stop(); } catch(e){} finish(); };
-    r.onresult = e => {
-      let interim = '';
-      for (let k = e.resultIndex; k < e.results.length; k++){
-        const R = e.results[k];
-        if (R.isFinal){ const list = []; for (let a = 0; a < R.length; a++) list.push(R[a].transcript); alts.push(...list); if (onPart) onPart(list); }
-        else interim += R[0].transcript;
-      }
-      spHeard(interim || alts[alts.length - 1] || '');
-      if (!continuous && alts.length) { try { r.stop(); } catch(x){} }
-    };
-    r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed'){ done = true; spMic(false); rej(new Error('denied')); } };
-    r.onend = finish;
-    try { r.start(); spMic(true); } catch(e){ done = true; return rej(e); }
-    tmo = setTimeout(() => { try { r.stop(); } catch(e){} }, ms);
-  });
-}
-
-/* ---------- Antworten auswerten ---------- */
-const SP_NUM = { null:0, ein:1, eins:1, eine:1, zwei:2, zwo:2, drei:3, vier:4, fünf:5, fuenf:5, sechs:6, sieben:7, acht:8, neun:9, zehn:10, elf:11, zwölf:12, zwoelf:12, dreizehn:13, vierzehn:14, fünfzehn:15, sechzehn:16, siebzehn:17, achtzehn:18, neunzehn:19, zwanzig:20, dreißig:30, dreissig:30, vierzig:40, fünfzig:50, sechzig:60, siebzig:70, achtzig:80, neunzig:90 };
-function spWordNum(w){
-  w = w.toLowerCase().replace(/ß/g, 'ss').replace(/ü/g, 'ue').replace(/ö/g, 'oe').replace(/ä/g, 'ae').replace(/[^a-z]/g, '');
-  const M = {}; Object.keys(SP_NUM).forEach(k => M[k.replace(/ß/g, 'ss').replace(/ü/g, 'ue').replace(/ö/g, 'oe')] = SP_NUM[k]);
-  const units = Object.keys(M).sort((a, b) => b.length - a.length);
-  const under100 = s => {
-    if (!s) return 0;
-    if (M[s] !== undefined) return M[s];
-    const m = s.match(/^(.*)und(.*)$/); if (m && M[m[2]] !== undefined && M[m[1]] !== undefined) return M[m[1]] + M[m[2]];
-    return NaN;
-  };
-  const under1000 = s => {
-    if (!s) return 0;
-    const i = s.indexOf('hundert'); if (i >= 0){ const h = s.slice(0, i) ? under100(s.slice(0, i)) : 1; return h * 100 + under100(s.slice(i + 7)); }
-    return under100(s);
-  };
-  if (!w) return NaN;
-  const t = w.indexOf('tausend');
-  if (t >= 0){ const th = w.slice(0, t) ? under1000(w.slice(0, t)) : 1; return th * 1000 + under1000(w.slice(t + 7)); }
-  const v = under1000(w);
-  return v;
-}
-function spYear(text){
-  const s = String(text).toLowerCase();
-  const bc = /v\.?\s*chr|vor\s+christus|vor\s+chr|v\s*u\s*z|vor\s+unserer/.test(s);
-  let n = NaN;
-  const d = s.replace(/(\d)[.\s](\d{3})\b/g, '$1$2').match(/\d{1,4}/);
-  if (d) n = +d[0];
-  else {
-    const words = s.replace(/vor christus|nach christus|im jahr|jahr|ungefähr|etwa|circa/g, ' ').split(/\s+/).filter(Boolean);
-    for (let k = 0; k < words.length && isNaN(n); k++){
-      for (let len = Math.min(3, words.length - k); len >= 1; len--){ const v = spWordNum(words.slice(k, k + len).join('')); if (!isNaN(v) && v > 0){ n = v; break; } }
-    }
-  }
-  return isNaN(n) ? null : { n, bc };
-}
-function spNameOk(p, alts){
-  const toks = p.n.replace(/\(.*?\)/g, ' ').split(/[\s\-]+/).filter(w => w.length >= 3 && !/^(von|van|der|den|de|di|da|des|du|und|the|ii|iii|iv|vii|viii|xiv|xvi)\.?$/i.test(w)).map(megaNorm);
-  const alias = (p.n.match(/\((.*?)\)/) || [])[1]; if (alias) alias.split(/\s+/).forEach(w => w.length >= 3 && toks.push(megaNorm(w)));
-  return alts.some(a => { const words = megaNorm(a).split(' '); return toks.some(t => words.some(w => w === t || (t.length >= 5 && megaLeven(w, t) <= (t.length >= 8 ? 2 : 1)))); });
-}
-
-/* ---------- Fragen zusammenstellen ---------- */
-function spZeitItems(n){
-  const sr = loadZeitSR(), t = todayNum();
-  const all = zeitIndexed();
-  const due = shuffleArr(all.filter(d => sr[d._id] && (sr[d._id].due ?? 0) <= t));
-  const learned = shuffleArr(all.filter(d => sr[d._id] && sr[d._id].reps > 0 && !due.includes(d)));
-  let pool = due.concat(learned);
-  if (pool.length < n){ const seen = zkSeenSet(); pool = pool.concat(shuffleArr(all.filter(d => seen.has(d._id) && !pool.includes(d)))); }
-  if (pool.length < n) pool = pool.concat(all.filter(d => !pool.includes(d)).slice(0, n - pool.length));
-  return pool.slice(0, n).map(d => ({ k:'zeit', d }));
-}
-function spPersItems(n){
-  const due = memDuePers().map(k => PERS_BY_K[k]);
-  const rest = shuffleArr(PERSONEN.filter(p => !due.includes(p) && (p.ids.length || memStore().mem.p[p.k])));
-  return due.concat(rest, shuffleArr(PERSONEN.filter(p => !due.includes(p) && !rest.includes(p)))).slice(0, n).map(p => ({ k:'pers', p }));
-}
-function spQuestion(it){
-  if (it.k === 'zeit') return { say: `In welchem Jahr? ${it.d.text}.`, show: it.d.text, kicker: 'In welchem Jahr?' };
-  const p = it.p, s1 = persMask(p, p.s).split(/\.\s/)[0].replace(/\.?$/, '.');
-  return { say: `Wer war das? ${persMask(p, p.r)}. ${s1}`, show: `${persMask(p, p.r)}. ${s1}`, kicker: `Wer war das? · ${persYears(p)}` };
-}
-function spCheck(it, alts){
-  if (it.k === 'zeit'){
-    const j = it.d.jahr, tol = zeitTolerance(j);
-    for (const a of alts){ const y = spYear(a); if (!y) continue;
-      const val = y.bc || (j < 0 && !/nach/.test(a)) ? -y.n : y.n;
-      if (Math.abs(val - j) <= tol || (j < 0 && Math.abs(y.n + j) <= tol)) return { ok:true, heard:a }; }
-    return { ok:false, heard: alts[0] || '' };
-  }
-  return { ok: spNameOk(it.p, alts), heard: alts[0] || '' };
-}
-function spAnswerText(it){ return it.k === 'zeit' ? hoerYear(it.d.jahr) : it.p.n.replace(/\(.*?\)/g, '').trim(); }
-function spRecord(it, ok){
-  if (it.k === 'zeit'){ const sr = loadZeitSR(); sr[it.d._id] = schedule(sr[it.d._id], ok ? 2 : 0); saveZeitSR(sr); }
-  else memPersResult(it.p.k, ok);
-  if (ok && typeof zeitAwardXP === 'function') zeitAwardXP(2);
-}
-
-/* ---------- Oberfläche ---------- */
-function openSprechen(){
-  spStop(); activeId = null;
-  const P = spPrefs(), main = document.getElementById('main');
-  const lists = MEGA_LISTS.filter(m => m.type === 'list');
-  main.innerHTML = `<div class="stats-view sp-setup">
-    ${zusTop('Heute')}
-    <div class="stats-head"><h2>Sprech-Modus</h2><p class="sub ui">Die App fragt, du antwortest laut. Ideal beim Gehen, Kochen oder auf dem Laufband.</p></div>
-    ${SP_SR ? '' : `<p class="sp-warn">Dieser Browser erkennt keine Sprache. Du bekommst stattdessen eine Selbstabfrage: Frage, kurze Pause zum Nachdenken, dann die Antwort.</p>`}
-    <div class="dash-section-label">Was möchtest du üben?</div>
-    <div class="sp-modes">
-      ${[['mix', 'Gemischt', 'Jahreszahlen und Personen, fällige zuerst'], ['zeit', 'Jahreszahlen', 'Ereignis hören, Jahr sagen'], ['pers', 'Personen', 'Steckbrief hören, Namen sagen'], ['mega', 'Mega-Liste aufsagen', 'Alles nennen, was dir einfällt']].map(([k, t, d]) =>
-        `<button class="sp-mode ${P.mode === k ? 'on' : ''}" data-spm="${k}"><b>${t}</b><span>${d}</span></button>`).join('')}
-    </div>
-    <div id="spMegaPick" ${P.mode === 'mega' ? '' : 'hidden'}><select class="zeit-input sp-select" id="spMega">${lists.map(m => `<option value="${m.id}" ${P.mega === m.id ? 'selected' : ''}>${zeitEsc(m.label)}</option>`).join('')}</select></div>
-    <label class="sp-toggle"><input type="checkbox" id="spHands" ${P.hands ? 'checked' : ''}><span>Freihändig: automatisch weiter, ohne Tippen</span></label>
-    <button class="zeit-continue sp-start" id="spStart">Los geht's</button>
-    <p class="gd-note">Tipp: Kopfhörer mit Mikrofon helfen, wenn es laut ist. Beim ersten Mal fragt das iPhone, ob die App das Mikrofon nutzen darf.</p>
-  </div>`;
-  zeitWireExit(() => renderDashboard());
-  main.querySelectorAll('[data-spm]').forEach(b => b.onclick = () => { main.querySelectorAll('[data-spm]').forEach(x => x.classList.toggle('on', x === b)); document.getElementById('spMegaPick').hidden = b.dataset.spm !== 'mega'; });
-  document.getElementById('spStart').onclick = () => {
-    const mode = main.querySelector('[data-spm].on').dataset.spm, hands = document.getElementById('spHands').checked, mega = document.getElementById('spMega').value;
-    spSavePrefs({ mode, hands, mega });
-    spAudio().play().catch(() => {});   // Ton im Klick freischalten (iOS)
-    if (mode === 'mega') return spMegaStart(MEGA_LISTS.find(m => m.id === mega), hands);
-    const N = 12;
-    let items = mode === 'zeit' ? spZeitItems(N) : mode === 'pers' ? spPersItems(N) : (() => { const a = spZeitItems(N / 2 + 1), b = spPersItems(N / 2); const o = []; for (let k = 0; k < N; k++){ const x = k % 2 ? b.shift() : a.shift(); if (x) o.push(x); } return o; })();
-    spRun(items, hands);
-  };
-  window.scrollTo(0, 0);
-}
-function spShell(inner){
-  const main = document.getElementById('main');
-  main.innerHTML = `<div class="sp-view">
-    <div class="zeit-topbar"><button class="zeit-exit" id="spExit" aria-label="Beenden">${chevSVG}</button><div class="zeit-topbar-title">Sprech-Modus</div><div class="zeit-topbar-stats" id="spStat"></div></div>
-    ${inner}</div>`;
-  document.getElementById('spExit').onclick = () => { spStop(); openSprechen(); };
-}
-function spMic(on){ const m = document.getElementById('spMic'); if (m) m.classList.toggle('on', !!on); const s = document.getElementById('spState'); if (s && on) s.textContent = 'Ich höre zu …'; }
-function spHeard(t){ const h = document.getElementById('spHeard'); if (h) h.textContent = t ? '„' + t + '“' : ''; }
-function spStat(t){ const s = document.getElementById('spState'); if (s) s.textContent = t; }
-function spStop(){
-  SP.on = false; SP.gen++;
-  try { if (SP.stopListen) SP.stopListen(); } catch(e){}
-  try { if (SP.audio) SP.audio.pause(); } catch(e){}
-  try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch(e){}
-  spWake(false);
-}
-async function spWake(on){ try { if (on && 'wakeLock' in navigator && !SP.lock){ SP.lock = await navigator.wakeLock.request('screen'); SP.lock.addEventListener('release', () => SP.lock = null); } if (!on && SP.lock){ await SP.lock.release(); SP.lock = null; } } catch(e){} }
-
-/* ---------- Frage-Antwort-Runde ---------- */
-function spRun(items, hands){
-  spStop(); SP.on = true; SP.items = items; SP.i = 0; SP.ok = 0; SP.n = 0; SP.hands = hands; SP.denied = false;
-  spWake(true);
-  spShell(`<div class="sp-card">
-      <div class="sp-kicker" id="spKicker"></div>
-      <div class="sp-q" id="spQ"></div>
-      <button class="sp-mic" id="spMic" aria-label="Antworten"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
-      <div class="sp-state" id="spState"></div>
-      <div class="sp-heard" id="spHeard"></div>
-      <div class="sp-fb" id="spFb"></div>
-      <div class="sp-acts" id="spActs"></div>
-    </div>`);
-  spAsk();
-}
-async function spAsk(){
-  if (!SP.on) return;
-  if (SP.i >= SP.items.length) return spEnd();
-  const gen = SP.gen, it = SP.items[SP.i], Q = spQuestion(it);
-  document.getElementById('spStat').textContent = `${SP.i + 1} / ${SP.items.length}`;
-  document.getElementById('spKicker').textContent = Q.kicker;
-  document.getElementById('spQ').textContent = Q.show;
-  document.getElementById('spFb').innerHTML = ''; spHeard('');
-  const acts = document.getElementById('spActs');
-  acts.innerHTML = `<button data-sa="repeat">Nochmal vorlesen</button><button data-sa="skip">Weiß nicht</button><button data-sa="pause">Pause</button>`;
-  acts.querySelectorAll('[data-sa]').forEach(b => b.onclick = () => spAct(b.dataset.sa));
-  document.getElementById('spMic').onclick = () => spAct('listen');
-  spStat('Hör zu …');
-  await spSay(Q.say);
-  if (gen !== SP.gen) return;
-  if (!SP_SR || SP.denied) return spSelfCheck(it, gen);
-  spListenAnswer(it, gen);
-}
-async function spListenAnswer(it, gen){
-  let alts;
-  try { alts = await spListen(8000); }
-  catch(e){ SP.denied = true; spStat('Mikrofon nicht freigegeben. Weiter mit Selbstabfrage.'); return spSelfCheck(it, gen); }
-  if (gen !== SP.gen) return;
-  if (!alts || !alts.length){ spStat('Nichts gehört. Tippe aufs Mikrofon oder sag es nochmal.'); if (SP.hands){ await spSay('Ich habe nichts gehört. Noch einmal.'); if (gen === SP.gen) spListenAnswer(it, gen); } return; }
-  const r = spCheck(it, alts);
-  spResult(it, r.ok, gen);
-}
-async function spSelfCheck(it, gen){
-  spStat('Denk nach …');
-  await new Promise(r => setTimeout(r, 4500));
-  if (gen !== SP.gen) return;
-  const a = spAnswerText(it);
-  document.getElementById('spFb').innerHTML = `<div class="sp-ans">${zeitEsc(it.k === 'zeit' ? zeitYearLabel(it.d.jahr) : a)}</div>`;
-  await spSay('Die Antwort: ' + a);
-  if (gen !== SP.gen) return;
-  const acts = document.getElementById('spActs');
-  acts.innerHTML = `<button data-sa="no">Nicht gewusst</button><button data-sa="yes" class="on">Gewusst</button>`;
-  acts.querySelectorAll('[data-sa]').forEach(b => b.onclick = () => { spRecord(it, b.dataset.sa === 'yes'); SP.n++; if (b.dataset.sa === 'yes') SP.ok++; SP.i++; spAsk(); });
-  spStat(SP.hands ? 'Weiter in 4 Sekunden …' : 'Wusstest du es?');
-  if (SP.hands){ await new Promise(r => setTimeout(r, 4000)); if (gen !== SP.gen) return; SP.n++; SP.i++; spAsk(); }
-}
-async function spResult(it, ok, gen){
-  spRecord(it, ok); SP.n++; if (ok) SP.ok++;
-  spBeep(ok);
-  const a = spAnswerText(it);
-  const story = it.k === 'zeit' && typeof zmGet === 'function' ? zmGet(it.d.id).replace(/\*\*/g, '') : '';
-  document.getElementById('spFb').innerHTML = `<div class="sp-res ${ok ? 'ok' : 'no'}">${ok ? 'Richtig' : 'Nicht ganz'}: <b>${zeitEsc(it.k === 'zeit' ? zeitYearLabel(it.d.jahr) : a)}</b></div>${!ok && story ? `<p class="sp-story">${zeitEsc(story)}</p>` : ''}`;
-  spStat('');
-  await spSay(ok ? `Richtig, ${a}.` : `Nicht ganz. Richtig ist ${a}.${story ? ' Eselsbrücke: ' + story : ''}`);
-  if (gen !== SP.gen) return;
-  if (SP.hands){ SP.i++; return spAsk(); }
-  const acts = document.getElementById('spActs');
-  acts.innerHTML = `<button data-sa="next" class="on">Weiter</button>`;
-  acts.querySelector('[data-sa]').onclick = () => { SP.i++; spAsk(); };
-}
-function spAct(a){
-  const it = SP.items[SP.i]; if (!it) return;
-  if (a === 'pause'){ spStop(); spStat('Pausiert'); const acts = document.getElementById('spActs'); acts.innerHTML = `<button data-sa="resume" class="on">Weiter</button>`; acts.querySelector('[data-sa]').onclick = () => { SP.on = true; spWake(true); spAsk(); }; return; }
-  SP.gen++; const gen = SP.gen; SP.on = true;
-  try { if (SP.stopListen) SP.stopListen(); } catch(e){}
-  try { if (SP.audio) SP.audio.pause(); speechSynthesis && speechSynthesis.cancel(); } catch(e){}
-  if (a === 'repeat') return spAsk();
-  if (a === 'skip') return spResult(it, false, gen);
-  if (a === 'listen'){ if (!SP_SR || SP.denied) return spSelfCheck(it, gen); return spListenAnswer(it, gen); }
-}
-function spEnd(){
-  spStop();
-  const main = document.getElementById('main');
-  main.innerHTML = `<div class="stats-view"><div class="stats-head"><h2>${SP.ok} von ${SP.n} gewusst</h2><p class="sub ui">Die Ergebnisse fließen in deinen Wiederholungsplan.</p></div>
-    <div class="zeit-summary-actions"><button class="zeit-continue" id="spAgain">Noch eine Runde</button><button class="zeit-continue outline" id="spMem">Dein Gedächtnis</button><button class="zeit-continue outline" id="spBack">Fertig</button></div></div>`;
-  spSay(`Fertig. ${SP.ok} von ${SP.n} gewusst.`);
-  document.getElementById('spAgain').onclick = () => openSprechen();
-  document.getElementById('spMem').onclick = () => renderGedaechtnis();
-  document.getElementById('spBack').onclick = () => renderDashboard();
-}
-
-/* ---------- Mega-Liste aufsagen ---------- */
-async function spMegaStart(m, hands){
-  spStop(); SP.on = true; spWake(true);
-  megaSession = { mode:'list', m, total:m.answers.length, found:new Array(m.answers.length).fill(false), foundCount:0, startTs:0, elapsedMs:0, timerId:null, blitz:0, hints:0, hinted:{} };
-  SP.mega = megaSession;
-  spShell(`<div class="sp-card">
-      <div class="sp-kicker">Mega-Liste aufsagen</div>
-      <div class="sp-q">${zeitEsc(m.q)}</div>
-      <button class="sp-mic" id="spMic" aria-label="Zuhören"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button>
-      <div class="sp-state" id="spState"></div>
-      <div class="sp-heard" id="spHeard"></div>
-      <div class="sp-count"><b id="spFound">0</b> von ${m.answers.length}</div>
-      <div class="mega-chips" id="spChips"></div>
-      <div class="sp-acts"><button data-sa="done" class="on">Fertig</button></div>
-    </div>`);
-  document.querySelector('[data-sa="done"]').onclick = () => spMegaEnd();
-  document.getElementById('spMic').onclick = () => spMegaLoop(SP.gen);
-  const gen = SP.gen;
-  await spSay(`${m.q}. Sag einfach alles, was dir einfällt. Wenn du fertig bist, sag: fertig.`);
-  if (gen !== SP.gen) return;
-  spMegaLoop(gen);
-}
-async function spMegaLoop(gen){
-  if (!SP_SR){ spStat('Spracherkennung ist hier nicht verfügbar.'); return; }
-  const s = SP.mega, m = s.m;
-  let stop = false;
-  const onPart = list => {
-    const said = list[0] || '';
-    if (/\b(fertig|stopp?|ende|aufhören)\b/i.test(said)){ stop = true; return; }
-    const parts = list.flatMap(t => t.split(/,|\bund\b|\boder\b|\bdann\b|\bsowie\b/i)).map(x => x.trim()).filter(x => x.length > 1);
-    const tryMatch = t => { const r = megaMatch(t, true) || megaMatch(t, false); return r && r.idx !== undefined ? r.idx : -1; };
-    const hits = new Set();
-    parts.forEach(p => { const i = tryMatch(p); if (i >= 0) hits.add(i);
-      // mehrere Begriffe ohne Trennwort: auch einzelne Wörter und Wortpaare prüfen
-      const w = p.split(/\s+/); if (w.length > 1) for (let k = 0; k < w.length; k++){ [w[k], w.slice(k, k + 2).join(' '), w.slice(k, k + 3).join(' ')].forEach(x => { const j = tryMatch(x); if (j >= 0) hits.add(j); }); } });
-    hits.forEach(i => { if (s.found[i]) return; s.found[i] = true; s.foundCount++; const c = document.createElement('span'); c.className = 'mega-chip'; c.textContent = m.answers[i][0]; document.getElementById('spChips').appendChild(c); });
-    if (hits.size) spBeep(true);
-    document.getElementById('spFound').textContent = s.foundCount;
-    if (s.foundCount >= s.total) stop = true;
-  };
-  while (SP.on && gen === SP.gen && !stop){
-    try { await spListen(55000, true, onPart); } catch(e){ spStat('Mikrofon nicht freigegeben.'); return; }
-    if (stop || gen !== SP.gen) break;
-    spStat('Ich höre weiter zu …');
-  }
-  if (gen === SP.gen && stop) spMegaEnd();
-}
-async function spMegaEnd(){
-  const s = SP.mega; if (!s) return;
-  spStop(); SP.on = true; const gen = SP.gen;
-  megaSaveResult(s.m.id, s.foundCount, s.total);
-  const missing = s.m.answers.filter((a, i) => !s.found[i]).map(a => a[0]);
-  const main = document.getElementById('main');
-  main.innerHTML = `<div class="stats-view"><div class="stats-head"><h2>${s.foundCount} von ${s.total}</h2><p class="sub ui">${zeitEsc(s.m.label)}</p></div>
-    ${missing.length ? `<div class="dash-section-label">Gefehlt</div><div class="mega-chips">${missing.map(x => `<span class="mega-chip missing">${zeitEsc(x)}</span>`).join('')}</div>` : ''}
-    <div class="zeit-summary-actions"><button class="zeit-continue" id="spAgain">Nochmal</button>${missing.length ? `<button class="zeit-continue outline" id="spRead">Fehlende vorlesen</button>` : ''}<button class="zeit-continue outline" id="spBack">Fertig</button></div></div>`;
-  TUTOR_MEGA_STATE[s.m.id] = { missing };
-  document.getElementById('spAgain').onclick = () => spMegaStart(s.m, true);
-  document.getElementById('spBack').onclick = () => { spStop(); renderDashboard(); };
-  const rd = document.getElementById('spRead'); if (rd) rd.onclick = () => spSay('Es fehlten: ' + missing.join(', ') + '.');
-  await spSay(`Du hast ${s.foundCount} von ${s.total} genannt.${missing.length && missing.length <= 12 ? ' Es fehlten: ' + missing.join(', ') + '.' : ''}`);
-  if (gen === SP.gen) SP.on = false;
-  megaSession = null;
-}
 /* ============================ WELTGESCHICHTE NEBENEINANDER ============================
    Eine wischbare Zeitleiste mit Spuren pro Weltregion. Antippen eines Ereignisses
    oder einer Stelle zeigt, was gleichzeitig in den anderen Regionen geschah.
@@ -12837,6 +12266,226 @@ function kaStation(k, id){
         body.prepend(leaf); } }
     return node;
   };
+})();
+/* Körperatlas: jede Medizin-Station einem Organsystem oder Thema zugeordnet */
+const KA2_MAP = {"herz":["MEDI_KOERPER_S01","MEDI_PHYSIO_S01","MEDI_VOLK_S01","MEDI_HERZLUNGE_S01","MEDI_HERZLUNGE_S02"],"lunge":["MEDI_KOERPER_S02","MEDI_PHYSIO_S02","O_ARTEN_S03","MEDI_HERZLUNGE_S03","MEDI_HERZLUNGE_S04"],"bauch":["MEDI_KOERPER_S03","MEDI_PHYSIO_S03","O_ARTEN_S04","O_ARTEN_S07","O_WEITERE_S01","O_WEITERE_S02","MEDI_STOFFW_S01","MEDI_STOFFW_S02"],"knochen":["MEDI_KOERPER_S04","MEDI_BEWEGUNG_S01","MEDI_BEWEGUNG_S02","MEDI_BEWEGUNG_S03","MEDI_BEWEGUNG_S04","O_SELTEN_S02"],"gehirn":["MEDI_KOERPER_S05","MEDI_SINNE2_S04","MEDI_VOLK_S02","MEDI_VOLK_S04","O_WEITERE_S06","MEDI_NEURO_S01","MEDI_NEURO_S02","MEDI_NEURO_S03","MEDI_NEURO_S04"],"immun":["MEDI_KOERPER_S06","O_VORBEUGEN_S04","MEDI_INFEKT_S01","MEDI_INFEKT_S02","MEDI_INFEKT_S03","MEDI_INFEKT_S04","MEDI_LEBEN_S03","MEDI_IMMUN_S01","MEDI_IMMUN_S02","MEDI_IMMUN_S03","MEDI_IMMUN_S04"],"notfall":["MEDI_NOTFALL_S01","MEDI_NOTFALL_S02","MEDI_NOTFALL_S03","MEDI_NOTFALL_S04"],"therapie":["MEDI_BASIS_S01","MEDI_BASIS_S02","MEDI_OP_S01","MEDI_OP_S03","MEDI_OP_S02","MEDI_OP_S04","MEDI_OP_S05","MEDI_OP_S06","MEDI_PHARMA_S01","MEDI_PHARMA_S02","MEDI_PHARMA_S03","MEDI_PHARMA_S04"],"gesund":["MEDI_BASIS_S03","MEDI_BASIS_S04","O_VORBEUGEN_S01","O_VORBEUGEN_S02","O_VORBEUGEN_S03","O_VORBEUGEN_S06","O_VORBEUGEN_S07","MEDI_LEBEN_S04"],"forschung":["MEDI_BASIS_S05","O_STUDIENALLTAG_S01","O_STUDIENALLTAG_S03","O_STUDIENALLTAG_S04","O_STUDIENALLTAG_S02","O_STUDIENALLTAG_S05","O_STUDIENALLTAG_S06","O_STUDIENALLTAG_S07","O_FORSCH_S01","O_FORSCH_S03","O_FORSCH_S06","O_FORSCH_S02","O_FORSCH_S04","O_FORSCH_S05","MEDI_GIPFEL_S01","MEDI_GIPFEL_S02","MEDI_GIPFEL_S05"],"krebs":["O_KREBS_KURZ_S01","O_KREBS_KURZ_S02","O_KREBS_KURZ_S03","O_KREBS_KURZ_S04","O_KREBS_KURZ_S05","O_MYTHEN_S01","O_MYTHEN_S02","O_MYTHEN_S03","O_MYTHEN_S05","O_MYTHEN_S07","O_MYTHEN_S04","O_ZAHLEN_S01","O_ZAHLEN_S02","O_ZAHLEN_S03","O_ZAHLEN_S04","O_ZAHLEN_S06","O_ZAHLEN_S07","O_ZAHLEN_S05","O_SELTEN_S07","O_SELTEN_S03"],"geschichte":["MEDI_HISTORIE_S01","MEDI_HISTORIE_S02","MEDI_HISTORIE_S03","MEDI_HISTORIE_S04","MEDI_HISTORIE_S05","MEDI_HISTORIE_S06","MEDI_HISTORIE_S07","O_MEILENSTEIN_S01","O_MEILENSTEIN_S02","O_MEILENSTEIN_S03","O_MEILENSTEIN_S04","O_MEILENSTEIN_S05","O_MEILENSTEIN_S06","O_MEILENSTEIN_S07"],"haut":["MEDI_HAUTHAAR_S01","MEDI_HAUTHAAR_S02","MEDI_HAUTHAAR_S04","MEDI_HAUTHAAR_S05","MEDI_HAUTHAAR_S03","MEDI_HAUTHAAR_S06","O_VORBEUGEN_S05","O_ARTEN_S05"],"krebsleben":["O_ALLTAG_S01","O_ALLTAG_S04","O_ALLTAG_S07","O_ALLTAG_S02","O_ALLTAG_S03","O_ALLTAG_S05","O_ALLTAG_S06"],"zelle":["O_MYTHEN_S06","O_BIO_S01","O_BIO_S03","O_BIO_S04","O_BIO_S02","O_BIO_S05","O_TUMORBIO_S01","O_TUMORBIO_S02","O_TUMORBIO_S03","O_TUMORBIO_S04","O_TUMORBIO_S05","O_TUMORBIO_S06","O_TUMORBIO_S07","MEDI_GIPFEL_S03","MEDI_GIPFEL_S04"],"sinne":["MEDI_SINNE2_S01","MEDI_SINNE2_S02","MEDI_SINNE2_S03","O_WEITERE_S07"],"niere":["MEDI_PHYSIO_S04","O_SELTEN_S04","O_SELTEN_S05"],"hormone":["MEDI_VOLK_S03","MEDI_STOFFW_S03","MEDI_STOFFW_S04","O_SELTEN_S06"],"becken":["MEDI_LEBEN_S01","MEDI_LEBEN_S02","MEDI_GESCHLECHT_S06","MEDI_GESCHLECHT_S01","MEDI_GESCHLECHT_S02","MEDI_GESCHLECHT_S03","MEDI_GESCHLECHT_S04","MEDI_GESCHLECHT_S05","O_ARTEN_S01","O_ARTEN_S02","O_WEITERE_S03","O_WEITERE_S05","O_WEITERE_S04"],"blut":["MEDI_BLUT_S01","MEDI_BLUT_S02","MEDI_BLUT_S03","MEDI_BLUT_S04","MEDI_BLUT_S05","MEDI_BLUT_S06","MEDI_BLUT_S07","O_ARTEN_S06","O_THERAPIEPLUS_S02","O_SELTEN_S01"],"diagnostik":["O_DIAG_S01","O_DIAG_S02","O_DIAG_S03","O_DIAG_S04","O_DIAG_S05","MEDI_DIAG_S01","MEDI_DIAG_S02","MEDI_DIAG_S03","MEDI_DIAG_S04"],"krebstherapie":["O_THER_S01","O_THER_S02","O_THER_S07","O_THER_S03","O_THER_S04","O_THER_S05","O_THER_S06","O_THERAPIEPLUS_S01","O_THERAPIEPLUS_S03","O_THERAPIEPLUS_S05","O_THERAPIEPLUS_S07","O_THERAPIEPLUS_S04","O_THERAPIEPLUS_S06"]};
+/* ===================== KÖRPERATLAS 2: alle Medizin-Stationen, farbige Anatomie, Steckbriefe, Quiz je Bereich ===================== */
+const KA2_SYS = [
+  { k:'gehirn', t:'Gehirn, Nerven & Psyche', sk:'gehirn', f:['Das Gehirn wiegt etwa 1,3 bis 1,4 Kilogramm.', 'Es besteht aus rund 86 Milliarden Nervenzellen.', 'In Ruhe verbraucht es etwa ein Fünftel der Energie des Körpers.'] },
+  { k:'sinne', t:'Auge, Ohr & Sinne', sk:'sinne', f:['Die Netzhaut hat rund 120 Millionen Stäbchen für Hell-Dunkel und etwa 6 Millionen Zapfen für Farben.', 'Der Steigbügel im Mittelohr ist der kleinste Knochen des Körpers.', 'Das Gleichgewichtsorgan sitzt im Innenohr, direkt neben der Hörschnecke.'] },
+  { k:'hormone', t:'Hormone & Stoffwechsel', sk:null, f:['Die Schilddrüse wiegt nur etwa 20 Gramm und braucht Jod für ihre Hormone.', 'Insulin entsteht in den Inselzellen der Bauchspeicheldrüse und senkt den Blutzucker.', 'Hormone reisen mit dem Blut und wirken an weit entfernten Zielzellen.'] },
+  { k:'lunge', t:'Lunge & Atmung', sk:'lunge', f:['Die Lunge hat mehrere Hundert Millionen Lungenbläschen.', 'Ihre Fläche für den Gasaustausch beträgt etwa 70 bis 100 Quadratmeter.', 'In Ruhe atmen Erwachsene etwa 12- bis 20-mal pro Minute.'] },
+  { k:'herz', t:'Herz & Kreislauf', sk:'herz', f:['Das Herz schlägt rund 100.000-mal am Tag.', 'In Ruhe pumpt es etwa 5 Liter Blut pro Minute.', 'Es wiegt etwa 250 bis 350 Gramm – ungefähr so viel wie eine Faust groß ist.'] },
+  { k:'bauch', t:'Verdauung & Leber', sk:'bauch', f:['Die Leber ist das größte innere Organ und wiegt etwa 1,5 Kilogramm.', 'Der Dünndarm ist mehrere Meter lang; Falten und Zotten vergrößern seine Oberfläche enorm.', 'Im Dickdarm leben Billionen Bakterien – das Mikrobiom.'] },
+  { k:'niere', t:'Niere & Blase', sk:'niere', f:['Beide Nieren filtern täglich rund 180 Liter Primärharn.', 'Daraus bleiben etwa 1,5 Liter Urin übrig – der Rest wird zurückgeholt.', 'Die Nieren regeln auch Blutdruck, Salzhaushalt und Blutbildung mit.'] },
+  { k:'becken', t:'Frau, Mann & Fortpflanzung', sk:'becken', f:['Eine Schwangerschaft dauert rund 40 Wochen, gerechnet ab der letzten Regel.', 'Die Eizelle ist die größte Zelle des menschlichen Körpers.', 'Die Prostata ist etwa so groß wie eine Kastanie.'] },
+  { k:'haut', t:'Haut, Haare & Zähne', sk:'haut', f:['Die Haut ist das größte Organ, etwa 1,5 bis 2 Quadratmeter groß.', 'Die Oberhaut erneuert sich etwa alle vier Wochen.', 'Zahnschmelz ist die härteste Substanz im Körper.'] },
+  { k:'knochen', t:'Knochen, Muskeln & Gelenke', sk:null, f:['Erwachsene haben 206 Knochen.', 'Der Körper hat über 600 Skelettmuskeln.', 'Der Oberschenkelknochen ist der längste und kräftigste Knochen.'] },
+  { k:'blut', t:'Blut', sk:'blut', f:['Erwachsene haben etwa 5 bis 6 Liter Blut.', 'Rote Blutkörperchen leben rund 120 Tage.', 'Das Knochenmark bildet jede Sekunde Millionen neuer Blutzellen.'] },
+  { k:'immun', t:'Immunsystem & Infektionen', sk:'immun', f:['Der Körper hat mehrere Hundert Lymphknoten, die die Lymphe filtern.', 'Antikörper werden von Plasmazellen gebildet, einer Form der B-Zellen.', 'Impfungen trainieren das Gedächtnis des Immunsystems, ohne krank zu machen.'] },
+  { k:'zelle', t:'Zelle, Gene & Krebsentstehung', sk:'zelle', f:['Der Körper besteht aus rund 30 Billionen Zellen.', 'Fast jede Zelle enthält etwa zwei Meter DNA.', 'Krebs entsteht, wenn sich Fehler in Wachstums- und Kontrollgenen häufen.'] }
+];
+const KA2_THEMEN = [
+  ['krebs', 'Krebs verstehen', 'Häufigkeit, Mythen, seltene Tumoren'], ['krebstherapie', 'Krebstherapie', 'Von OP bis CAR-T'], ['krebsleben', 'Leben mit Krebs', 'Alltag, Psyche, Ernährung'],
+  ['notfall', 'Notfall & Erste Hilfe', 'Wiederbelebung, Schock, Vergiftung'], ['therapie', 'Medikamente, Narkose & OP', 'Wie Arzneien und Eingriffe wirken'], ['diagnostik', 'Diagnostik', 'Blutwerte, Bildgebung, Tests'],
+  ['gesund', 'Gesund bleiben', 'Vorsorge und Vorbeugen'], ['forschung', 'Forschung & Gesundheitssystem', 'Studien, Evidenz, Versorgung'], ['geschichte', 'Medizingeschichte', 'Von Hippokrates bis Imatinib']
+];
+const KA2_TAGS = [ /* [Bereich, Kurzname, Seite, y, Ziel x, Ziel y] */
+  ['gehirn', 'Gehirn', 'l', 30, 164, 34], ['hormone', 'Hormone', 'l', 88, 176, 97], ['lunge', 'Lunge', 'l', 146, 150, 146], ['bauch', 'Verdauung', 'l', 210, 158, 212], ['becken', 'Fortpflanzung', 'l', 318, 175, 318], ['knochen', 'Knochen', 'l', 398, 163, 396],
+  ['sinne', 'Sinne', 'r', 56, 190, 54], ['immun', 'Immunsystem', 'r', 112, 214, 110], ['herz', 'Herz', 'r', 172, 198, 174], ['niere', 'Niere & Blase', 'r', 244, 214, 242], ['haut', 'Haut', 'r', 316, 234, 300], ['blut', 'Blut', 'r', 384, 199, 380]
+];
+/* zusätzliche Anatomie für die Übersicht: Skelett-Andeutung, Schilddrüse, Lymphknoten, große Gefäße */
+const KA2_EXTRA = `
+  <g class="k2-bone"><path d="M152 122c18-6 38-6 56 0M150 132c20-6 40-6 60 0M151 143c19-5 39-5 58 0M153 154c17-5 37-5 54 0M156 165c15-4 33-4 48 0"/>
+  <path d="M146 286c10 16 58 16 68 0"/><path d="M163 330l-4 92M197 330l4 92"/><circle cx="159" cy="396" r="3.5"/><circle cx="201" cy="396" r="3.5"/></g>
+  <path class="k2-vessel art" d="M184 118v150M184 268l-16 34M184 268l16 34M168 302l-6 100M200 302l6 100"/>
+  <path class="k2-vessel vein" d="M177 118v150"/>
+  <path class="k-f k2-thyroid" d="M176 92c-6-2-9 4-7 9 2 4 6 5 9 3h4c3 2 7 1 9-3 2-5-1-11-7-9-2 1-3 2-4 2s-2-1-4-2z"/>
+  <g class="k2-lymph"><circle cx="166" cy="86" r="2.4"/><circle cx="194" cy="86" r="2.4"/><circle cx="141" cy="110" r="2.6"/><circle cx="219" cy="110" r="2.6"/><circle cx="160" cy="308" r="2.4"/><circle cx="200" cy="308" r="2.4"/></g>`;
+
+function ka2Ids(k){ return (KA2_MAP[k] || []).filter(id => PATH_INLINE[kaPathOf(id)] && PATH_INLINE[kaPathOf(id)].stationen.some(s => s.id === id)); }
+function ka2Stats(k){ const st = ka2Ids(k).map(kaStatus); return { ok: st.filter(x => x !== 'neu').length, due: st.filter(x => x === 'due').length, n: st.length }; }
+function ka2Ring(s, r){ const R = r || 16, c = 2 * Math.PI * R, p = s.n ? s.ok / s.n : 0; return `<svg class="k2-ring" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="${R}" class="bg"/>${p > 0 ? `<circle cx="20" cy="20" r="${R}" class="fg" stroke-dasharray="${(c * p).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 20 20)"/>` : ''}<text x="20" y="24" text-anchor="middle">${s.n ? Math.round(p * 100) : 0}</text></svg>`; }
+function ka2Name(k){ const s = KA2_SYS.find(x => x.k === k); if (s) return s.t; const t = KA2_THEMEN.find(x => x[0] === k); return t ? t[1] : k; }
+
+renderKoerper = function(){
+  const osh = document.getElementById('kaSheet'); if (osh) osh.remove();
+  const main = document.getElementById('main');
+  const all = Object.keys(KA2_MAP).flatMap(ka2Ids), sts = all.map(kaStatus);
+  const nOk = sts.filter(x => x !== 'neu').length, nDue = sts.filter(x => x === 'due').length;
+  const tags = KA2_TAGS.map(([k, n, side, y, tx, ty]) => {
+    const s = ka2Stats(k), x = side === 'l' ? 4 : 264, w = 92, ex = side === 'l' ? x + w : x;
+    return `<g class="ka-tag ${s.n && s.ok === s.n ? 'full' : s.ok ? 'part' : ''}" data-k="${k}" role="button" tabindex="0" aria-label="${zeitEsc(ka2Name(k))}">
+      <path class="ka-tagline" d="M${ex} ${y}L${tx} ${ty}"/><circle class="ka-tagdot" cx="${tx}" cy="${ty}" r="2.6"/>
+      <rect class="ka-tagbox" x="${x}" y="${y - 15}" width="${w}" height="30" rx="15"/>
+      <text class="ka-tagt" x="${x + w / 2}" y="${y - 1}" text-anchor="middle">${n}</text>
+      <text class="ka-tags" x="${x + w / 2}" y="${y + 10}" text-anchor="middle">${s.ok}/${s.n}${s.due ? ' · ' + s.due + ' fällig' : ''}</text></g>`; }).join('');
+  const card = (k, t, d) => { const s = ka2Stats(k); return `<button class="k2-card" data-k="${k}">${ka2Ring(s)}<span class="k2-ct"><b>${zeitEsc(t)}</b><span>${s.ok} von ${s.n} Stationen${s.due ? ` · <em>${s.due} fällig</em>` : ''}</span></span></button>`; };
+  main.innerHTML = `<div class="ka-view ka2">
+    <div class="netz-top"><button class="zeit-exit" id="kaBack" aria-label="Zurück">${chevSVG}</button>
+      <div class="netz-title"><b>Körperatlas</b><span>${nOk} von ${all.length} Stationen gelernt${nDue ? ` · ${nDue} fällig` : ''}</span></div></div>
+    <div class="k2-prog"><i style="width:${all.length ? (nOk / all.length * 100).toFixed(1) : 0}%"></i></div>
+    <p class="ka-intro">Alle ${all.length} Medizin-Stationen, nach Organsystemen geordnet. Tippe auf ein Organ oder eine Beschriftung.</p>
+    <div class="ka-stage ka2-stage" id="kaStage">${kaSvg('0 0 360 460', `<path class="ka-body" d="${KA_BODY}"/>${KA2_EXTRA}${KA_ORGANS}${tags}`, 'ka-over ka-col')}</div>
+    <h3 class="ka-h">Organsysteme</h3><div class="k2-grid">${KA2_SYS.map(s => card(s.k, s.t)).join('')}</div>
+    <h3 class="ka-h">Themen rund um die Medizin</h3><div class="k2-grid">${KA2_THEMEN.map(([k, t, d]) => card(k, t, d)).join('')}</div>
+  </div>`;
+  document.getElementById('kaBack').onclick = () => { const b = KA_BACK; KA_BACK = null; (b || renderDashboard)(); };
+  const svg = main.querySelector('.ka-over');
+  svg.querySelectorAll('.ka-tag').forEach(t => { t.onclick = () => kaZoomTo(t.dataset.k); t.onkeydown = e => { if (e.key === 'Enter') kaZoomTo(t.dataset.k); }; });
+  main.querySelectorAll('.k2-card').forEach(b => b.onclick = () => renderKaRegion(b.dataset.k));
+  svg.addEventListener('click', e => {
+    if (e.target.closest('.ka-tag')) return;
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let best = null, bd = 1e9; KA2_TAGS.forEach(([k, , , , tx, ty]) => { const d = Math.hypot(p.x - tx, p.y - ty); if (d < bd){ bd = d; best = k; } });
+    if (best && bd < 40) kaZoomTo(best);
+  });
+  window.scrollTo(0, 0);
+};
+kaZoomTo = function(k){
+  const tg = KA2_TAGS.find(x => x[0] === k), svg = document.querySelector('.ka-over');
+  if (!tg || !svg || matchMedia('(prefers-reduced-motion: reduce)').matches) return renderKaRegion(k);
+  const w = 130, h = w * 460 / 360, to = [tg[4] - w / 2, tg[5] - h / 2, w, h], from = [0, 0, 360, 460], t0 = performance.now(), D = 380;
+  svg.classList.add('zooming');
+  const step = now => { const t = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - t, 3);
+    svg.setAttribute('viewBox', from.map((v, i) => v + (to[i] - v) * e).join(' '));
+    if (t < 1) requestAnimationFrame(step); else renderKaRegion(k, true); };
+  requestAnimationFrame(step);
+};
+renderKaRegion = function(k, fromZoom){
+  const osh = document.getElementById('kaSheet'); if (osh) osh.remove();
+  const sys = KA2_SYS.find(x => x.k === k), ids = ka2Ids(k), s = ka2Stats(k), main = document.getElementById('main');
+  const old = sys && sys.sk ? KA_REG.find(r => r.k === sys.sk) : null, pos = {}; if (old) old.st.forEach(([id, x, y]) => { pos[id] = [x, y]; });
+  if (typeof KA2_PINS !== 'undefined') ids.forEach(id => { if (KA2_PINS[id] && sys && (sys.k === 'hormone' || sys.k === 'knochen')) pos[id] = KA2_PINS[id]; });
+  const num = {}; ids.forEach((id, i) => { num[id] = i + 1; });
+  const pins = ids.filter(id => pos[id]).map(id => `<g class="ka-pin ${kaStatus(id)}" data-id="${id}" transform="translate(${pos[id][0]} ${pos[id][1]})"><circle class="ka-pin-h" r="13"/><circle class="ka-pin-c" r="9"/><text y="3.6" text-anchor="middle">${num[id]}</text></g>`).join('');
+  const groups = []; ids.forEach(id => { const pid = kaPathOf(id); let g = groups.find(x => x.pid === pid); if (!g){ g = { pid, ids:[] }; groups.push(g); } g.ids.push(id); });
+  const next = ids.find(id => kaStatus(id) === 'neu'), dueIds = ids.filter(id => kaStatus(id) === 'due');
+  const nQ = typeof qsIndex === 'function' ? qsIndex().filter(e => ids.includes(e.sid)).reduce((a, e) => a + e.qs.length, 0) : 0;
+  main.innerHTML = `<div class="ka-view ka-detail ka2 ${fromZoom ? 'in' : ''}">
+    <div class="netz-top"><button class="zeit-exit" id="kaBack" aria-label="Zurück zum Körper">${chevSVG}</button>
+      <div class="netz-title"><b>${zeitEsc(ka2Name(k))}</b><span>${s.ok} von ${s.n} gelernt${s.due ? ` · ${s.due} fällig` : ''}</span></div></div>
+    ${sys && sys.sk && KA_SK[sys.sk] ? `<div class="ka-sheetwrap ka2-sk">${kaSvg('-46 -4 452 290', KA_SK[sys.sk] + `<g class="ka-pins">${pins}</g>`, 'ka-sk ka-col')}</div>` : ''}
+    ${sys ? `<div class="k2-facts"><h3>Auf einen Blick</h3><ul>${sys.f.map(x => `<li>${zeitEsc(x)}</li>`).join('')}</ul></div>` : ''}
+    <div class="k2-acts">
+      ${next ? `<button class="zeit-continue" id="k2Next">Nächste Station: ${zeitEsc(kaTitle(next))}</button>` : `<div class="k2-done">Alle Stationen dieses Bereichs gelernt.</div>`}
+      ${dueIds.length ? `<button class="zeit-continue outline" id="k2Due">${dueIds.length} fällige wiederholen</button>` : ''}
+      ${nQ >= 3 ? `<button class="zeit-continue outline" id="k2Quiz">Quiz zu diesem Bereich · ${Math.min(10, nQ)} Fragen</button>` : ''}
+    </div>
+    ${pins ? '<div class="ka-legend"><span><i class="ok"></i>gelernt</span><span><i class="due"></i>fällig</span><span><i class="neu"></i>neu</span></div>' : ''}
+    ${groups.map(g => `<h3 class="k2-gh">${zeitEsc(PATH_INLINE[g.pid].titel)}</h3><div class="ka-list">${g.ids.map(id => { const st = kaStatus(id); return `<button class="ka-row ${st}" data-id="${id}"><span class="ka-num">${num[id]}</span><span class="ka-rt">${zeitEsc(kaTitle(id))}<em>${st === 'ok' ? 'gelernt' : st === 'due' ? 'fällig' : 'neu'}</em></span><svg class="ka-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>`; }).join('')}</div>`).join('')}
+  </div>`;
+  document.getElementById('kaBack').onclick = () => renderKoerper();
+  main.querySelectorAll('.ka-pin, .ka-row').forEach(el => el.onclick = () => kaStation(k, el.dataset.id));
+  const go = id => ka2Learn(k, id);
+  if (next) document.getElementById('k2Next').onclick = () => go(next);
+  if (dueIds.length) document.getElementById('k2Due').onclick = () => go(dueIds[0]);
+  if (nQ >= 3) document.getElementById('k2Quiz').onclick = () => ka2Quiz(k);
+  window.scrollTo(0, 0);
+};
+async function ka2Learn(k, id){
+  const pid = kaPathOf(id), path = await loadPath(pid); if (!path) return;
+  curPath = path; curPathCrumbs = ['Medizin', path.titel];
+  KA_RET = { k, pid };
+  startLesson(path.stationen.findIndex(x => x.id === id));
+}
+function ka2Quiz(k){
+  const ids = new Set(ka2Ids(k));
+  const pool = spShuffle(qsIndex().filter(e => ids.has(e.sid)).flatMap(e => e.qs.map(x => ({ ...x, e, sc:0 }))));
+  const per = {}, items = [];
+  for (const x of pool){ if ((per[x.e.sid] || 0) >= 2) continue; per[x.e.sid] = (per[x.e.sid] || 0) + 1; items.push(x); if (items.length >= 10) break; }
+  QS_RUN = { term: ka2Name(k), items, i:0, ok:0, done:false, back: () => renderKaRegion(k), restart: () => ka2Quiz(k) };
+  qsShow();
+}
+kaStation = function(k, id){
+  document.getElementById('kaSheet') && document.getElementById('kaSheet').remove();
+  const st = kaStatus(id), ids = ka2Ids(k), i = ids.indexOf(id);
+  document.querySelectorAll('.ka-pin').forEach(p => p.classList.toggle('sel', p.dataset.id === id));
+  const p = PATH_INLINE[kaPathOf(id)], s = p.stationen.find(x => x.id === id);
+  const l0 = s && s.lektion && s.lektion[0];
+  const intro = l0 ? String(l0.text || '').replace(/<[^>]+>/g, '') : '';
+  const merke = (s && s.lektion || []).map(l => l.merke).filter(Boolean).slice(0, 3);
+  const wiki = (typeof KA_WIKI !== 'undefined' && KA_WIKI[id]) || [];
+  const sh = document.createElement('div'); sh.className = 'ka-sheet'; sh.id = 'kaSheet';
+  sh.innerHTML = `<div class="ka-sh-in"><div class="netz-grip"></div>
+    <div class="netz-sh-head"><div><div class="zus-kette-meta">${i + 1} · ${zeitEsc(p.titel)} · ${st === 'ok' ? 'gelernt' : st === 'due' ? 'zum Wiederholen fällig' : 'noch nicht gelernt'}</div>
+      <div class="netz-sh-title">${zeitEsc(kaTitle(id))}</div></div><button class="netz-close" id="kaShX" aria-label="Schließen">×</button></div>
+    ${intro ? `<p class="netz-sh-k">${zeitEsc(intro.length > 260 ? intro.slice(0, 260).replace(/\s\S*$/, '') + ' …' : intro)}</p>` : ''}
+    ${merke.length ? `<div class="k2-merke"><b>Merke</b><ul>${merke.map(m => `<li>${zeitEsc(m)}</li>`).join('')}</ul></div>` : ''}
+    <button class="zeit-continue" id="kaGo">${st === 'neu' ? 'Station lernen' : 'Station wiederholen'}</button>
+    ${wiki.length ? `<h3 class="ka-h">Mehr sehen</h3><div class="ka-gal">${wiki.map(t => bildFig([t], 'ka-fig')).join('')}</div><p class="ka-src">Bilder: Wikipedia / Wikimedia Commons. Antippen vergrößert.</p>` : ''}
+  </div>`;
+  document.body.appendChild(sh);
+  requestAnimationFrame(() => sh.classList.add('on'));
+  if (typeof bildSoon === 'function') bildSoon();
+  const close = () => { sh.classList.remove('on'); document.querySelectorAll('.ka-pin.sel').forEach(x => x.classList.remove('sel')); setTimeout(() => sh.remove(), 200); };
+  sh.onclick = e => { if (e.target === sh) close(); };
+  document.getElementById('kaShX').onclick = close;
+  document.getElementById('kaGo').onclick = () => { sh.remove(); ka2Learn(k, id); };
+};
+/* ===================== KÖRPERATLAS 2: Detailzeichnungen Hormone und Bewegungsapparat ===================== */
+(function(){
+  const L = (x, y, tx, ty, t, a) => { const anc = a || (tx < x ? 'end' : 'start'); const dx = anc === 'end' ? -3 : anc === 'start' ? 3 : 0;
+    return `<path class="k-lead" d="M${x} ${y}L${tx} ${ty}"/><circle class="k-dot" cx="${x}" cy="${y}" r="1.8"/><text class="k-lab" x="${tx + dx}" y="${ty + 3.5}" text-anchor="${anc}">${t}</text>`; };
+  const T = (x, y, t, cls) => `<text class="${cls || 'k-cap'}" x="${x}" y="${y}" text-anchor="middle">${t}</text>`;
+
+  /* ---------- Hormondrüsen ---------- */
+  KA_SK.hormone = `
+  <path class="k-f k-skin k-faint" d="M150 8c16 0 27 12 27 28 0 13-7 22-15 26v10c18 4 34 10 44 20 8 30 6 70 2 104-4 26-8 52-10 76H102c-2-24-6-50-10-76-4-34-6-74 2-104 10-10 26-16 44-20V62c-8-4-15-13-15-26 0-16 11-28 27-28z"/>
+  <path class="k-f k-brain" d="M131 30c2-12 10-18 19-18s17 6 19 18c-6 6-32 6-38 0z"/>
+  <path class="k-f k-trachea" d="M146 72h8v44h-8z"/>
+  <path class="k-f k2-gland" d="M147 86c-9-5-17 1-15 10 2 7 9 10 15 6h6c6 4 13 1 15-6 2-9-6-15-15-10-1 1-2 2-3 2s-2-1-3-2z"/>
+  <ellipse class="k-f k2-gland" cx="150" cy="44" rx="5" ry="4.2"/>
+  <path class="k-f k-kidney" d="M120 168c-9 0-12 9-12 16s3 16 12 16c4 0 6-3 6-7s-4-5-4-9 4-6 4-9c0-4-2-7-6-7zM180 168c9 0 12 9 12 16s-3 16-12 16c-4 0-6-3-6-7s4-5 4-9-4-6-4-9c0-4 2-7 6-7z"/>
+  <path class="k-f k2-adr" d="M110 168c2-8 10-12 16-8l-2 8zM190 168c-2-8-10-12-16-8l2 8z"/>
+  <path class="k-f k-panc" d="M118 210c10-6 24-8 38-6 12 2 22 0 30-6 6-2 10 4 6 8-10 8-22 12-36 12-14 0-26 2-34 0-6-2-8-6-4-8z"/>
+  <path class="k-f k-fat" d="M100 212c-6 6-6 18 2 22 6-4 8-14 4-22zM200 212c6 6 6 18-2 22-6-4-8-14-4-22z"/>
+  <ellipse class="k-f k-ovar" cx="130" cy="248" rx="7" ry="5"/><ellipse class="k-f k-ovar" cx="170" cy="248" rx="7" ry="5"/>
+  ${L(150, 44, 48, 26, 'Hirnanhangdrüse')}${L(160, 92, 236, 128, 'Schilddrüse', 'start')}${L(110, 164, 48, 146, 'Nebenniere')}${L(112, 190, 48, 182, 'Niere')}
+  ${L(186, 204, 236, 160, 'Bauchspeicheldrüse', 'start')}${L(104, 224, 48, 222, 'Fettgewebe')}${L(130, 248, 48, 260, 'Eierstock / Hoden')}
+  <g transform="translate(304 54)"><circle class="k-inset" r="40"/>
+    ${T(0, -20, 'Hypophyse', 'k-lab')}${T(0, 4, 'TSH', 'k-lab')}${T(0, 28, 'Schilddrüse', 'k-lab')}
+    <path class="k-ln" d="M0 -15v10M0 9v9"/><path class="k-ln" d="M-3 -8l3 3 3-3M-3 15l3 3 3-3"/>
+    <path class="k-ln k-dash" d="M24 22c12-10 12-34 0-44"/><path class="k-ln" d="M20 -24l4 2-2 4"/>
+    ${T(0, 54, 'Regelkreis', 'k-cap')}</g>
+  <g transform="translate(304 200)"><circle class="k-inset" r="36"/>
+    ${[[0,0],[-12,-7],[12,-7],[-12,7],[12,7],[0,-14],[0,14],[-22,0],[22,0]].map(([x, y], i) => `<circle class="k-f ${i % 3 === 1 ? 'k2-alpha' : 'k2-beta'}" cx="${x}" cy="${y}" r="6"/>`).join('')}
+    ${T(0, 50, 'Inselzellen', 'k-cap')}</g>
+  <circle class="k-f k2-beta" cx="252" cy="262" r="4"/><text class="k-lab" x="260" y="265.5">Beta-Zellen: Insulin</text>
+  <circle class="k-f k2-alpha" cx="252" cy="277" r="4"/><text class="k-lab" x="260" y="280.5">Alpha-Zellen: Glukagon</text>`;
+
+  /* ---------- Knochen, Muskeln, Gelenke ---------- */
+  KA_SK.knochen = `
+  <circle class="k-f k2-bone" cx="110" cy="26" r="17"/><path class="k-f k2-bone" d="M100 40h20l-3 7h-14z"/>
+  ${Array.from({ length:12 }, (_, i) => `<rect class="k-f k2-vert" x="105" y="${50 + i * 9}" width="10" height="7" rx="2"/>`).join('')}
+  <path class="k2-rib" d="M106 58c-18 2-28 10-30 22M114 58c18 2 28 10 30 22M106 68c-20 3-30 12-31 24M114 68c20 3 30 12 31 24M106 78c-19 4-28 13-28 24M114 78c19 4 28 13 28 24M106 88c-16 4-24 12-24 21M114 88c16 4 24 12 24 21"/>
+  <path class="k2-rib" d="M80 56l-14 54M140 56l14 54M66 110l-6 44M154 110l6 44"/>
+  <path class="k-f k2-bone" d="M88 158c8-6 36-6 44 0 6 6 4 16-4 20-8-2-12-6-18-6s-10 4-18 6c-8-4-10-14-4-20z"/>
+  <path class="k-f k2-musc" d="M126 178c10 8 12 26 8 50-2 6-10 6-12 0-4-20-4-38 4-50z"/>
+  <path class="k2-long" d="M98 178l-6 56M122 178l6 56M92 242l2 34M128 242l-2 34"/>
+  <circle class="k-f k2-cart" cx="92" cy="238" r="5"/><circle class="k-f k2-cart" cx="128" cy="238" r="5"/>
+  ${L(110, 20, 52, 18, 'Schädel')}${L(112, 100, 52, 74, 'Wirbelsäule')}${L(78, 90, 52, 104, 'Rippen')}${L(96, 164, 52, 150, 'Becken')}
+  ${L(95, 206, 52, 200, 'Oberschenkel')}${L(132, 196, 172, 154, 'Muskel', 'start')}${L(128, 238, 172, 246, 'Kniegelenk', 'start')}
+  <g transform="translate(318 70)"><circle class="k-inset" r="46"/>
+    <path class="k-f k2-bone" d="M-18 -44v20c0 10 8 15 18 15s18-5 18-15v-20"/>
+    <path class="k-f k2-cart" d="M-18 -24c0 10 8 15 18 15s18-5 18-15v4c0 10-8 15-18 15s-18-5-18-15z"/>
+    <path class="k-f k2-bone" d="M-20 6h40v36h-40z"/><path class="k-f k2-cart" d="M-20 6h40v-3h-40z"/>
+    <path class="k-f k2-menis" d="M-22 1c5-3 10-3 13 0-5 2-8 2-13 0zM9 1c5-3 10-3 13 0-5 2-8 2-13 0z"/>
+    <path class="k2-lig" d="M-5 -11l10 16M5 -11l-10 16"/><path class="k-ln k-dash" d="M-28 -28c-5 16-5 36 0 52M28 -28c5 16 5 36 0 52"/>
+    ${T(0, 60, 'Kniegelenk', 'k-cap')}</g>
+  ${L(304, 50, 264, 30, 'Knorpel')}${L(290, 62, 264, 48, 'Gelenkkapsel')}${L(318, 66, 264, 66, 'Kreuzbänder')}${L(300, 71, 264, 84, 'Meniskus')}
+  <g transform="translate(318 206)"><circle class="k-inset" r="40"/>
+    <circle class="k-f k2-bone" r="28"/><circle class="k-f k2-spong" r="20"/><circle class="k-f k2-marrow" r="10"/>
+    ${Array.from({ length:10 }, (_, i) => { const a = i * 0.63; return `<path class="k2-trab" d="M${(Math.cos(a) * 11).toFixed(1)} ${(Math.sin(a) * 11).toFixed(1)}L${(Math.cos(a + .3) * 19).toFixed(1)} ${(Math.sin(a + .3) * 19).toFixed(1)}"/>`; }).join('')}
+    ${T(0, 54, 'Knochen im Querschnitt', 'k-cap')}</g>
+  ${L(292, 196, 264, 180, 'Kompakta')}${L(304, 214, 264, 200, 'Schwammknochen')}${L(316, 206, 264, 220, 'Knochenmark')}`;
+
+  /* Lernstationen in den neuen Zeichnungen */
+  window.KA2_PINS = {
+    MEDI_STOFFW_S03:[134, 90], O_SELTEN_S06:[166, 102], MEDI_VOLK_S03:[170, 210], MEDI_STOFFW_S04:[196, 226],
+    MEDI_KOERPER_S04:[130, 196], MEDI_BEWEGUNG_S01:[342, 230], MEDI_BEWEGUNG_S02:[346, 96], MEDI_BEWEGUNG_S03:[110, 124], MEDI_BEWEGUNG_S04:[128, 262], O_SELTEN_S02:[94, 214]
+  };
+  ['hormone', 'knochen'].forEach(k => { const s = KA2_SYS.find(x => x.k === k); if (s) s.sk = k; });
 })();
 /* ========================== WISSENSLANDKARTE ==========================
    Allgemeinwissen als Inselwelt: jede Kategorie eine Insel mit Wahrzeichen,
@@ -14004,9 +13653,13 @@ function rlBuild(pool, add){
       { k:'m', h: y, t: e.text, say: e.text, v: map || ty, pan: 1 }];
     if (kx && typeof kx[0] === 'string') rlChunks(kx[0], MAXC).forEach((t, ci) => scenes.push({ k:'m', h: 'Wie es dazu kam', t, say: t, v: map || ty, pan: (2 + ci) % 3 }));
     if (kx && typeof kx[1] === 'string'){
-      const tr = rlCut(rlSent(kx[1])[0], 120), fa = rlZeitDistr(e, kid, byYear).map(x => rlCut(x, 120)).filter(x => x !== tr);
-      if (fa.length >= 1){ const o = rlMix([tr, ...fa.slice(0, 2)], e.id + 7);
-        scenes.push({ k:'ask', h:'Was glaubst du?', t: 'Wie ging es weiter?', opts:o, r: o.indexOf(tr), fb:'', say:'Was glaubst du, wie ging es weiter?', v: ty }); }
+      /* Ablenker erst berechnen, wenn die Szene wirklich gezeigt wird – spart beim Start den Vergleich aller Ereignisse miteinander */
+      const tr = rlCut(rlSent(kx[1])[0], 120), sc = { fb:'', v: ty, lazyAsk: true }; let memo = null;
+      const calc = () => { if (memo) return memo; const fa = rlZeitDistr(e, kid, byYear).map(x => rlCut(x, 120)).filter(x => x !== tr);
+        if (!fa.length) return memo = { k:'m', h:'Wie ging es weiter?', t: tr, say: tr, opts:null, r:-1 };
+        const o = rlMix([tr, ...fa.slice(0, 2)], e.id + 7); return memo = { k:'ask', h:'Was glaubst du?', t:'Wie ging es weiter?', say:'Was glaubst du, wie ging es weiter?', opts:o, r:o.indexOf(tr) }; };
+      ['k', 'h', 't', 'say', 'opts', 'r'].forEach(f => Object.defineProperty(sc, f, { enumerable:true, configurable:true, get: () => calc()[f] }));
+      scenes.push(sc);
     }
     if (kx && typeof kx[1] === 'string') rlChunks(kx[1], MAXC).forEach((t, ci) => scenes.push({ k:'m', h: 'Was daraus folgte', t, say: t, v: ty, pan: ci % 3 }));
     const ch = typeof zkChainsOf === 'function' ? zkChainsOf(e.id)[0] : null;
@@ -14078,7 +13731,7 @@ function rlBuild(pool, add){
 const RL_SER = {};
 function rlFinish(pool){
   const fmt = sec => `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, '0')}`;
-  pool.v.forEach(v => { const sec = v.scenes.reduce((a, x) => a + (x.k === 'ask' ? 6000 : rlReadMs(rlSceneText(x))) / 1000, 0) + (v.q || v.yq ? 6 : 0);
+  pool.v.forEach(v => { const sec = v.scenes.reduce((a, x) => a + (x.lazyAsk || x.k === 'ask' ? 6000 : rlReadMs(rlSceneText(x))) / 1000, 0) + (v.q || v.yq ? 6 : 0);
     v.dur = sec; v.scenes[0].t = `▶ ${fmt(sec)} · ${v.scenes[0].t}`; });
   const by = Object.fromEntries(pool.v.map(v => [v.id, v]));
   Object.values(PATH_INLINE || {}).forEach(p => { const ids = (p.stationen || []).map(st => `v:${st.id}`).filter(id => by[id]);
@@ -16569,7 +16222,7 @@ function wnZoom(ds, idx){
 /* Nur Schlüssel dieser App: Andere Apps auf derselben github.io-Adresse teilen sich den Speicher und dürfen weder gesichert noch gelöscht werden */
 const BK_KEYS = ['wissen_global','wissen_activity','weekly_goal','shop_state','sr_wissen','sr_zeit','zeit_newcount','vocab_autospeak','last_open',
   'fehlerbuch','st_learned','tq_adapt','mp_hist','dp_meta','bridge_v1','wissen_sprech','wissen_tutor_n','wissen_zm_n','wissen_hoer','zeit_box',
-  'lern_log','erklaer_hist','abl_sr','themenwoche','tw_hist','sr_zahlwoerter','abl_voice','abl_seen','geo_draw','geo_draw_best','geo_draw_best_bl','geo_draw_best_insel','geo_draw_best_fluss','geo_draw_best_flag'];
+  'lern_log','erklaer_hist','abl_sr','themenwoche','tw_hist','sr_zahlwoerter','abl_voice','abl_seen','geo_draw','geo_draw_best','geo_draw_best_bl','geo_draw_best_insel','geo_draw_best_fluss','geo_draw_best_flag','spiel_sr','spiel_sr_n'];
 const BK_PRE = ['path_','sr_','mega_','lektionen_'];
 function backupOk(k){ return !!k && (BK_KEYS.indexOf(k) >= 0 || BK_PRE.some(p => k.indexOf(p) === 0)) && !/[.#$\[\]\/]/.test(k); }
 backupKeys = function(){ const out = []; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (backupOk(k)) out.push(k); } return out; };
@@ -21571,12 +21224,14 @@ function gxCoast(vx, vy, vw, vh){
   };
   const _g = geoGuess;
   geoGuess = function(ok, btn){
-    const D = gxDs(); if (!D) return _g.apply(this, arguments);
+    /* gilt auch fürs ursprüngliche Länder-Quiz: dessen Tipp-Handler blieb nach dem Verlassen aktiv */
+    const D = gxDs() || (typeof megaSession !== 'undefined' && megaSession && megaSession.mode === 'geo' ? { name: GEO2_NAME } : null); if (!D) return _g.apply(this, arguments);
     const s = megaSession; if (s.answered) return;
     if (!s.startTs) startMegaTimer();
     s.answered = true;
     const code = s.order[s.pos];
     if (ok) s.correct++; else s.wrong++;
+    if (typeof ssrRecord === 'function') ssrRecord((s.m && s.m.ds ? s.m.ds : 'geo') + ':' + code, ok);
     const fb = document.getElementById('gqFb');
     fb.innerHTML = `<div class="ex-result ${ok ? 'good' : 'bad'}"><b>${ok ? 'Richtig!' : 'Falsch'}</b><span>${ok ? '' : 'Das war '}${megaEsc(D.name[code])}</span></div><div class="tap-hint">Tippen zum Fortfahren</div>`;
     document.querySelectorAll('.gq-opt').forEach(b => { b.disabled = true; if (b.dataset.c === code) b.classList.add('correct'); else if (b === btn) b.classList.add('wrong'); });
@@ -21750,12 +21405,9 @@ function jsCheck(){
 function jsEnd(){
   const R = JS_RUN, n = R.items.length, rec = spBest('jahr', R.pts);
   if (typeof zeitAwardXP === 'function') zeitAwardXP(Math.round(R.pts / 50));
-  spMount(`${spTop('Jahr schätzen')}
-    <div class="js-wrap js-end"><div class="js-res p3"><b>${R.pts} von ${n * 100} Punkten</b>${rec ? ' · neuer Rekord!' : ''}</div>
-      <p class="js-info">Im Schnitt ${Math.round(R.dev / n).toLocaleString('de-DE')} Jahre daneben.${rec ? '' : ` Rekord: ${spGet('jahr').best || 0} Punkte.`}</p>
-      <div class="karte-q-acts"><button class="zeit-continue" id="jsAgain">Neue Runde</button><button class="zeit-continue outline" id="jsBack">Andere Spiele</button></div></div>`, () => openSpiele(), 'js-run');
-  document.getElementById('jsAgain').onclick = startJahr;
-  document.getElementById('jsBack').onclick = openSpiele;
+  spMount(`${spTop('Jahr schätzen')}${spErgebnis({ big: R.pts, line: `von ${n * 100} Punkten · im Schnitt ${Math.round(R.dev / n).toLocaleString('de-DE')} Jahre daneben`, rec, best: rec ? null : spGet('jahr').best || 0 })}`, () => openSpiele(), 'js-run');
+  document.getElementById('spAgain').onclick = startJahr;
+  document.getElementById('spBack').onclick = openSpiele;
 }
 
 /* ---------- Wo liegt das? (Hauptstädte, Berge) ---------- */
@@ -21801,6 +21453,7 @@ function orItem(q){ return ORTE_DATA[q.items[q.i]]; }
     if (!q.guess || q.done) return; q.done = true;
     const o = orItem(q), t = [o[2], o[3]], km = Math.round(karteKm(q.guess, t)), p = orPts(km);
     q.pts += p; q.sum += km;
+    if (o[0] === 's' && typeof ssrRecord === 'function') ssrRecord('or:' + q.items[q.i], p >= 60);
     const verdict = p >= 90 ? 'Volltreffer!' : p >= 60 ? 'Gut!' : p >= 25 ? 'Ungefähr.' : 'Daneben.';
     const box = document.getElementById('karteQ');
     box.innerHTML = `<div class="karte-q-res p${p >= 90 ? 3 : p >= 60 ? 2 : p >= 25 ? 1 : 0}"><b>${verdict}</b> ${km.toLocaleString('de-DE')} km entfernt · +${p} Punkte</div>
@@ -22080,7 +21733,7 @@ function qsShow(){
   main.innerHTML = `<div class="stats-view qs-view qs-run">${zusTop('Quiz: ' + R.term)}
     <div class="qs-prog"><span>Frage ${R.i + 1} von ${R.items.length}</span><span>${R.ok} richtig</span></div><div class="gd-meter"><i style="width:${R.i / R.items.length * 100}%"></i></div>
     <div class="qs-from">${zeitEsc(x.e.t)} · ${zeitEsc(x.e.pt)}</div>${body}<div id="qsFb"></div></div>`;
-  zeitWireExit(() => openQuizSuche(null, QS_Q));
+  zeitWireExit(() => R.back ? R.back() : openQuizSuche(null, QS_Q));
   main.querySelectorAll('[data-i]').forEach(b => b.onclick = () => qsAnswer(+b.dataset.i === u.richtig, b, `Richtig ist: ${u.optionen[u.richtig]}`));
   main.querySelectorAll('[data-w]').forEach(b => b.onclick = () => qsAnswer((b.dataset.w === '1') === !!u.richtig, b, `Die Aussage ist ${u.richtig ? 'wahr' : 'falsch'}.`));
   const ck = document.getElementById('qsCheck');
@@ -22116,9 +21769,10 @@ function qsEnd(){
       <div class="earned"><div>XP<b>+${xp}</b></div><div>Quote<b>${Math.round(R.ok / n * 100)} %</b></div></div>
       <div class="mega-actions"><button class="primary" id="qsAgain">Neues Quiz zum Thema</button><button id="qsOther">Anderes Thema</button></div></div>
     <h3 class="wp-h">Die Fragen kamen aus</h3><div class="qs-list">${st.map((e, i) => `<button class="qs-row" data-s="${i}"><b>${zeitEsc(e.t)}</b><span>${zeitEsc(e.pt)}</span></button>`).join('')}</div></div>`;
-  zeitWireExit(() => openQuizSuche(null, QS_Q));
-  document.getElementById('qsAgain').onclick = () => qsStart(qsFind(QS_Q));
-  document.getElementById('qsOther').onclick = () => openQuizSuche(null, '');
+  zeitWireExit(() => R.back ? R.back() : openQuizSuche(null, QS_Q));
+  document.getElementById('qsAgain').onclick = () => R.restart ? R.restart() : qsStart(qsFind(QS_Q));
+  document.getElementById('qsOther').onclick = () => R.back ? R.back() : openQuizSuche(null, '');
+  if (R.back) document.getElementById('qsOther').textContent = 'Zurück';
   main.querySelectorAll('[data-s]').forEach(b => b.onclick = () => afOpenStation(st[+b.dataset.s].sid));
 }
 (function(){
@@ -22142,6 +21796,8 @@ function qsEnd(){
   };
 })();
 /* ===================== LÄNDER AUF DER KARTE: Name erscheint → Land auf der leeren Karte antippen ===================== */
+/* Frankreich und Norwegen fehlten in der Kontinent-Zuordnung (Sonderfall im Kartenmaterial) */
+try { ['fr', 'no'].forEach(c => { if (typeof GEO2_CONT !== 'undefined' && !GEO2_CONT[c]) GEO2_CONT[c] = 'Europa'; }); } catch(e){}
 const WF_CONTS = ['Europa', 'Afrika', 'Asien', 'Nordamerika', 'Südamerika', 'Ozeanien'];
 let WK = null;
 function wkCodes(){ return Object.keys(GEO2_NAME).filter(c => WORLD_MAP.paths[c] || (WORLD_MAP.dots && WORLD_MAP.dots[c])); }
@@ -22236,14 +21892,14 @@ function wkTap(c){
   if (!WK || WK.busy || !c) return;
   const t = WK.order[WK.i];
   if (WK.res[c] != null && c !== t){ wkToast(GEO2_NAME[c] || c); return; }
-  if (c === t){ const p = 3 - WK.tries; WK.pts += p; WK.res[t] = p; wkMark(t, p === 3 ? 'wk-ok3' : 'wk-ok'); wkToast(`Richtig: ${GEO2_NAME[t]} +${p}`, 'good'); WK.i++; WK.tries = 0; return wkAsk(); }
+  if (c === t){ const p = 3 - WK.tries; if (typeof ssrRecord === 'function') ssrRecord('wk:' + t, p === 3); WK.pts += p; WK.res[t] = p; wkMark(t, p === 3 ? 'wk-ok3' : 'wk-ok'); wkToast(`Richtig: ${GEO2_NAME[t]} +${p}`, 'good'); WK.i++; WK.tries = 0; return wkAsk(); }
   WK.tries++;
   document.querySelectorAll(`#wkG [data-c="${c}"]`).forEach(el => { el.classList.add('wk-bad'); setTimeout(() => el.classList.remove('wk-bad'), 900); });
   wkToast(`Das ist ${GEO2_NAME[c] || 'kein gesuchtes Land'}`, 'bad');
   if (WK.tries >= 3) return wkMiss(); wkAsk();
 }
 function wkMiss(){
-  const t = WK.order[WK.i]; WK.res[t] = 0; WK.busy = true; wkMark(t, 'wk-miss');
+  const t = WK.order[WK.i]; WK.res[t] = 0; WK.busy = true; if (typeof ssrRecord === 'function') ssrRecord('wk:' + t, false); wkMark(t, 'wk-miss');
   wkToast(`Hier liegt ${GEO2_NAME[t]}`, 'bad');
   /* zum gesuchten Land schwenken, falls es außerhalb des Ausschnitts liegt */
   const el = document.querySelector(`#wkG [data-c="${t}"]`); if (el){ const b = el.getBBox(), [x, y, w, h] = WK.vb; if (b.x < x || b.y < y || b.x + b.width > x + w || b.y + b.height > y + h){ WK.vb = [b.x + b.width / 2 - w / 2, b.y + b.height / 2 - h / 2, w, h]; wkApply(); } }
@@ -22407,11 +22063,9 @@ function zgAnswer(i, btn){
 function zgFin(){
   const n = ZG.items.length, rec = spBest('zeitgen', ZG.ok);
   if (typeof zeitAwardXP === 'function') zeitAwardXP(ZG.ok);
-  spMount(`${spTop('Zeitgenossen')}
-    <div class="js-wrap js-end"><div class="js-res p3"><b>${ZG.ok} von ${n} richtig</b>${rec ? ' · neuer Rekord!' : ''}</div>
-    <div class="karte-q-acts"><button class="zeit-continue" id="zgAgain">Neue Runde</button><button class="zeit-continue outline" id="zgBack">Andere Spiele</button></div></div>`, () => openSpiele(), 'js-run');
-  document.getElementById('zgAgain').onclick = startZeitgen;
-  document.getElementById('zgBack').onclick = openSpiele;
+  spMount(`${spTop('Zeitgenossen')}${spErgebnis({ big: ZG.ok, line: `von ${n} richtig`, rec, best: rec ? null : spGet('zeitgen').best || 0 })}`, () => openSpiele(), 'js-run');
+  document.getElementById('spAgain').onclick = startZeitgen;
+  document.getElementById('spBack').onclick = openSpiele;
 }
 
 /* Spiele-Übersicht: vier neue Karten */
@@ -22693,6 +22347,8 @@ function nav2Heute(dash){
   order.forEach(el => el.remove()); if (hc) hc.remove(); dash.innerHTML = '';
   if (hc){ hc.hidden = true; hc.style.display = 'none'; dash.appendChild(hc); }
   order.forEach(el => { if (el === slot) dash.insertAdjacentHTML('beforeend', '<div class="dash-section-label nv-lab">Heute entdecken</div>'); dash.appendChild(el); });
+  const due = typeof ssrDue === 'function' ? ssrDue().length : 0, dp = document.getElementById('dpCard');
+  if (due && dp){ dp.insertAdjacentHTML('afterend', `<button class="nv-mini nv-wide ssr-card" id="nvSsrH"><b>${due} Spiel-Fehler wiederholen</b><span>Umrisse, Flaggen, Länder und Hauptstädte, die du zuletzt nicht wusstest</span></button>`); document.getElementById('nvSsrH').onclick = () => startSpielSR(() => nav2Go('heute')); }
   const hero = dash.querySelector('.dash-hero');
   if (hero && !hero.querySelector('.nv-search')){ hero.classList.add('nv-hero'); hero.insertAdjacentHTML('beforeend', `<button class="nv-search" aria-label="Suchen">${NAV2_SEARCH}</button>`); }
   const ds = dash.querySelector('.dash-stats');
@@ -22711,16 +22367,22 @@ function nav2Ich(dash){
   const mk = (id, t, d) => { const b = document.createElement('button'); b.className = 'dash-statlink'; b.id = id; b.innerHTML = `<span class="dsl-body"><div class="dsl-title">${t}</div><div class="dsl-desc">${d}</div></span>${DASH_ICONS.arrow}`; return b; };
   const fb = mk('nvFb', 'Fehlerbuch', 'Alle falsch beantworteten Fragen – gezielt nachüben');
   const sw = mk('nvSw', 'Schwächen-Runde', 'Fragen aus den Bereichen, in denen du am häufigsten danebenliegst');
+  const ssrN = typeof ssrCount === 'function' ? ssrCount() : 0, ssrD = typeof ssrDue === 'function' ? ssrDue().length : 0;
+  const ssrB = mk('nvSsr2', 'Spiel-Fehler', ssrN ? `${ssrN} in der Wiederholung · ${ssrD} heute fällig` : 'Falsch erkannte Umrisse, Flaggen, Länder und Hauptstädte kommen hier wieder');
   const albB = mk('nvAlb', 'Sammelalbum', alb ? (alb.querySelector('span:not(.ent-ic)') || alb).textContent.replace(/^\s*Sammelalbum\s*/, '') : 'Karten sammeln');
   [head.firstElementChild, stats, week, wk && wk.closest('.dp-pair') ? wk : wk].filter(Boolean).forEach(el => box.appendChild(el));
-  box.appendChild(sec('Fortschritt')); links.filter(b => !/Quellen/.test(b.textContent)).forEach(b => box.appendChild(b));
-  box.appendChild(sec('Sammlung')); [fb, sw, albB].forEach(b => box.appendChild(b));
+  const erfN = typeof ERF !== 'undefined' ? ERF.filter(([id]) => erfState()[id]).length : 0;
+  const erfB2 = mk('nvErf', 'Rekorde &amp; Erfolge', typeof ERF !== 'undefined' ? `${erfN} von ${ERF.length} Erfolgen · Bestwerte aller Spiele` : '');
+  erfB2.onclick = () => renderErfolge(() => nav2Go('ich'));
+  box.appendChild(sec('Fortschritt')); box.appendChild(erfB2); links.filter(b => !/Quellen/.test(b.textContent)).forEach(b => box.appendChild(b));
+  box.appendChild(sec('Sammlung')); [fb, ssrB, sw, albB].forEach(b => box.appendChild(b));
   box.appendChild(sec('App')); links.filter(b => /Quellen/.test(b.textContent)).forEach(b => box.appendChild(b)); app.forEach(el => box.appendChild(el));
   dash.innerHTML = ''; dash.appendChild(box);
   /* Unterseiten ohne eigenen Zurück-Knopf bekommen einen, der zu „Ich“ zurückführt */
   [stats && stats.querySelector('#dashCrownStat'), ...links].filter(Boolean).forEach(b => b.addEventListener('click', () => setTimeout(() => nav2EnsureBack(() => nav2Go('ich')), 0)));
   fb.onclick = () => fbView(() => nav2Go('ich'));
   sw.onclick = () => swStart(() => nav2Go('ich'));
+  ssrB.onclick = () => startSpielSR(() => nav2Go('ich'));
   albB.onclick = () => renderAlbum();
   nav2WireSearch(() => nav2Go('ich'));
   setTab('ich');
@@ -22786,6 +22448,201 @@ openSpiele = function(){ renderSpielen(); };
   /* Mega-Listen gehören jetzt zu „Spielen“ */
   const _mo = openMegaOverview;
   openMegaOverview = function(){ const r = _mo.apply(this, arguments); NAV2.cur = 'spielen'; setTab('spielen'); return r; };
+})();
+/* ===================== SPIEL-FEHLER WIEDERHOLEN =====================
+   Falsch erkannte Umrisse, Flaggen, Länder auf der Karte und Hauptstädte kommen in Abständen wieder
+   (1, 3, 7, 16, 35 Tage). Nach fünf richtigen Wiederholungen gilt ein Eintrag als gelernt. */
+const SSR_KEY = 'spiel_sr', SSR_GAP = [1, 3, 7, 16, 35];
+function ssrLoad(){ try { return JSON.parse(localStorage.getItem(SSR_KEY) || '{}'); } catch(e){ return {}; } }
+function ssrSave(d){ try { localStorage.setItem(SSR_KEY, JSON.stringify(d)); } catch(e){} }
+/* im Spiel: Fehler aufnehmen; ein Treffer bei einem schon bekannten Fehler zählt als Wiederholung */
+function ssrRecord(key, ok){
+  const d = ssrLoad(), t = todayNum(), e = d[key];
+  if (!ok){ d[key] = { lv:0, due:t + 1, n:(e ? e.n : 0) + 1 }; ssrSave(d); return; }
+  if (e && e.due <= t){ e.lv++; if (e.lv >= SSR_GAP.length) delete d[key]; else e.due = t + SSR_GAP[e.lv]; ssrSave(d); }
+}
+function ssrDue(){ const d = ssrLoad(), t = todayNum(); return Object.keys(d).filter(k => d[k].due <= t && ssrValid(k)); }
+function ssrCount(){ return Object.keys(ssrLoad()).filter(ssrValid).length; }
+function ssrValid(k){
+  const [ty, c] = [k.slice(0, k.indexOf(':')), k.slice(k.indexOf(':') + 1)];
+  if (ty === 'geo' || ty === 'wk') return !!GEO2_NAME[c];
+  if (ty === 'or') return !!ORTE_DATA[+c];
+  try { return !!gxGet(ty).name[c]; } catch(e){ return false; }
+}
+const SSR_LABEL = { geo:'Länder nach Umriss', flag:'Flaggen', bl:'Bundesländer', insel:'Inseln', fluss:'Flüsse', wk:'Länder auf der Karte', or:'Hauptstädte' };
+function ssrQuestion(key){
+  const ty = key.slice(0, key.indexOf(':')), c = key.slice(key.indexOf(':') + 1);
+  const pick3 = (pool, right) => { const o = spShuffle(pool.filter(x => x !== right)).slice(0, 3); return spShuffle([right, ...o]); };
+  if (ty === 'or'){
+    const o = ORTE_DATA[+c], cont = Object.keys(GEO2_NAME).find(k => GEO2_NAME[k] === o[4]);
+    const same = ORTE_DATA.filter(x => x[0] === 's' && x[4] !== o[4] && (!cont || GEO2_CONT[Object.keys(GEO2_NAME).find(k => GEO2_NAME[k] === x[4])] === GEO2_CONT[cont])).map(x => x[4]);
+    return { ty, q:`In welchem Land liegt <b>${zeitEsc(o[1])}</b>?`, vis:'', opts: pick3(same.length >= 3 ? same : ORTE_DATA.filter(x => x[0] === 's').map(x => x[4]), o[4]), right:o[4], info:`${o[1]} ist ${o[5] === 'Hauptstadt' ? 'die Hauptstadt' : o[5]} von ${o[4]}.` };
+  }
+  if (ty === 'wk'){
+    const nb = ((LAND_INFO[c] || [])[3] || []).filter(n => GEO2_NAME[n]);
+    const sameC = Object.keys(GEO2_NAME).filter(k => GEO2_CONT[k] === GEO2_CONT[c]);
+    const pool = nb.length >= 3 ? nb : nb.concat(spShuffle(sameC.filter(k => !nb.includes(k))).slice(0, 6));
+    const land = Object.keys(WORLD_MAP.paths).map(k => `<path d="${WORLD_MAP.paths[k].map(d => d.replace(/^\s*m/, 'M')).join(' ')}" class="ssr-land${k === c ? ' on' : ''}" data-c="${k}"/>`).join('');
+    const dot = !WORLD_MAP.paths[c] && WORLD_MAP.dots && WORLD_MAP.dots[c] ? `<circle cx="${WORLD_MAP.dots[c][0]}" cy="${WORLD_MAP.dots[c][1]}" r="6" class="ssr-land on"/>` : '';
+    return { ty, q:'Welches Land ist hier markiert?', vis:`<svg class="ssr-map" id="ssrMap" viewBox="${WORLD_MAP.vb}" preserveAspectRatio="xMidYMid meet"><rect x="-5000" y="-5000" width="20000" height="20000" class="ssr-sea"/>${land}${dot}</svg>`,
+      opts: pick3(pool.map(k => GEO2_NAME[k]), GEO2_NAME[c]), right:GEO2_NAME[c], focus:c };
+  }
+  const D = ty === 'geo' ? { name: GEO2_NAME, quiz: Object.keys(GEO2_NAME) } : gxGet(ty);
+  const prev = typeof megaSession !== 'undefined' ? megaSession : null;
+  let vis = '';
+  try { megaSession = { mode:'geo', m: ty === 'geo' ? {} : { ds: ty } }; vis = geoOutline(c); } finally { megaSession = prev; }
+  return { ty, q: ty === 'flag' ? 'Zu welchem Land gehört diese Flagge?' : ty === 'fluss' ? 'Welcher Fluss ist das?' : ty === 'insel' ? 'Welche Insel ist das?' : ty === 'bl' ? 'Welches Bundesland ist das?' : 'Welches Land ist das?',
+    vis:`<div class="gq-outline ssr-out">${vis}</div>`, opts: pick3(D.quiz.map(k => D.name[k]), D.name[c]), right: D.name[c] };
+}
+let SSR = null;
+function startSpielSR(back){
+  const due = spShuffle(ssrDue()).slice(0, 15);
+  SSR = { back: back || (() => renderSpielen()), items: due, i:0, ok:0, done:false };
+  if (!due.length) return ssrEnd();
+  ssrShow();
+}
+function ssrShow(){
+  const S = SSR, key = S.items[S.i], Q = ssrQuestion(key); S.q = Q; S.done = false;
+  spMount(`${spTop('Spiel-Fehler wiederholen')}
+    <div class="js-wrap"><div class="js-count">${S.i + 1} von ${S.items.length} · ${SSR_LABEL[Q.ty] || ''}</div>
+    <div class="js-ev ssr-q">${Q.q}</div>${Q.vis}
+    <div class="gq-opts ssr-opts">${Q.opts.map((o, i) => `<button class="gq-opt" data-i="${i}">${zeitEsc(o)}</button>`).join('')}</div>
+    <div id="ssrRes"></div></div>`, () => S.back(), 'js-run');
+  if (Q.focus){ const svg = document.getElementById('ssrMap'), el = svg && svg.querySelector('.on');
+    if (el){ const b = el.getBBox(), s = Math.max(b.width, b.height, 40) * 3.2; svg.setAttribute('viewBox', `${b.x + b.width / 2 - s / 2} ${b.y + b.height / 2 - s * 0.32} ${s} ${s * 0.64}`); } }
+  document.querySelectorAll('.ssr-opts .gq-opt').forEach(b => b.onclick = () => ssrAnswer(b));
+}
+function ssrAnswer(btn){
+  const S = SSR; if (S.done) return; S.done = true;
+  const Q = S.q, key = S.items[S.i], ok = btn.textContent === Q.right;
+  if (ok){ S.ok++; ssrRecord(key, true); } else ssrRecord(key, false);
+  document.querySelectorAll('.ssr-opts .gq-opt').forEach(b => { b.disabled = true; if (b.textContent === Q.right) b.classList.add('correct'); else if (b === btn) b.classList.add('wrong'); });
+  document.getElementById('ssrRes').innerHTML = `<div class="js-res p${ok ? 3 : 0}"><b>${ok ? 'Richtig!' : 'Falsch.'}</b> ${ok ? 'Kommt später noch einmal zur Sicherheit.' : `Richtig ist: ${zeitEsc(Q.right)}. Kommt morgen wieder.`}${Q.info ? `<br>${zeitEsc(Q.info)}` : ''}</div>
+    <button class="zeit-continue" id="ssrNext">${S.i + 1 < S.items.length ? 'Weiter' : 'Ergebnis'}</button>`;
+  document.getElementById('ssrNext').onclick = () => { S.i++; if (S.i < S.items.length) ssrShow(); else ssrEnd(); };
+}
+function ssrEnd(){
+  const S = SSR, n = S.items.length, left = ssrCount();
+  if (S.ok && typeof zeitAwardXP === 'function') zeitAwardXP(S.ok);
+  const info = left ? `${left} ${left === 1 ? 'Eintrag ist' : 'Einträge sind'} noch in der Wiederholung. Nach fünf richtigen Antworten in wachsenden Abständen gilt ein Eintrag als gelernt.` : 'Keine offenen Spiel-Fehler – alles gelernt.';
+  spMount(`${spTop('Spiel-Fehler wiederholen')}${spErgebnis({ big: n ? S.ok : '✓', line: n ? `von ${n} richtig` : 'Gerade ist nichts fällig', extra: `<p class="js-info">${info}</p>`, again: 'Zu den Spielen', backLabel: 'Fertig' })}`, () => S.back(), 'js-run');
+  document.getElementById('spAgain').onclick = () => renderSpielen();
+  document.getElementById('spBack').onclick = () => S.back();
+}
+(function(){
+  /* Einstieg ganz oben bei „Spielen“, wenn etwas fällig ist */
+  const _s = renderSpielen;
+  renderSpielen = function(){
+    const r = _s.apply(this, arguments);
+    try { const due = ssrDue().length, q = document.getElementById('nvQs');
+      if (due && q){ q.insertAdjacentHTML('afterend', `<button class="nv-mini nv-wide ssr-card" id="nvSsr"><b>${due} Spiel-${due === 1 ? 'Fehler' : 'Fehler'} wiederholen</b><span>Falsch erkannte Umrisse, Flaggen, Länder und Hauptstädte – in wachsenden Abständen</span></button>`);
+        document.getElementById('nvSsr').onclick = () => startSpielSR(() => renderSpielen()); } } catch(e){}
+    return r;
+  };
+})();
+/* ===================== REKORDE & ERFOLGE + gemeinsamer Ergebnisbildschirm ===================== */
+/* Einheitliches Rundenende wie bei Chronologie & Co.: große Zahl, eine Zeile, Rekord, zwei Knöpfe */
+function spErgebnis(o){
+  return `<div class="sp-end"><div class="sp-big">${o.big}</div><p>${o.line}${o.rec ? ' – neuer Rekord!' : o.best != null ? ` · Rekord ${o.best}` : ''}</p>${o.extra || ''}
+    <div class="zeit-summary-actions"><button class="zeit-continue" id="spAgain">${o.again || 'Nochmal'}</button><button class="zeit-continue outline" id="spBack">${o.backLabel || 'Andere Spiele'}</button></div></div>`;
+}
+function erfGeo(ds){ try { return +localStorage.getItem('geo_draw_best' + (ds ? '_' + ds : '')) || 0; } catch(e){ return 0; } }
+function erfB(k){ return spGet(k).best || 0; }
+function erfWk(){ return WF_CONTS.map(c => erfB('wk_' + c)); }
+function erfGr(){ return Math.max(erfB('gr_flaeche'), erfB('gr_einw'), erfB('gr_berg')); }
+function erfSsrN(){ try { return +localStorage.getItem('spiel_sr_n') || 0; } catch(e){ return 0; } }
+const ERF = [
+  ['umriss', 'Umriss-Blick', '800 Punkte bei „Länder nach Umriss“', () => erfGeo('') >= 800],
+  ['flagge', 'Flaggen-Kenner', '800 Punkte bei „Flaggen aufdecken“', () => erfGeo('flag') >= 800],
+  ['bl', 'Bundesländer-Profi', '800 Punkte bei den Bundesländern', () => erfGeo('bl') >= 800],
+  ['insel', 'Inselhüpfer', '700 Punkte bei den Inseln', () => erfGeo('insel') >= 700],
+  ['fluss', 'Flusslotse', '700 Punkte bei den Flüssen', () => erfGeo('fluss') >= 700],
+  ['kont1', 'Ein Kontinent komplett', 'Einen Kontinent auf der Karte mit 100 % gelöst', () => erfWk().some(v => v >= 100)],
+  ['kont6', 'Weltkarte im Kopf', 'Alle sechs Kontinente mit 100 % gelöst', () => erfWk().every(v => v >= 100)],
+  ['nachbar', 'Gute Nachbarn', 'Nachbarn von Deutschland mit 100 % gelöst', () => erfB('wk_nb:de') >= 100],
+  ['haupt', 'Weltreisender', '700 Punkte bei den Hauptstädten', () => erfB('orte_s') >= 700],
+  ['berg', 'Gipfelstürmer', '700 Punkte bei Berge & Vulkane', () => erfB('orte_b') >= 700],
+  ['gr10', 'Gutes Augenmaß', 'Serie von 10 bei „Was ist größer?“', () => erfGr() >= 10],
+  ['gr25', 'Messlatte', 'Serie von 25 bei „Was ist größer?“', () => erfGr() >= 25],
+  ['jahr', 'Zeitgefühl', '800 Punkte bei „Jahr schätzen“', () => erfB('jahr') >= 800],
+  ['zg', 'Zeitzeuge', '10 von 10 bei „Zeitgenossen“', () => erfB('zeitgen') >= 10],
+  ['chrono', 'Ordnung muss sein', '20 Karten bei „Chronologie“', () => erfB('chrono') >= 20],
+  ['wowann', 'Wo & Wann-Profi', '400 von 500 bei „Wo & Wann“', () => erfB('wowann') >= 400],
+  ['tages', 'Rätsel-Serie', '7 Tagesrätsel in Folge gelöst', () => spTagesInfo().best >= 7],
+  ['ssr10', 'Aus Fehlern gelernt', '10 Spiel-Fehler endgültig gelernt', () => erfSsrN() >= 10],
+  ['ssr50', 'Fehler-Bezwinger', '50 Spiel-Fehler endgültig gelernt', () => erfSsrN() >= 50]
+];
+function erfState(){ const g = loadGlobal(); return g.erfolge || {}; }
+function erfCheck(){
+  try {
+    const g = loadGlobal(), st = g.erfolge = g.erfolge || {}, neu = [];
+    ERF.forEach(([id, t, , test]) => { let ok = false; try { ok = test(); } catch(e){} if (ok && !st[id]){ st[id] = todayNum(); neu.push(t); } });
+    if (neu.length){ saveGlobal(g); neu.forEach(erfToast); }
+  } catch(e){}
+}
+let ERF_Q = [], ERF_T = null;
+function erfToast(t){
+  ERF_Q.push(t); if (ERF_T) return;
+  const show = () => { const x = ERF_Q.shift(); if (!x){ ERF_T = null; return; }
+    const el = document.createElement('button'); el.className = 'alb-toast erf-toast'; el.innerHTML = `<span>Erfolg freigeschaltet</span><b>${zeitEsc(x)}</b>`;
+    el.onclick = () => renderErfolge(() => nav2Go('ich'));
+    document.body.appendChild(el); requestAnimationFrame(() => el.classList.add('on'));
+    ERF_T = setTimeout(() => { el.classList.remove('on'); setTimeout(() => { el.remove(); show(); }, 300); }, 2800); };
+  show();
+}
+function erfRecords(){
+  const wk = WF_CONTS.map(c => [c, erfB('wk_' + c)]).filter(x => x[1]);
+  const tg = spTagesInfo();
+  return [
+    ['geo', 'geoquiz', 'Länder nach Umriss', erfGeo('') ? `${erfGeo('')} Punkte` : ''],
+    ['geo', 'flag', 'Flaggen aufdecken', erfGeo('flag') ? `${erfGeo('flag')} Punkte` : ''],
+    ['geo', 'bl', 'Bundesländer nach Umriss', erfGeo('bl') ? `${erfGeo('bl')} Punkte` : ''],
+    ['geo', 'insel', 'Inseln nach Umriss', erfGeo('insel') ? `${erfGeo('insel')} Punkte` : ''],
+    ['geo', 'fluss', 'Flüsse nach Verlauf', erfGeo('fluss') ? `${erfGeo('fluss')} Punkte` : ''],
+    ['geo', 'wk', 'Länder auf der Karte', [wk.map(([c, v]) => `${c} ${v} %`).join(' · '), erfB('wk_nb:de') ? `Nachbarn DE ${erfB('wk_nb:de')} %` : ''].filter(Boolean).join(' · ')],
+    ['geo', 'orte', 'Wo liegt das?', ['s', 'b', 'm'].map(k => erfB('orte_' + k) ? `${ORTE_MODES[k][0]} ${erfB('orte_' + k)}` : '').filter(Boolean).join(' · ')],
+    ['geo', 'gr', 'Was ist größer?', [['flaeche', 'Fläche'], ['einw', 'Einwohner'], ['berg', 'Berge']].map(([k, l]) => erfB('gr_' + k) ? `${l}: Serie ${erfB('gr_' + k)}` : '').filter(Boolean).join(' · ')],
+    ['gesch', 'tages', 'Tagesrätsel', tg.best ? `beste Serie ${tg.best} · ${tg.wins || 0} gelöst` : ''],
+    ['gesch', 'chrono', 'Chronologie', erfB('chrono') ? `${erfB('chrono')} Karten` : ''],
+    ['gesch', 'jahr', 'Jahr schätzen', erfB('jahr') ? `${erfB('jahr')} von 1.000` : ''],
+    ['gesch', 'wowann', 'Wo & Wann', erfB('wowann') ? `${erfB('wowann')} von 500` : ''],
+    ['gesch', 'werbinich', 'Wer bin ich?', erfB('werbinich') ? `${erfB('werbinich')} Punkte` : ''],
+    ['gesch', 'zg', 'Zeitgenossen', erfB('zeitgen') ? `${erfB('zeitgen')} von 10` : ''],
+    ['gesch', 'ursache', 'Ursache & Wirkung', erfB('ursache') ? `${erfB('ursache')} Punkte` : '']
+  ];
+}
+function renderErfolge(back){
+  const bk = back || (() => nav2Go('ich'));
+  erfCheck();
+  const st = erfState(), n = ERF.filter(([id]) => st[id]).length;
+  const day = d => { const dt = new Date(d * 864e5); return dt.toLocaleDateString('de-DE', { day:'numeric', month:'short', year:'numeric' }); };
+  const rec = erfRecords();
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="stats-view erf-view">${zusTop('Zurück')}
+    <div class="stats-head"><h2>Rekorde &amp; Erfolge</h2><p class="sub ui">${n} von ${ERF.length} Erfolgen freigeschaltet</p></div>
+    <div class="erf-grid">${ERF.map(([id, t, d]) => `<div class="erf ${st[id] ? 'on' : ''}"><span class="erf-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 14.6 9l6 .6-4.5 4 1.3 5.9L12 16.6l-5.4 2.9 1.3-5.9-4.5-4 6-.6z"/></svg></span><b>${zeitEsc(t)}</b><span>${zeitEsc(d)}</span>${st[id] ? `<i>${day(st[id])}</i>` : ''}</div>`).join('')}</div>
+    <h3 class="wp-h">Deine Rekorde</h3>
+    <div class="qs-list">${rec.map(([g, k, t, v]) => `<button class="qs-row erf-rec" data-k="${k}"><b>${zeitEsc(t)}</b><span>${v ? zeitEsc(v) : 'Noch nicht gespielt – antippen zum Spielen'}</span></button>`).join('')}</div>
+  </div>`;
+  zeitWireExit(bk);
+  main.querySelectorAll('.erf-rec').forEach(b => b.onclick = () => { const x = SV_GAMES.find(y => y[1] === b.dataset.k); if (x) x[4](); });
+  window.scrollTo(0, 0);
+}
+(function(){
+  /* Erfolge prüfen, sobald ein Spielbildschirm erscheint (dort werden Rekorde gespeichert) */
+  const _m = spMount;
+  spMount = function(){ const r = _m.apply(this, arguments); setTimeout(erfCheck, 250); return r; };
+  const _gd = geoQuizDone;
+  geoQuizDone = function(){ const r = _gd.apply(this, arguments); setTimeout(erfCheck, 250); return r; };
+  const _ke = karteQuizEnd;
+  karteQuizEnd = function(){ const r = _ke.apply(this, arguments); setTimeout(erfCheck, 250); return r; };
+  /* gelernte Spiel-Fehler mitzählen */
+  const _sr = ssrRecord;
+  ssrRecord = function(key, ok){
+    const before = ssrLoad()[key];
+    _sr.apply(this, arguments);
+    if (ok && before && !ssrLoad()[key]){ try { localStorage.setItem('spiel_sr_n', String(erfSsrN() + 1)); } catch(e){} setTimeout(erfCheck, 250); }
+  };
 })();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
