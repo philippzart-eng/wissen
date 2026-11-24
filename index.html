@@ -3415,6 +3415,50 @@ body.rl-film .rl-sc .rl-cap{ padding-top:44px; }
 .erf.on b{ opacity:1; }
 .erf.on .erf-ic svg{ fill:#ff9f0a; stroke:#c46f00; }
 .erf-toast span{ color:rgba(255,255,255,.88); }
+/* Organe antippen */
+.org-stage{ position:relative; border-radius:18px; border:1px solid var(--line); background:radial-gradient(ellipse at 50% 40%, color-mix(in srgb, #eaf2fb 80%, var(--bg)), var(--bg-panel)); overflow:hidden; }
+.org-stage .org-svg{ display:block; width:100%; height:min(62vh, 560px); }
+.org-stage.small .org-svg{ height:260px; }
+.org-svg .ka-body{ fill:#f3dccb; stroke:#c9a089; }
+.org-m{ fill:none; stroke-width:2.2; vector-effect:non-scaling-stroke; }
+.org-m.ok3{ stroke:#2e9d4b; fill:rgba(52,199,89,.18); } .org-m.ok{ stroke:#8ab52e; fill:rgba(160,200,60,.18); } .org-m.miss{ stroke:#d0412f; fill:rgba(224,122,106,.22); }
+.org-m.quiz{ stroke:#ff9500; stroke-width:3; fill:rgba(255,149,0,.18); stroke-dasharray:4 3; }
+.org-facts{ display:grid; gap:4px; margin:0 2px 14px; } .org-facts p{ margin:0; font-size:13.5px; line-height:1.4; }
+/* Tages-Challenge */
+.ch-card{ border-color:rgba(10,132,255,.45); } .ch-card.done{ border-color:rgba(52,199,89,.45); }
+.ch-meter{ margin:6px 0 14px; }
+.ch-q{ font-weight:600; } .ch-q b{ font-weight:800; }
+.ch-flag{ width:200px; height:133px; margin:4px auto 16px; }
+.ch-flag .gx-flag{ border-radius:6px; }
+.ch-bars{ display:grid; grid-template-columns:repeat(14, minmax(0,1fr)); gap:4px; height:90px; align-items:end; margin:12px 4px 2px; }
+.ch-day{ height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:2px; }
+.ch-day i{ display:block; width:100%; border-radius:4px 4px 0 0; background:var(--accent); opacity:.75; }
+.ch-day.today i{ opacity:1; } .ch-day span{ font-size:10px; color:var(--ink-faint); }
+.ch-cap{ font-size:11.5px; color:var(--ink-faint); text-align:center; margin:2px 0 12px; }
+/* Prüfungen */
+.pr-note{ font-size:12.5px; color:var(--ink-faint); line-height:1.45; margin:0 2px 10px; }
+.pr-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+.pr-card{ display:flex; flex-direction:column; gap:3px; text-align:left; padding:11px 12px; border-radius:14px; border:1px dashed var(--line); background:transparent; color:var(--ink); font:inherit; }
+.pr-card b{ font-size:13.5px; line-height:1.25; } .pr-card span{ font-size:11.5px; color:var(--ink-faint); }
+.pr-card:disabled{ opacity:.6; }
+.pr-card.open{ border:1px solid var(--accent); background:var(--bg-panel); cursor:pointer; }
+.pr-card.pass{ border:1px solid rgba(52,199,89,.6); background:var(--bg-panel); cursor:pointer; }
+.pr-ic svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linejoin:round; }
+.pr-card.pass .pr-ic{ color:#2e9d4b; } .pr-card.open .pr-ic{ color:var(--accent); }
+/* Frag nach */
+.frag-nach{ position:fixed; right:max(16px, env(safe-area-inset-right)); bottom:calc(18px + env(safe-area-inset-bottom)); z-index:60; display:flex; align-items:center; gap:7px; height:44px; padding:0 16px 0 12px; border-radius:22px; border:1px solid var(--line); background:var(--glass-strong, rgba(255,255,255,.92)); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); color:var(--ink); font:600 14px var(--font, system-ui); box-shadow:0 6px 20px rgba(0,0,0,.14); cursor:pointer; }
+.frag-nach svg{ width:20px; height:20px; fill:none; stroke:var(--accent); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+body.tutor-open .frag-nach{ display:none; }
+/* Vergessenskurve */
+.vk-sum{ font-size:14px; margin:4px 6px 10px; } .vk-sum b{ font-size:17px; }
+.vk-chart{ display:grid; grid-template-columns:repeat(14, minmax(0,1fr)); gap:4px; height:150px; align-items:end; padding:0 4px; }
+.vk-col{ height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:2px; min-width:0; }
+.vk-stack{ width:100%; display:flex; flex-direction:column-reverse; border-radius:4px 4px 0 0; overflow:hidden; min-height:0; }
+.vk-stack i{ display:block; min-height:2px; }
+.vk-col b{ font-size:10px; font-variant-numeric:tabular-nums; } .vk-col span{ font-size:9.5px; color:var(--ink-faint); white-space:nowrap; }
+.vk-leg{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:var(--ink-faint); margin:10px 6px 4px; }
+.vk-leg i{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; vertical-align:-1px; }
+.vk-acts{ display:grid; gap:8px; margin:14px 0 8px; }
 /* ===================== DESIGN-FEINSCHLIFF: einheitliche Maße ===================== */
 :root{ --r-card:20px; --r-row:16px; --r-pill:999px; }
 /* Karten: ein Radius für alle großen Flächen */
@@ -3510,7 +3554,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-24j · Körperatlas: Hormone und Bewegungsapparat gezeichnet';
+const APP_VERSION = '2026-11-24l · Reel-Fotos ohne fremde Personen';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -9460,7 +9504,7 @@ document.addEventListener('click', e => {
       if (ls && ls.phase === 'lesson' && ls.station && typeof curPath !== 'undefined' && curPath){
         const spk = document.getElementById('lessonSpeak');
         if (spk && !document.getElementById('lessonTutor')){
-          spk.insertAdjacentHTML('afterend', `<button class="lesson-speak tutor-lesson" id="lessonTutor"><span>✦</span><span>Fragen</span></button>`);
+          spk.insertAdjacentHTML('afterend', `<button class="lesson-speak tutor-lesson" id="lessonTutor" aria-label="Frag nach: KI-Tutor zu dieser Station"><span>✦</span><span>Frag nach</span></button>`);
           document.getElementById('lessonTutor').onclick = () => openTutor('station', [curPath.id, ls.stationIdx], 'frag');
         }
       }
@@ -12405,7 +12449,7 @@ kaStation = function(k, id){
   const l0 = s && s.lektion && s.lektion[0];
   const intro = l0 ? String(l0.text || '').replace(/<[^>]+>/g, '') : '';
   const merke = (s && s.lektion || []).map(l => l.merke).filter(Boolean).slice(0, 3);
-  const wiki = (typeof KA_WIKI !== 'undefined' && KA_WIKI[id]) || [];
+  const wiki = ((typeof KA_WIKI !== 'undefined' && KA_WIKI[id]) || []).length ? KA_WIKI[id] : (s && s.bild ? [s.bild] : []);
   const sh = document.createElement('div'); sh.className = 'ka-sheet'; sh.id = 'kaSheet';
   sh.innerHTML = `<div class="ka-sh-in"><div class="netz-grip"></div>
     <div class="netz-sh-head"><div><div class="zus-kette-meta">${i + 1} · ${zeitEsc(p.titel)} · ${st === 'ok' ? 'gelernt' : st === 'due' ? 'zum Wiederholen fällig' : 'noch nicht gelernt'}</div>
@@ -15853,13 +15897,27 @@ function rlgPlan(c){
     return r;
   };
 })();
+/* Keine Porträts von Personen, die im Reel gar nicht vorkommen (z. B. Selenskyj in einem Reel über China und die USA) */
+const RLG_PEOPLE = [['selensk', 'zelensk'], ['putin'], ['biden'], ['trump'], ['obama'], ['xi jinping', 'xi_jinping'], ['merkel'], ['scholz'], ['macron'], ['erdogan', 'erdoğan'], ['netanjahu', 'netanyahu'], ['modi'], ['von der leyen', 'von_der_leyen'], ['meloni'], ['orbán', 'orban'], ['lukaschenk', 'lukashenk'], ['kim jong', 'kim_jong'], ['bolsonaro'], ['lula'], ['starmer'], ['sunak'], ['boris johnson', 'boris_johnson'], ['merz'], ['steinmeier'], ['habeck'], ['lindner'], ['blair'], ['bush'], ['clinton'], ['harris'], ['vance'], ['musk']];
+let RLG_PSUR = null;
+function rlgFold(x){ return String(x || '').toLowerCase().replace(/_/g, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+function rlgPersonOk(c){
+  let txt = ''; try { txt = rlgFold([c.st, c.pt, ...(c.scenes || []).map(x => [x.h, x.t, (x.list || []).join(' ')].join(' '))].join(' ')); } catch(e){}
+  if (!RLG_PSUR) RLG_PSUR = (typeof PERSONEN !== 'undefined' ? PERSONEN : []).map(p => rlgFold(p.n).split(' ').pop()).filter(w => w.length >= 5 && !/^(der|die|von|grosse|große)$/.test(w));
+  const bad = RLG_PEOPLE.filter(al => !al.some(a => txt.includes(rlgFold(a)))).map(al => al.map(rlgFold));
+  const badP = RLG_PSUR.filter(w => !txt.includes(w));
+  return e => { const n = rlgFold(e && e.n); if (!n) return true;
+    if (bad.some(al => al.some(a => new RegExp('(^|[^a-z])' + a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + (a.length >= 6 ? '' : '([^a-z]|$)')).test(n)))) return false;
+    return !badP.some(w => n.includes(w)); };
+}
 async function rlgFill(i){
   const c = FEED.deck[i], box = document.querySelector(`.fd-card[data-i="${i}"] .rl`); if (!c || !box || c.t !== 'v') return;
   const plan = rlgPlan(c); if (!plan || !plan.n) return;
   const figs = [...box.querySelectorAll('.rl-photo:not([data-done])')]; if (!figs.length) return;
   figs.forEach(f => f.dataset.done = '1');
-  const list = await rlgGet(plan.key, plan.t, plan.a, plan.n);
-  const used = new Set(), qs = await Promise.all(figs.map(f => f.dataset.q ? rlgQ(f.dataset.q + (plan.t ? ' ' + plan.t : '')) : Promise.resolve([])));
+  const ok = rlgPersonOk(c);
+  const list = (await rlgGet(plan.key, plan.t, plan.a, plan.n)).filter(ok);
+  const used = new Set(), qs = (await Promise.all(figs.map(f => f.dataset.q ? rlgQ(f.dataset.q + (plan.t ? ' ' + plan.t : '')) : Promise.resolve([])))).map(a => (a || []).filter(ok));
   let gk = 0;
   figs.forEach((f, fi) => {
     let e = (qs[fi] || []).find(x => !used.has(x.n));
@@ -22643,6 +22701,312 @@ function renderErfolge(back){
     _sr.apply(this, arguments);
     if (ok && before && !ssrLoad()[key]){ try { localStorage.setItem('spiel_sr_n', String(erfSsrN() + 1)); } catch(e){} setTimeout(erfCheck, 250); }
   };
+})();
+/* ===================== ORGANE ANTIPPEN: Organ wird genannt, auf der Körperfigur antippen ===================== */
+/* Trefferflächen in Koordinaten der Übersichtsfigur (viewBox 0 0 360 460): [Name, [[cx, cy, rx, ry], …], Stufe] */
+const ORG_ZONES = [
+  ['Gehirn', [[180, 37, 22, 17]], 1], ['Augen', [[180, 54, 15, 5]], 1], ['Lunge', [[156, 150, 18, 34], [204, 150, 18, 34]], 1],
+  ['Herz', [[192, 177, 16, 17]], 1], ['Leber', [[168, 212, 26, 12]], 1], ['Magen', [[205, 214, 12, 16]], 1],
+  ['Nieren', [[148, 240, 9, 14], [212, 240, 9, 14]], 1], ['Dünndarm', [[180, 264, 18, 13]], 1], ['Dickdarm', [[157, 266, 6, 26], [203, 266, 6, 26], [180, 240, 28, 6]], 1],
+  ['Harnblase', [[180, 301, 12, 11]], 1],
+  ['Luftröhre', [[180, 84, 5, 6], [180, 109, 5, 6]], 2], ['Schilddrüse', [[180, 97, 12, 7]], 2], ['Lymphknoten', [[166, 86, 5, 5], [194, 86, 5, 5], [141, 110, 6, 6], [219, 110, 6, 6], [160, 308, 5, 5], [200, 308, 5, 5]], 2],
+  ['Hauptschlagader', [[184, 135, 4, 16], [184, 245, 4, 20]], 2], ['Gebärmutter', [[180, 321, 8, 6]], 2], ['Oberschenkelknochen', [[160, 360, 6, 34], [200, 360, 6, 34]], 2]
+];
+const ORG_INFO = {
+  'Gehirn':'Steuerzentrale im Schädel – rund 1,3 kg schwer.', 'Augen':'Sehen: Hornhaut und Linse bündeln das Licht auf die Netzhaut.', 'Lunge':'Zwei Lungenflügel, in denen Sauerstoff ins Blut gelangt.',
+  'Herz':'Liegt leicht links in der Brustmitte und pumpt das Blut.', 'Leber':'Größtes inneres Organ, rechts unter dem Zwerchfell.', 'Magen':'Links im Oberbauch, verdaut mit Säure und Enzymen.',
+  'Nieren':'Zwei Nieren liegen hinten links und rechts der Wirbelsäule.', 'Dünndarm':'Mehrere Meter lang, nimmt die Nährstoffe auf.', 'Dickdarm':'Umrahmt den Dünndarm und entzieht dem Darminhalt Wasser.',
+  'Harnblase':'Im kleinen Becken, sammelt den Urin.', 'Luftröhre':'Führt die Luft vom Kehlkopf zu den Bronchien.', 'Schilddrüse':'Schmetterlingsförmig vor der Luftröhre unterhalb des Kehlkopfs.',
+  'Lymphknoten':'Filterstationen des Immunsystems, z. B. am Hals, in der Achsel und in der Leiste.', 'Hauptschlagader':'Die Aorta führt das Blut vom Herzen in den Körper.',
+  'Gebärmutter':'Im kleinen Becken der Frau, zwischen Harnblase und Enddarm.', 'Oberschenkelknochen':'Längster und kräftigster Knochen des Körpers.'
+};
+function orgHit(x, y){
+  let best = null, ba = 1e9;
+  ORG_ZONES.forEach(([n, zs]) => zs.forEach(([cx, cy, rx, ry]) => { const rr = Math.max(rx, 6), ry2 = Math.max(ry, 6);
+    if (((x - cx) / rr) ** 2 + ((y - cy) / ry2) ** 2 <= 1){ const a = rr * ry2; if (a < ba){ ba = a; best = n; } } }));
+  return best;
+}
+function orgBodySvg(extra){ return kaSvg('92 0 176 460', `<path class="ka-body" d="${KA_BODY}"/>${KA2_EXTRA}${KA_ORGANS}${extra || ''}<g id="orgMarks"></g>`, 'ka-over ka-col org-svg'); }
+let ORG = null;
+function startOrgane(){
+  const row = (k, t, d) => `<button class="or-mode" data-k="${k}"><b>${t}</b><span>${d}</span><span class="sp-s">Rekord: ${spGet('org_' + k).best || 0} %</span></button>`;
+  spMount(`${spTop('Organe antippen')}
+    <div class="js-wrap"><p class="js-info">Ein Organ wird genannt – tippe es auf der Figur an. Drei Versuche: beim ersten Mal 3 Punkte, dann 2, dann 1. Nicht gefundene Organe kommen in die Spiel-Wiederholung.</p>
+    <div class="or-modes">${row('1', 'Grundlagen', '10 Organe: Herz, Lunge, Leber, Nieren …')}${row('2', 'Profi', 'Alle 16: dazu Schilddrüse, Aorta, Lymphknoten …')}</div></div>`, () => openSpiele(), 'js-run');
+  document.querySelectorAll('.or-mode').forEach(b => b.onclick = () => orgStart(b.dataset.k));
+}
+function orgStart(lv){
+  const pool = ORG_ZONES.filter(z => lv === '2' || z[2] === 1).map(z => z[0]);
+  ORG = { lv, order: spShuffle(pool.slice()).slice(0, lv === '2' ? 12 : 10), i:0, tries:0, pts:0, res:{}, busy:false };
+  spMount(`${spTop('Organe antippen')}
+    <div class="wk-head"><div class="wk-ask" id="orgAsk"></div><div class="wk-stat" id="orgStat"></div></div>
+    <div class="org-stage">${orgBodySvg()}<div class="wk-toast" id="orgToast" hidden></div></div>
+    <div class="wk-foot" id="orgFoot"><button class="zeit-continue outline" id="orgSkip">Zeigen</button></div>`, () => startOrgane(), 'js-run org-run');
+  const svg = document.querySelector('.org-svg');
+  svg.addEventListener('click', e => {
+    if (ORG.busy || ORG.i >= ORG.order.length) return;
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    orgTap(orgHit(p.x, p.y), p);
+  });
+  document.getElementById('orgSkip').onclick = () => { if (!ORG.busy) orgMiss(); };
+  orgAsk();
+}
+function orgMark(n, cls){
+  const z = ORG_ZONES.find(x => x[0] === n); if (!z) return;
+  document.getElementById('orgMarks').insertAdjacentHTML('beforeend', z[1].map(([cx, cy, rx, ry]) => `<ellipse class="org-m ${cls}" cx="${cx}" cy="${cy}" rx="${Math.max(rx, 5) + 2}" ry="${Math.max(ry, 5) + 2}"/>`).join(''));
+}
+function orgToast(t, cls){ const el = document.getElementById('orgToast'); if (!el) return; el.textContent = t; el.className = 'wk-toast ' + (cls || ''); el.hidden = false; clearTimeout(ORG.tt); ORG.tt = setTimeout(() => { el.hidden = true; }, 1700); }
+function orgAsk(){
+  if (!document.getElementById('orgAsk')) return;
+  if (ORG.i >= ORG.order.length) return orgEnd();
+  const n = ORG.order[ORG.i];
+  document.getElementById('orgAsk').innerHTML = `Tippe auf: <b>${n}</b>${ORG.tries ? ` <span class="wk-try">${3 - ORG.tries} ${3 - ORG.tries === 1 ? 'Versuch' : 'Versuche'} übrig</span>` : ''}`;
+  document.getElementById('orgStat').textContent = `${ORG.i + 1} / ${ORG.order.length} · ${ORG.pts} Punkte`;
+}
+function orgTap(hit, p){
+  const t = ORG.order[ORG.i];
+  if (hit === t){ const pts = 3 - ORG.tries; ORG.pts += pts; ORG.res[t] = pts; orgMark(t, pts === 3 ? 'ok3' : 'ok'); if (typeof ssrRecord === 'function') ssrRecord('org:' + t, pts === 3);
+    orgToast(`Richtig: ${t} +${pts}`, 'good'); ORG.i++; ORG.tries = 0; return orgAsk(); }
+  ORG.tries++;
+  orgToast(hit ? `Das ist: ${hit}` : 'Da liegt kein gesuchtes Organ', 'bad');
+  if (ORG.tries >= 3) return orgMiss(); orgAsk();
+}
+function orgMiss(){
+  const t = ORG.order[ORG.i]; ORG.res[t] = 0; ORG.busy = true; orgMark(t, 'miss');
+  if (typeof ssrRecord === 'function') ssrRecord('org:' + t, false);
+  orgToast(`Hier: ${t}`, 'bad');
+  setTimeout(() => { if (!ORG || !document.getElementById('orgAsk')) return; ORG.busy = false; ORG.i++; ORG.tries = 0; orgAsk(); }, 1500);
+}
+function orgEnd(){
+  const n = ORG.order.length, pct = Math.round(ORG.pts / (n * 3) * 100), k = 'org_' + ORG.lv;
+  const prev = spGet(k).best || 0, rec = pct > prev; if (rec) spSet(k, { best: pct });
+  if (typeof zeitAwardXP === 'function') zeitAwardXP(Math.round(ORG.pts / 3));
+  const miss = ORG.order.filter(x => !ORG.res[x]);
+  document.getElementById('orgAsk').innerHTML = `<b>${ORG.pts} von ${n * 3} Punkten</b> · ${pct} %${rec ? ' · neuer Rekord!' : ''}`;
+  document.getElementById('orgStat').textContent = '';
+  document.getElementById('orgFoot').innerHTML = `${miss.length ? `<p class="wk-miss-l">Nicht gefunden: ${miss.join(', ')}</p>` : '<p class="wk-miss-l">Alle Organe gefunden!</p>'}
+    <div class="org-facts">${ORG.order.map(o => `<p><b>${o}:</b> ${zeitEsc(ORG_INFO[o] || '')}</p>`).join('')}</div>
+    <div class="karte-q-acts"><button class="zeit-continue" id="orgAgain">Nochmal</button><button class="zeit-continue outline" id="orgBack">Andere Spiele</button></div>`;
+  document.getElementById('orgAgain').onclick = () => orgStart(ORG.lv);
+  document.getElementById('orgBack').onclick = openSpiele;
+  if (typeof erfCheck === 'function') setTimeout(erfCheck, 250);
+}
+(function(){
+  /* Spiel-Fehler-Wiederholung: „Welches Organ ist markiert?“ */
+  const _v = ssrValid; ssrValid = function(k){ return k.startsWith('org:') ? ORG_ZONES.some(z => 'org:' + z[0] === k) : _v.apply(this, arguments); };
+  const _q = ssrQuestion;
+  ssrQuestion = function(key){
+    if (!key.startsWith('org:')) return _q.apply(this, arguments);
+    const n = key.slice(4), z = ORG_ZONES.find(x => x[0] === n);
+    const marks = z[1].map(([cx, cy, rx, ry]) => `<ellipse class="org-m quiz" cx="${cx}" cy="${cy}" rx="${Math.max(rx, 5) + 3}" ry="${Math.max(ry, 5) + 3}"/>`).join('');
+    const others = spShuffle(ORG_ZONES.map(x => x[0]).filter(x => x !== n)).slice(0, 3);
+    return { ty:'org', q:'Welches Organ ist markiert?', vis:`<div class="org-stage small">${orgBodySvg(marks)}</div>`, opts: spShuffle([n, ...others]), right:n, info: ORG_INFO[n] };
+  };
+  SSR_LABEL.org = 'Organe';
+  /* Spielen: neue Gruppe „Körper“, Körperatlas-Einstieg */
+  SV_GAMES.push(['koerper', 'org', 'Organe antippen', 'Organ wird genannt, auf der Figur antippen', () => startOrgane(), 'org']);
+  SV_GAMES.push(['koerper', 'atlas', 'Körperatlas', 'Alle Medizin-Stationen nach Organsystemen', () => openKoerper(() => renderSpielen()), 'zg']);
+  SV_GROUPS.splice(2, 0, ['koerper', 'Körper']);
+  SP_ICONS.org = '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10z"/></svg>';
+  ERF.push(['org1', 'Anatomie-Basis', '100 % bei „Organe antippen“ (Grundlagen)', () => erfB('org_1') >= 100]);
+  ERF.push(['org2', 'Anatomie-Profi', '90 % bei „Organe antippen“ (Profi)', () => erfB('org_2') >= 90]);
+})();
+/* ===================== TAGES-CHALLENGE: jeden Tag dieselben 15 Aufgaben (5 Flaggen, 5 Jahreszahlen, 5 Hauptstädte) ===================== */
+function chRng(seed){ let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function chShuf(a, r){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function chStore(){ const g = loadGlobal(); g.challenge = g.challenge || {}; return g; }
+function chToday(){ return chStore().challenge[todayNum()] || null; }
+function chBuild(day){
+  const r = chRng(day * 2654435761);
+  const flags = chShuf(Object.keys(FLAG_SVG).filter(c => GEO2_NAME[c]), r).slice(0, 5).map(c => {
+    const o = chShuf(Object.keys(FLAG_SVG).filter(x => x !== c && GEO2_NAME[x]), r).slice(0, 3);
+    return { ty:'flag', q:'Zu welchem Land gehört diese Flagge?', vis:`<div class="ch-flag">${gxFlagSVG(c)}</div>`, opts: chShuf([c, ...o], r).map(x => GEO2_NAME[x]), right: GEO2_NAME[c] }; });
+  const evs = chShuf(ZEITSTRAHL_DATA.map((d, i) => [d, i]).filter(([d]) => d && Number.isInteger(d.jahr) && d.jahr > -1000 && !/\b\d{3,4}\b/.test(d.text)), r).slice(0, 5).map(([d]) => {
+    const step = Math.max(5, Math.round(Math.abs(2026 - d.jahr) * 0.08 / 5) * 5);
+    const cand = chShuf([-3, -2, -1, 1, 2, 3], r).slice(0, 3).map(k => d.jahr + k * step);
+    return { ty:'jahr', q:`Wann war das?<span class="zg-ev">${zeitEsc(d.text)}</span>`, vis:'', opts: chShuf([d.jahr, ...cand], r).map(zkYear), right: zkYear(d.jahr) }; });
+  const caps = ORTE_DATA.map((o, i) => [o, i]).filter(([o]) => o[0] === 's');
+  const orte = chShuf(caps, r).slice(0, 5).map(([o]) => {
+    const near = caps.filter(([x]) => x[4] !== o[4]).map(([x]) => [x, Math.hypot(x[2] - o[2], (x[3] - o[3]) * Math.cos(o[2] * Math.PI / 180))]).sort((a, b) => a[1] - b[1]).slice(0, 8).map(([x]) => x[4]);
+    return { ty:'ort', q:`In welchem Land liegt <b>${zeitEsc(o[1])}</b>?`, vis:'', opts: chShuf([o[4], ...chShuf(near, r).slice(0, 3)], r), right: o[4] }; });
+  return [...flags, ...evs, ...orte];
+}
+let CH = null;
+function startChallenge(back){
+  const day = todayNum(), done = chToday();
+  CH = { back: back || (() => renderSpielen()), day, items: chBuild(day), i:0, ok:0, t0: Date.now(), done:false, counts: !done };
+  chShow();
+}
+function chShow(){
+  const C = CH, it = C.items[C.i]; C.done = false;
+  const part = C.i < 5 ? 'Flaggen' : C.i < 10 ? 'Jahreszahlen' : 'Hauptstädte';
+  spMount(`${spTop('Tages-Challenge')}
+    <div class="js-wrap"><div class="js-count">${C.i + 1} von 15 · ${part}${C.counts ? '' : ' · Übungsrunde (heute schon gespielt)'}</div>
+    <div class="gd-meter ch-meter"><i style="width:${C.i / 15 * 100}%"></i></div>
+    <div class="js-ev ch-q">${it.q}</div>${it.vis}
+    <div class="gq-opts ch-opts">${it.opts.map(o => `<button class="gq-opt">${zeitEsc(String(o))}</button>`).join('')}</div><div id="chRes"></div></div>`, () => C.back(), 'js-run');
+  document.querySelectorAll('.ch-opts .gq-opt').forEach(b => b.onclick = () => chAnswer(b));
+}
+function chAnswer(btn){
+  const C = CH, it = C.items[C.i]; if (C.done) return; C.done = true;
+  const ok = btn.textContent === String(it.right); if (ok) C.ok++;
+  document.querySelectorAll('.ch-opts .gq-opt').forEach(b => { b.disabled = true; if (b.textContent === String(it.right)) b.classList.add('correct'); else if (b === btn) b.classList.add('wrong'); });
+  setTimeout(() => { if (CH !== C || !document.querySelector('.ch-opts')) return; C.i++; if (C.i < C.items.length) chShow(); else chEnd(); }, ok ? 650 : 1400);
+}
+function chEnd(){
+  const C = CH, sec = Math.round((Date.now() - C.t0) / 1000);
+  const g = chStore();
+  if (C.counts){ g.challenge[C.day] = { ok: C.ok, sec }; saveGlobal(g); if (typeof zeitAwardXP === 'function') zeitAwardXP(C.ok); }
+  const days = Array.from({ length:14 }, (_, k) => C.day - 13 + k), h = chStore().challenge;
+  let streak = 0; for (let d = C.day; h[d]; d--) streak++;
+  const best = Math.max(0, ...Object.values(h).map(x => x.ok));
+  const bars = days.map(d => { const x = h[d]; return `<div class="ch-day ${d === C.day ? 'today' : ''}"><i style="height:${x ? Math.max(6, x.ok / 15 * 100) : 0}%"></i><span>${x ? x.ok : '–'}</span></div>`; }).join('');
+  spMount(`${spTop('Tages-Challenge')}${spErgebnis({ big: C.ok, line: `von 15 richtig · ${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')} min${C.counts ? '' : ' (Übungsrunde, zählt nicht)'}`, best: null, again: 'Nochmal üben', backLabel: 'Fertig',
+    extra: `<p class="js-info">Serie: ${streak} ${streak === 1 ? 'Tag' : 'Tage'} · Bestwert: ${best} von 15</p><div class="ch-bars">${bars}</div><p class="ch-cap">Die letzten 14 Tage</p>` })}`, () => C.back(), 'js-run');
+  document.getElementById('spAgain').onclick = () => startChallenge(C.back);
+  document.getElementById('spBack').onclick = () => C.back();
+  if (typeof erfCheck === 'function') setTimeout(erfCheck, 250);
+}
+(function(){
+  /* Einstiege: Heute (bis erledigt) und ganz oben bei Spielen */
+  const card = (id, back) => { const d = chToday(); return `<button class="nv-mini nv-wide ch-card ${d ? 'done' : ''}" id="${id}"><b>Tages-Challenge${d ? ` · ${d.ok} von 15` : ''}</b><span>${d ? 'Heute geschafft – morgen gibt es neue Aufgaben.' : '15 Aufgaben, für alle gleich: 5 Flaggen, 5 Jahreszahlen, 5 Hauptstädte.'}</span></button>`; };
+  const _h = nav2Heute;
+  nav2Heute = function(dash){
+    const r = _h.apply(this, arguments);
+    try { const dp = document.getElementById('dpCard'); if (dp && !chToday() && !document.getElementById('chH')){ dp.insertAdjacentHTML('afterend', card('chH')); document.getElementById('chH').onclick = () => startChallenge(() => nav2Go('heute')); } } catch(e){}
+    return r;
+  };
+  const _s = renderSpielen;
+  renderSpielen = function(){
+    const r = _s.apply(this, arguments);
+    try { const q = document.getElementById('nvQs'); if (q && !document.getElementById('chS')){ q.insertAdjacentHTML('afterend', card('chS')); document.getElementById('chS').onclick = () => startChallenge(() => renderSpielen()); } } catch(e){}
+    return r;
+  };
+  ERF.push(['ch15', 'Tagesbestform', '15 von 15 in der Tages-Challenge', () => Object.values(chStore().challenge).some(x => x.ok >= 15)]);
+  ERF.push(['ch7', 'Dranbleiben', '7 Tages-Challenges in Folge', () => { const h = chStore().challenge; let s = 0, m = 0; Object.keys(h).map(Number).sort((a, b) => a - b).forEach((d, i, a) => { s = i && a[i - 1] === d - 1 ? s + 1 : 1; m = Math.max(m, s); }); return m >= 7; }]);
+})();
+/* ===================== ABSCHLUSSPRÜFUNG JE BEREICH ===================== */
+/* Freigeschaltet, wenn alle Stationen eines Bereichs gelernt sind. 20 Fragen quer durch den Bereich, bestanden ab 80 %. */
+const PR_N = 20, PR_PASS = 0.8;
+function prStore(){ const g = loadGlobal(); g.pruef = g.pruef || {}; return g; }
+function prState(id){ return prStore().pruef[id] || null; }
+function prAxisIds(a){ return a.paths.flatMap(pid => (PATH_INLINE[pid].stationen || []).map(s => s.id)); }
+function prStart(a, back){
+  const ids = new Set(prAxisIds(a));
+  const pool = spShuffle(qsIndex().filter(e => ids.has(e.sid)).flatMap(e => e.qs.map(x => ({ ...x, e, sc:0 }))));
+  const per = {}, items = [];
+  for (const x of pool){ if ((per[x.e.pid] || 0) >= 2) continue; per[x.e.pid] = (per[x.e.pid] || 0) + 1; items.push(x); if (items.length >= PR_N) break; }
+  for (const x of pool){ if (items.length >= PR_N) break; if (!items.includes(x)) items.push(x); }
+  QS_RUN = { term: 'Prüfung ' + a.t, items: spShuffle(items), i:0, ok:0, done:false, back, restart: () => prStart(a, back), onEnd: (ok, n) => prEnd(a, ok, n, back) };
+  qsShow();
+}
+function prEnd(a, ok, n, back){
+  const pass = ok / n >= PR_PASS, g = prStore(), prev = g.pruef[a.id];
+  if (pass && (!prev || ok > prev.ok)){ g.pruef[a.id] = { d: todayNum(), ok, n }; saveGlobal(g); }
+  if (typeof zeitAwardXP === 'function') zeitAwardXP(pass ? 30 : ok);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="stats-view qs-view">${zusTop('Prüfung: ' + a.t)}
+    <div class="path-done"><div class="big">${pass ? '🎓' : '📚'}</div><h3>${pass ? 'Bestanden!' : 'Noch nicht bestanden'}</h3>
+      <p>${ok} von ${n} richtig · nötig sind ${Math.ceil(n * PR_PASS)}</p>
+      ${pass ? `<p class="js-info">Das Abzeichen „${zeitEsc(a.t)}“ steht jetzt in deinem Wissensprofil.</p>` : '<p class="js-info">Wiederhole die Stationen mit Fehlern und versuch es dann erneut – die Fragen werden jedes Mal neu gemischt.</p>'}
+      <div class="mega-actions"><button class="primary" id="prAgain">Neue Prüfung</button><button id="prBack">Zurück</button></div></div></div>`;
+  zeitWireExit(back);
+  document.getElementById('prAgain').onclick = () => prStart(a, back);
+  document.getElementById('prBack').onclick = back;
+  if (typeof erfCheck === 'function') setTimeout(erfCheck, 250);
+}
+(function(){
+  /* Quiz-Ende umlenken, wenn ein Prüfungs-Durchlauf läuft */
+  const _e = qsEnd;
+  qsEnd = function(){ const R = QS_RUN; if (R && R.onEnd) return R.onEnd(R.ok, R.items.length); return _e.apply(this, arguments); };
+  /* Wissensprofil: Abschnitt „Abschlussprüfungen“ */
+  const _p = renderProfil;
+  renderProfil = function(){
+    const r = _p.apply(this, arguments);
+    try {
+      const ax = wpAxes(), list = document.querySelector('.wp-view .wp-list'); if (!list) return r;
+      const done = ax.filter(a => prState(a.id)).length;
+      list.insertAdjacentHTML('afterend', `<h3 class="wp-h">Abschlussprüfungen · ${done} von ${ax.length} bestanden</h3>
+        <p class="pr-note">Wenn alle Stationen eines Bereichs gelernt sind, wird seine Prüfung frei: ${PR_N} Fragen quer durch den Bereich, bestanden ab ${PR_PASS * 100} %.</p>
+        <div class="pr-grid">${ax.map((a, i) => { const st = prState(a.id), open = a.total && a.done >= a.total, left = a.total - a.done;
+          return `<button class="pr-card ${st ? 'pass' : open ? 'open' : ''}" data-i="${i}" ${!st && !open ? 'disabled' : ''}>
+            <span class="pr-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9.5 12 5l9 4.5-9 4.5z"/><path d="M7 11.5v4.2c1.3 1.4 3 2.3 5 2.3s3.7-.9 5-2.3v-4.2"/></svg></span>
+            <b>${zeitEsc(a.t)}</b><span>${st ? `Bestanden · ${st.ok}/${st.n}` : open ? 'Prüfung bereit' : `Noch ${left} ${left === 1 ? 'Station' : 'Stationen'}`}</span></button>`; }).join('')}</div>`);
+      document.querySelectorAll('.pr-card').forEach(b => b.onclick = () => { const a = ax[+b.dataset.i]; if (b.disabled) return; prStart(a, () => renderProfil()); });
+    } catch(e){ console.warn(e); }
+    return r;
+  };
+  ERF.push(['pr1', 'Erste Prüfung', 'Eine Abschlussprüfung bestanden', () => Object.keys(prStore().pruef).length >= 1]);
+  ERF.push(['pr5', 'Allrounder', 'Fünf Abschlussprüfungen bestanden', () => Object.keys(prStore().pruef).length >= 5]);
+})();
+/* ===================== „FRAG NACH“ IN JEDER LEKTION + VERGESSENSKURVE ===================== */
+/* „Frag nach“: der Tutor-Knopf oben in jeder Lektion (tutor.js) heißt jetzt so */
+
+/* ---------- Vergessenskurve: was in den nächsten 14 Tagen fällig wird, und welcher Bereich am schnellsten verblasst ---------- */
+function vkData(){
+  const t = todayNum(), areas = memAreas();
+  const ssr = (() => { const w = new Array(14).fill(0); try { Object.values(ssrLoad()).forEach(e => { const d = Math.max(0, (e.due || 0) - t); if (d < 14) w[d]++; }); } catch(e){} return w; })();
+  const rows = areas.map(a => ({ k:a.k, t:a.t, w:a.week })).concat([{ k:'spiel', t:'Spiel-Fehler', w:ssr }]);
+  /* je Bereich: Anteil der gelernten Stationen, die binnen 7 Tagen fällig werden */
+  const wsr = loadWissenSR(), fade = wpAxes().map(a => {
+    let n = 0, soon = 0, due = []; a.paths.forEach(pid => { const prog = loadPathProg(pid); (PATH_INLINE[pid].stationen || []).forEach(s => { if (!(prog[s.id] && prog[s.id].done)) return; n++; const c = wsr[s.id], d = c ? (c.due ?? 0) : 0; if (d - t < 7){ soon++; due.push(s.id); } }); });
+    return { a, n, soon, due, r: n ? soon / n : 0 };
+  }).filter(x => x.n >= 3).sort((x, y) => y.r - x.r || y.soon - x.soon);
+  return { rows, fade };
+}
+function renderVergessen(back){
+  const bk = back || (() => nav2Go('ich')), D = vkData(), t = todayNum();
+  const days = Array.from({ length:14 }, (_, i) => i), tot = days.map(i => D.rows.reduce((s, r) => s + (r.w[i] || 0), 0)), mx = Math.max(1, ...tot);
+  const COL = { zeit:'#0a84ff', wissen:'#34c759', zus:'#af52de', pers:'#ff9500', mega:'#5ac8fa', spiel:'#ff375f' };
+  const wd = i => i === 0 ? 'heu.' : new Date((t + i) * 864e5).toLocaleDateString('de-DE', { weekday:'short' }).replace('.', '');
+  const bars = days.map(i => `<div class="vk-col" title="${tot[i]} fällig"><div class="vk-stack" style="height:${(tot[i] / mx * 100).toFixed(1)}%">${D.rows.map(r => r.w[i] ? `<i style="flex:${r.w[i]};background:${COL[r.k]}"></i>` : '').join('')}</div><b>${tot[i] || ''}</b><span>${wd(i)}</span></div>`).join('');
+  const week = tot.slice(0, 7).reduce((a, b) => a + b, 0);
+  const top = D.fade.slice(0, 3);
+  const main = document.getElementById('main');
+  main.innerHTML = `<div class="stats-view vk-view">${zusTop('Zurück')}
+    <div class="stats-head"><h2>Vergessenskurve</h2><p class="sub ui">Was du gelernt hast, verblasst – die Wiederholung kommt genau dann, wenn es knapp wird. So sieht deine nächste Zeit aus.</p></div>
+    <div class="wp-card vk-card"><div class="vk-sum"><b>${tot[0]}</b> heute fällig · <b>${week}</b> in den nächsten 7 Tagen</div>
+      <div class="vk-chart">${bars}</div>
+      <div class="vk-leg">${D.rows.filter(r => r.w.some(Boolean)).map(r => `<span><i style="background:${COL[r.k]}"></i>${zeitEsc(r.t)}</span>`).join('') || '<span>Noch nichts in der Wiederholung – lerne ein paar Stationen oder Jahreszahlen.</span>'}</div></div>
+    ${top.length ? `<h3 class="wp-h">Verblasst am schnellsten</h3>${top.map((x, i) => `<button class="wp-sug vk-fade" data-i="${i}"><span class="wp-sk">${Math.round(x.r * 100)} % bald fällig</span><b>${zeitEsc(x.a.t)}</b><span class="wp-sw">${x.soon} von ${x.n} gelernten Stationen werden in den nächsten 7 Tagen fällig.${x.due.length ? ' Antippen für ein Auffrisch-Quiz daraus.' : ''}</span></button>`).join('')}` : ''}
+    <div class="vk-acts">${tot[0] ? '<button class="zeit-continue" id="vkGo">Jetzt fällige wiederholen</button>' : ''}<button class="zeit-continue outline" id="vkMem">Zu „Dein Gedächtnis“</button></div>
+    <p class="pr-note">Die Abstände wachsen mit jeder richtigen Antwort (Spaced Repetition). Nach einem Fehler beginnt die Karte wieder mit kurzen Abständen.</p>
+  </div>`;
+  zeitWireExit(bk);
+  const go = document.getElementById('vkGo'); if (go) go.onclick = () => (typeof renderGedaechtnis === 'function' ? renderGedaechtnis() : startReviewQuiz());
+  document.getElementById('vkMem').onclick = () => renderGedaechtnis();
+  main.querySelectorAll('.vk-fade').forEach(b => b.onclick = () => { const x = top[+b.dataset.i]; if (!x.due.length) return;
+    const ids = new Set(x.due), pool = spShuffle(qsIndex().filter(e => ids.has(e.sid)).flatMap(e => e.qs.map(q => ({ ...q, e, sc:0 })))), per = {}, items = [];
+    for (const q of pool){ if ((per[q.e.sid] || 0) >= 2) continue; per[q.e.sid] = (per[q.e.sid] || 0) + 1; items.push(q); if (items.length >= 10) break; }
+    if (!items.length) return;
+    QS_RUN = { term: 'Auffrischen: ' + x.a.t, items, i:0, ok:0, done:false, back: () => renderVergessen(bk), restart: () => renderVergessen(bk) }; qsShow(); });
+  window.scrollTo(0, 0);
+}
+(function(){
+  /* Eintrag unter Ich › Fortschritt */
+  const _i = nav2Ich;
+  nav2Ich = function(dash){
+    const r = _i.apply(this, arguments);
+    try { const e = document.getElementById('nvErf'); if (e && !document.getElementById('nvVk')){ const D = vkData(), w = D.rows.reduce((s, x) => s + x.w.slice(0, 7).reduce((a, b) => a + b, 0), 0);
+      e.insertAdjacentHTML('afterend', `<button class="dash-statlink" id="nvVk"><span class="dsl-body"><div class="dsl-title">Vergessenskurve</div><div class="dsl-desc">${w} Wiederholungen in den nächsten 7 Tagen · was am schnellsten verblasst</div></span>${DASH_ICONS.arrow}</button>`);
+      document.getElementById('nvVk').onclick = () => renderVergessen(() => nav2Go('ich')); } } catch(e){ console.warn(e); }
+    return r;
+  };
+})();
+/* ===================== BILDER-PRÜFUNG: unpassende Leitbilder ersetzt (Stand 24.11.2026) ===================== */
+(function(){
+  try {
+    const ST = { GEO_REGIONEN_S04:'Schwarzwald', GEO_EUROPA2_S05:'Balkanhalbinsel' };
+    const LEK_WEG = { RECH_PRIVAT_S02:true }; /* Lektionsbild war ein Textfragment („1631 BGB).“) */
+    for (const pid in PATH_INLINE) (PATH_INLINE[pid].stationen || []).forEach(s => {
+      if (ST[s.id]) s.bild = ST[s.id];
+      if (LEK_WEG[s.id]) (s.lektion || []).forEach(l => { if (l.bild && !/[A-Za-zÄÖÜäöü]{3}/.test(l.bild.replace(/BGB/g, ''))) delete l.bild; });
+    });
+    const EV = { 880:'Sputnik 1', 763:'Albert Einstein', 908:'Kniefall von Warschau', 384:'Kathedrale von Reims' };
+    Object.entries(EV).forEach(([i, t]) => { const id = zkId(+i); if (id !== null && ZEIT_BILD.e[id] !== undefined) ZEIT_BILD.e[id] = t; });
+    const CH = { OE:'Baltischer Weg', KT:'Erdbeben im Indischen Ozean 2004', VN:'Vietnam Veterans Memorial', LO:'Großer Brand von London', AFR:'Schlacht bei Adwa' };
+    Object.entries(CH).forEach(([k, t]) => { if (ZEIT_BILD.k[k] !== undefined) ZEIT_BILD.k[k] = t; });
+  } catch(e){ console.warn('bildfix', e); }
 })();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
