@@ -2302,6 +2302,10 @@ body.tutor-open #tabbar{ display:none; }
 .ka-col .k2-musc{ fill:#d9655c; fill-opacity:.85; } .ka-col .k2-spong{ fill:#f7e0b8; } .ka-col .k2-marrow{ fill:#e0544b; }
 .ka-col .k2-rib, .ka-col .k2-long{ fill:none; stroke:#cbb796; stroke-width:4; stroke-linecap:round; }
 .ka-col .k2-long{ stroke-width:7; } .ka-col .k2-lig{ fill:none; stroke:#c0392b; stroke-width:2.2; stroke-linecap:round; } .ka-col .k2-trab{ stroke:#d8b98a; stroke-width:1.4; }
+.k2-ct b{ hyphens:auto; -webkit-hyphens:auto; overflow-wrap:anywhere; }
+/* farbige Atlas-Skizzen: Volumen statt flacher Flächen, feinere Konturen */
+.ka-col.ka-sk .k-f{ filter:url(#kaVol); stroke-width:.9; }
+.ka-col.ka-sk .k-lab{ font-weight:600; }
 /* ---------- Wissenslandkarte ---------- */
 .wl-view{ padding:72px 0 40px; }
 .wl-sea{ border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #bcdcec, #a6cde3); border:1px solid var(--glass-line); }
@@ -3077,6 +3081,29 @@ circle.wn-n.dim{ opacity:.18; }
 
 .ab-scene{ display:block; text-align:center; font-size:12.5px; font-weight:600; color:var(--accent); margin:-2px 30px 4px; min-height:1.2em; }
 .ab-dots{ flex-wrap:wrap; } .ab-dots i.sc{ margin-left:8px; }
+/* ---------- Farbe mit Bedeutung ---------- */
+.sk-svg .skc-luft{ fill:url(#skc-luft) !important; } .sk-svg .skc-wasser{ fill:url(#skc-wasser) !important; }
+.sk-svg .skc-energie{ fill:url(#skc-energie) !important; } .sk-svg .skc-waerme{ fill:url(#skc-waerme) !important; }
+.sk-svg .skc-daten{ fill:url(#skc-daten) !important; } .sk-svg .skc-geld{ fill:url(#skc-geld) !important; }
+.sk-svg .skc-staat{ fill:url(#skc-staat) !important; } .sk-svg .skc-koerper{ fill:url(#skc-koerper) !important; }
+.sk-svg .skc-leben{ fill:url(#skc-leben) !important; } .sk-svg .skc-sonne{ fill:url(#skc-sonne) !important; }
+/* farbige Linien wieder in Farbe – durchgezogen, Strichart bleibt nur, wo sie gewollt ist */
+.sk-svg .sk-red, .sk-svg .sk-a.sk-red{ stroke:#cf3b2b !important; stroke-dasharray:none; }
+.sk-svg .sk-blue, .sk-svg .sk-a.sk-blue{ stroke:#2f6fb5 !important; }
+.sk-svg .sk-green, .sk-svg .sk-a.sk-green{ stroke:#2f8a3e !important; stroke-dasharray:none; }
+.sk-svg .sk-money{ stroke:#b0832a !important; }
+.sk-svg .sk-river{ stroke:#4a95d4 !important; stroke-width:2.6 !important; }
+.sk-svg .sk-dash.sk-red, .sk-svg .sk-red.sk-dash{ stroke-dasharray:4 3; }
+.skf-leg{ display:flex; flex-wrap:wrap; justify-content:center; gap:4px 12px; margin:6px 4px 0; min-height:16px; font:500 11.5px/1.3 var(--ui, system-ui, sans-serif); color:#5d544c; }
+.skf-leg span{ display:inline-flex; align-items:center; gap:5px; }
+.skf-leg i{ width:12px; height:12px; border-radius:3px; border:1.5px solid; flex:none; }
+.sk-svg text.skf-tap{ cursor:pointer; text-decoration:underline dotted; text-decoration-color:rgba(60,60,60,.55); text-underline-offset:2px; }
+.ab-in{ position:relative; }
+.skf-pop{ position:absolute; z-index:5; width:min(290px, calc(100% - 16px)); background:#fff; border:1px solid rgba(38,38,38,.18); border-radius:14px; box-shadow:0 8px 26px rgba(0,0,0,.16); padding:10px 12px; display:grid; gap:4px; text-align:left; font-size:14px; line-height:1.4; color:#262626; animation:abFade .18s ease-out; }
+.skf-pop b{ font-size:14.5px; } .skf-pop span{ color:#444; }
+.skf-go{ justify-self:start; margin-top:2px; border:0; background:none; padding:2px 0; color:var(--accent); font:600 13.5px var(--ui, system-ui, sans-serif); cursor:pointer; }
+.skf-hint{ margin:0 0 2px !important; text-align:center !important; font:500 12px var(--ui, system-ui, sans-serif) !important; color:#7a7067 !important; }
+.skf-mark{ background:#fde9a6; color:inherit; border-radius:4px; padding:0 2px; animation:abFade .25s ease-out; }
 .ab-qgo{ display:block; margin:12px auto 2px; padding:10px 20px; border-radius:14px; border:1px solid rgba(74,61,51,.25); background:#efe2c8; color:#3d322c; font:600 15px system-ui, sans-serif; cursor:pointer; }
 .ab-qh{ text-align:center !important; font-weight:500 !important; color:#5b4d43 !important; margin:2px 0 10px !important; font-size:14px; }
 .ab-q{ display:grid; gap:8px; max-height:58vh; overflow:auto; padding:2px; }
@@ -3364,6 +3391,7 @@ body.rl-film .rl-sc .rl-cap{ padding-top:44px; }
 .sp-zg .sp-ic{ background:linear-gradient(135deg,#af52de,#ff2d55); }
 .gr-sub{ display:none; }
 .gr-card:disabled .gr-sub{ display:block; }
+.sp-org .sp-ic{ background:linear-gradient(135deg,#ff2d55,#af52de); }
 /* Neuer Aufbau: Kopfzeilen, Reiter, Spielen-Übersicht */
 .nv-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin:0 0 14px; }
 .nv-head h2{ margin:0; font-size:30px; letter-spacing:-.4px; }
@@ -3459,6 +3487,11 @@ body.tutor-open .frag-nach{ display:none; }
 .vk-leg{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:var(--ink-faint); margin:10px 6px 4px; }
 .vk-leg i{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; vertical-align:-1px; }
 .vk-acts{ display:grid; gap:8px; margin:14px 0 8px; }
+/* „Wie funktioniert das?“ im Lernen-Tab: gleicher Abstand wie die übrigen Karten */
+#nvWie.quiz-card{ margin:0 0 14px; }
+/* einheitlich: alle Karten-Icons in Akzentfarbe */
+#main .quiz-card .qc-ic{ color:var(--accent); }
+.dash-statlink.nv-off .dsl-title{ opacity:.55; }
 /* ===================== DESIGN-FEINSCHLIFF: einheitliche Maße ===================== */
 :root{ --r-card:20px; --r-row:16px; --r-pill:999px; }
 /* Karten: ein Radius für alle großen Flächen */
@@ -3554,7 +3587,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-24l · Reel-Fotos ohne fremde Personen';
+const APP_VERSION = '2026-11-25d · Körperatlas neu gezeichnet';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -12531,6 +12564,119 @@ kaStation = function(k, id){
   };
   ['hormone', 'knochen'].forEach(k => { const s = KA2_SYS.find(x => x.k === k); if (s) s.sk = k; });
 })();
+/* ============================ KÖRPERATLAS: NEUE ÜBERSICHT IM STIL EINER ANATOMIE-ILLUSTRATION ============================
+   Ersetzt die grobe Übersichtsfigur: natürliche Silhouette, Organe mit Verläufen und weichem Schatten,
+   Gefäße, Skelett-Andeutung und Lymphknoten. Die Beschriftungen zeigen auf die neuen Positionen.
+   Farbige Körperatlas-Skizzen bekommen außerdem kein Zitter-Filter mehr (der ließ sie krakelig wirken). */
+const KA3 = (() => {
+  /* Silhouette: linke Kontur, gespiegelt zur rechten */
+  const S = [180, 12];
+  const L = [
+    [162,12, 151,26, 151,42], [151,57, 159,67, 167,71], [170,75, 170,81, 169,87], [160,92, 141,95, 127,101],
+    [115,106, 110,117, 109,129], [107,152, 104,176, 102,201], [100,226, 98,250, 98,271], [97,284, 95,296, 100,303],
+    [105,309, 112,305, 113,296], [114,286, 114,276, 115,268], [117,247, 120,226, 122,206], [124,181, 128,159, 133,141],
+    [133,161, 135,190, 139,214], [141,231, 135,250, 135,268], [135,300, 141,340, 147,372], [149,384, 149,392, 149,400],
+    [148,418, 151,432, 153,442], [151,448, 146,452, 148,455], [156,458, 168,457, 172,454], [173,446, 172,436, 172,426],
+    [172,400, 174,370, 176,340], [177,322, 178,309, 180,303]
+  ];
+  const m = x => +(360 - x).toFixed(1);
+  let d = `M${S[0]} ${S[1]}`, pts = [S];
+  L.forEach(([a, b, c, e, x, y]) => { d += `C${a} ${b} ${c} ${e} ${x} ${y}`; pts.push([x, y]); });
+  for (let i = L.length - 1; i >= 0; i--){ const [a, b, c, e] = L[i], p = pts[i]; d += `C${m(c)} ${e} ${m(a)} ${b} ${m(p[0])} ${p[1]}`; }
+  const BODY = d + 'Z';
+  const mir = s => s.replace(/(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g, (_, x, y) => `${m(+x)} ${y}`);
+  const rg = (id, c1, c2, fx, fy) => `<radialGradient id="${id}" cx="${fx || .4}" cy="${fy || .35}" r=".75"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></radialGradient>`;
+  const defs = `<defs>
+    <linearGradient id="k3skin" x1="0" x2="1"><stop offset="0" stop-color="#ecc9b4"/><stop offset=".22" stop-color="#f6e0d1"/><stop offset=".5" stop-color="#f9e8dd"/><stop offset=".78" stop-color="#f6e0d1"/><stop offset="1" stop-color="#ecc9b4"/></linearGradient>
+    ${rg('k3brain', '#fbdde1', '#e9a8b4')}${rg('k3lung', '#f7c6c2', '#df8b88', .45, .3)}${rg('k3heart', '#ec6f63', '#b3322c')}
+    ${rg('k3liver', '#b8634c', '#7c3326')}${rg('k3stom', '#f6bba3', '#d9846b')}${rg('k3panc', '#f8d9a2', '#e3b06a')}
+    ${rg('k3kid', '#c46a5c', '#8b3a31')}${rg('k3blad', '#f8e08a', '#dcb648')}${rg('k3thy', '#dc9bcb', '#a85d95')}
+    ${rg('k3spl', '#b46a8f', '#7d3a5e')}${rg('k3gall', '#a9cf7a', '#6e9c42')}
+    <linearGradient id="k3colon" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e7ab86"/><stop offset="1" stop-color="#c98761"/></linearGradient>
+    <filter id="k3sh" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.3" flood-color="#5a2a1e" flood-opacity=".28"/></filter>
+    <clipPath id="k3clip"><path d="${BODY}"/></clipPath>
+  </defs>`;
+  const st = (c, w) => `stroke="${c}" stroke-width="${w || 1}" stroke-linejoin="round" stroke-linecap="round"`;
+  /* Organe */
+  const brain = `<g filter="url(#k3sh)"><path d="M180 18C166 18 157 26 157 36C157 46 165 52 174 52C176 55 184 55 186 52C195 52 203 46 203 36C203 26 194 18 180 18Z" fill="url(#k3brain)" ${st('#b9707e', .9)}/>
+    <path d="M180 19V51M166 27c4 3 2 8 6 9M163 40c5-1 6 4 11 3M194 26c-4 4-1 8-6 10M197 39c-5 0-6 4-11 3M171 47c3-2 6 0 8-2M189 47c-3-2-6 0-8-2M184 26c-2 4 2 6 0 10M176 30c2 3-2 5 0 8" fill="none" ${st('#c47d8b', .8)}/></g>`;
+  const ear = `<path d="M205 39c4-2 7 2 6 7-1 4-3 6-5 7" fill="#efcdb8" ${st('#c99a80', .9)}/><path d="M207 43c2 0 2 3 0 5" fill="none" ${st('#c99a80', .7)}/>`;
+  const trachea = `<path d="M176 80h8v38c0 3-8 3-8 0z" fill="#eef1f4" ${st('#9aa6b2', .8)}/><path d="M176 86h8M176 92h8M176 98h8M176 104h8M176 110h8" fill="none" ${st('#b6c0ca', .7)}/>`;
+  const lungR = `<path d="M174 117C160 114 145 127 139 149C134 170 134 189 137 200C150 205 166 203 176 196C178 170 178 140 174 117Z" fill="url(#k3lung)" ${st('#bf6c69', .9)}/>`;
+  const lungL = `<path d="M186 117C200 114 215 127 221 149C226 170 226 189 223 200C212 204 201 203 194 199C200 190 199 177 190 171C187 152 186 133 186 117Z" fill="url(#k3lung)" ${st('#bf6c69', .9)}/>`;
+  const bronchi = `<path d="M180 118L170 128L160 144M170 128L166 156M160 144L150 152M160 144L156 172M180 118L190 128L200 144M190 128L193 152M200 144L210 154M200 144L206 172" fill="none" ${st('#c5847f', 1.1)}/>
+    <path d="M150 168c4 2 6 6 5 10M210 168c-4 2-5 6-4 10M146 185c6-1 10 1 14 5M214 185c-6-1-10 1-14 5" fill="none" ${st('#d79a95', .7)}/>`;
+  const heart = `<g filter="url(#k3sh)"><path d="M192 156C190 141 203 136 208 145C211 151 207 158 200 163" fill="none" ${st('#c43a32', 3.6)}/><path d="M196 140l-2-6M201 138l1-6M206 141l4-5" fill="none" ${st('#c43a32', 1.6)}/>
+    <path d="M187 146V156" ${st('#4f74b8', 3.4)}/>
+    <path d="M187 155C195 149 210 152 213 165C216 180 205 193 192 199C185 195 175 186 175 173C175 161 181 156 187 155Z" fill="url(#k3heart)" ${st('#8f2620', .9)}/>
+    <path d="M187 160c4 8 6 18 5 37M198 157c-3 10-2 22 6 32" fill="none" ${st('#d8574d', .9)}/></g>`;
+  const diaph = `<path d="M136 201C152 195 168 197 180 200C192 197 208 195 224 201" fill="none" ${st('#d8a892', 1.1)} stroke-dasharray="1 2.5"/>`;
+  const liver = `<g filter="url(#k3sh)"><path d="M135 205C150 198 176 198 197 202C205 204 207 210 200 215C188 225 170 234 150 237C139 237 133 227 135 205Z" fill="url(#k3liver)" ${st('#5f241a', .9)}/>
+    <path d="M178 202c-4 10-6 20-6 30" fill="none" ${st('#9a4a38', .8)}/></g>
+    <ellipse cx="171" cy="233" rx="4.2" ry="6" transform="rotate(-25 171 233)" fill="url(#k3gall)" ${st('#557a33', .8)}/>`;
+  const stomach = `<g filter="url(#k3sh)"><path d="M195 206C204 200 221 202 225 215C228 230 218 243 203 244C193 244 186 240 184 233C191 233 199 230 203 224C206 218 201 213 195 211Z" fill="url(#k3stom)" ${st('#b8654c', .9)}/>
+    <path d="M200 213c6 3 11 8 15 15M207 208c5 3 9 8 12 14" fill="none" ${st('#e8a088', .7)}/></g>`;
+  const spleen = `<path d="M224 212c6 1 9 7 8 13-1 6-5 10-9 9 2-6 3-14 1-22z" fill="url(#k3spl)" ${st('#5d2a45', .8)}/>`;
+  const pancreas = `<path d="M174 245C186 240 203 243 214 237C219 240 215 247 207 249C196 251 186 251 176 250C172 249 171 246 174 245Z" fill="url(#k3panc)" ${st('#bf8a45', .8)}/>`;
+  const kidneys = [146, 214].map(x => { const s = x < 180 ? 1 : -1; return `<path d="M${x} 236C${x - 7 * s} 236 ${x - 9 * s} 245 ${x - 8 * s} 252C${x - 7 * s} 260 ${x} 263 ${x + 4 * s} 259C${x + 2 * s} 254 ${x + 2 * s} 247 ${x + 5 * s} 243C${x + 5 * s} 238 ${x + 2 * s} 236 ${x} 236Z" fill="url(#k3kid)" ${st('#6b2a23', .9)}/>`; }).join('');
+  const ureter = `<path d="M150 252C160 270 168 300 175 323M210 252C200 270 192 300 185 323" fill="none" ${st('#d4a14e', 1.1)}/>`;
+  const colon = `<g filter="url(#k3sh)"><path d="M150 304V258C150 253 154 251 158 251H202C206 251 210 253 210 258V300C210 308 202 312 194 312C188 312 184 314 182 320" fill="none" stroke="url(#k3colon)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M150 304V258C150 253 154 251 158 251H202C206 251 210 253 210 258V300C210 308 202 312 194 312C188 312 184 314 182 320" fill="none" ${st('#f2c4a6', 3)} opacity=".65"/>
+    <path d="M145 266h10M145 278h10M145 290h10M165 246v10M178 246v10M191 246v10M205 266h10M205 278h10M205 290h10" fill="none" ${st('#b8714e', .8)}/></g>`;
+  const smallInt = `<g filter="url(#k3sh)"><path d="M162 264C170 260 176 270 186 265C196 260 202 270 197 276C191 283 179 275 170 281C162 287 162 295 172 296C182 297 187 288 196 292C204 296 200 305 189 304C181 303 176 300 168 303" fill="none" stroke="#e8a985" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M162 264C170 260 176 270 186 265C196 260 202 270 197 276C191 283 179 275 170 281C162 287 162 295 172 296C182 297 187 288 196 292C204 296 200 305 189 304C181 303 176 300 168 303" fill="none" stroke="#f7d2bb" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  const bladder = `<g filter="url(#k3sh)"><path d="M180 322C189 322 193 328 192 334C191 340 186 343 180 343C174 343 169 340 168 334C167 328 171 322 180 322Z" fill="url(#k3blad)" ${st('#a8862c', .9)}/></g>`;
+  const thyroid = `<path d="M176 92c-6-2-9 4-7 9 2 4 6 5 9 3h4c3 2 7 1 9-3 2-5-1-11-7-9-2 1-3 2-4 2s-2-1-4-2z" fill="url(#k3thy)" ${st('#7e3f6e', .8)}/>`;
+  /* Gefäße und Skelett-Andeutung (im Körper abgeschnitten) */
+  const art = `M184 150V300M184 300L164 318L160 440M184 300L198 318L201 440M184 112L140 116L118 150L108 210L104 270M176 112L220 116L242 150L252 210L256 270M178 82L178 70L176 60M182 82L184 70L186 60`;
+  const vein = `M188 150V298M188 298L203 316L206 440M178 298L160 316L155 440`;
+  const vessels = `<g clip-path="url(#k3clip)" opacity=".75"><path d="${art}" fill="none" ${st('#d24b45', 1.1)}/><path d="${vein}" fill="none" ${st('#4c79c2', 1)}/>
+    <path d="M150 316L144 440" fill="none" ${st('#4c79c2', .9)} opacity=".0"/></g>`;
+  const bones = `<g clip-path="url(#k3clip)" fill="none" ${st('#d9bfae', 1.1)} opacity=".9">
+    <path d="M150 101C162 104 172 103 178 105M210 101C198 104 188 103 182 105"/>
+    <path d="M141 286C150 302 170 308 180 304C190 308 210 302 219 286M146 290C150 278 160 276 166 286M214 290C210 278 200 276 194 286"/>
+    <path d="M162 314L158 396M198 314L202 396"/><ellipse cx="158" cy="400" rx="4" ry="3.2"/><ellipse cx="202" cy="400" rx="4" ry="3.2"/>
+    <path d="M157 405L156 446M203 405L204 446"/></g>`;
+  const ribs = `<g fill="none" ${st('#fff', 1.3)} opacity=".5">${[0, 1, 2, 3, 4].map(i => `<path d="M178 ${124 + i * 13}C162 ${120 + i * 13} 146 ${126 + i * 13} 139 ${140 + i * 13}"/><path d="M182 ${124 + i * 13}C198 ${120 + i * 13} 214 ${126 + i * 13} 221 ${140 + i * 13}"/>`).join('')}</g>`;
+  const lymph = `<g fill="#8fc36a" ${st('#5b8f3a', .7)}>${[[166, 86], [194, 86], [137, 139], [223, 139], [161, 312], [199, 312]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6"/>`).join('')}</g>`;
+  const body = `<path d="${BODY}" fill="url(#k3skin)" ${st('#c99a80', 1.2)}/>
+    <path d="M170 75c3 4 17 4 20 0" fill="none" ${st('#dcb39b', .9)}/><path d="M168 262c4 3 8 3 12 0" fill="none" opacity="0"/>
+    <path d="M178 196c2 2 2 4 0 6" fill="none" ${st('#dcb39b', .8)} opacity=".0"/>`;
+  const art2 = defs + body + vessels + bones + brain + ear + trachea + lungR + lungL + bronchi + ribs + heart + diaph + kidneys + ureter + liver + stomach + spleen + pancreas + colon + smallInt + bladder + thyroid + lymph;
+  return { art: art2 };
+})();
+/* Beschriftungen auf die neuen Positionen ausrichten: [Bereich, …, Ziel x, Ziel y] */
+(function(){
+  const T = { gehirn:[172, 32], sinne:[208, 46], hormone:[180, 96], immun:[223, 139], lunge:[152, 162], herz:[196, 175], bauch:[160, 218], niere:[214, 250], becken:[180, 333], haut:[225, 290], knochen:[159, 380], blut:[201, 384] };
+  try { KA2_TAGS.forEach(t => { const p = T[t[0]]; if (p){ t[4] = p[0]; t[5] = p[1]; } }); } catch(e){}
+  const _r = renderKoerper;
+  renderKoerper = function(){
+    const r = _r.apply(this, arguments);
+    try {
+      const svg = document.querySelector('.ka-over'); if (!svg) return r;
+      const tags = [...svg.querySelectorAll('.ka-tag')];
+      svg.innerHTML = `<g class="k3-art">${KA3.art}</g>`;
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'ka-tags3'); tags.forEach(t => g.appendChild(t)); svg.appendChild(g);
+      svg.classList.add('k3');
+    } catch(e){ console.warn(e); }
+    return r;
+  };
+})();
+/* Volumen für die farbigen Detail-Skizzen: dunkle Ränder innen, heller Glanz oben links */
+(function(){
+  const defs = `<svg id="kaVolDefs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs>
+    <filter id="kaVol" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.5" result="b"/>
+      <feComposite in="SourceAlpha" in2="b" operator="arithmetic" k2="1" k3="-1" result="rim"/>
+      <feFlood flood-color="#4a1a10" flood-opacity=".38"/><feComposite in2="rim" operator="in" result="dark"/>
+      <feOffset in="SourceAlpha" dx="3" dy="4" result="off"/><feGaussianBlur in="off" stdDeviation="3" result="offb"/>
+      <feComposite in="SourceAlpha" in2="offb" operator="out" result="hlA"/>
+      <feFlood flood-color="#fff" flood-opacity=".42"/><feComposite in2="hlA" operator="in" result="hl"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="dark"/><feMergeNode in="hl"/></feMerge>
+    </filter></defs></svg>`;
+  const put = () => { if (!document.getElementById('kaVolDefs')) document.body.insertAdjacentHTML('afterbegin', defs); };
+  if (document.body) put(); else document.addEventListener('DOMContentLoaded', put);
+})();
 /* ========================== WISSENSLANDKARTE ==========================
    Allgemeinwissen als Inselwelt: jede Kategorie eine Insel mit Wahrzeichen,
    jeder Lernpfad ein Ort an einer Straße, jede Station ein Licht am Ort.
@@ -13442,6 +13588,7 @@ function skzOpen(s){
   const wrap = f => function(vb, inner, cls){ return f.call(this, vb, `<g filter="url(#skInk)">${inner}</g>`, cls); };
   if (typeof skzSvg === 'function') skzSvg = wrap(skzSvg);
   if (typeof kaSvg === 'function'){ const _k = kaSvg; kaSvg = function(vb, inner, cls){
+    if (/ka-col/.test(cls || '')) return _k.call(this, vb, inner, cls);   // farbige Atlas-Bilder ohne Zittern
     // Pins und Beschriftungs-Chips ohne Filter, damit sie scharf bleiben
     const i = inner.search(/<g class="ka-(pins|tag)/); if (i < 0) return _k.call(this, vb, `<g filter="url(#skInk)">${inner}</g>`, cls);
     return _k.call(this, vb, `<g filter="url(#skInk)">${inner.slice(0, i)}</g>${inner.slice(i)}`, cls); }; }
@@ -16718,7 +16865,7 @@ const ABL = (() => {
     { c:'Die linke Herzhälfte pumpt es über die Aorta in den Körper. Organe und Muskeln holen sich den Sauerstoff.',
       s: A(182, 112, 182, 140, '', 'sk-red') + B(110, 142, 100, 30, 'Körper', 's6') + T(262, 158, 'O₂ ab, CO₂ auf', 'sk-s') },
     { c:'Sauerstoffarm kehrt das Blut über die Venen zur rechten Herzhälfte zurück – der Kreis ist geschlossen.',
-      s: A(138, 142, 138, 114, '', 'sk-blue') + T(56, 92, 'durchgezogen: O₂-arm|gestrichelt: O₂-reich', 'sk-s') }
+      s: A(138, 142, 138, 114, '', 'sk-blue') + T(56, 92, 'blau: O₂-arm|rot: O₂-reich', 'sk-s') }
   ]};
 
   S.platten = { t:'Plattentektonik', st:['NATU_ERDE_S01', 'NATU_ERDE_S03'], steps:[
@@ -17157,7 +17304,7 @@ let ABL_BACK = null;
     F('M40 170l120-140 120 140z', 's6') + A(10, 150, 60, 130) + T(40, 120, 'feuchte Luft', 'sk-s'),
     A(70, 124, 120, 64) + C(110, 46, 12, 's0') + C(128, 40, 14, 's0') + P('M100 60l-4 10M114 60l-4 10', 'sk-l') + T(54, 70, 'Abkühlung,|Regen', 'sk-s'),
     A(200, 60, 250, 130) + T(270, 80, 'trocken,|erwärmt sich', 'sk-s'),
-    T(290, 160, 'Föhn', 'sk-t') + T(40, 176, '10 °C', 'sk-s') + T(290, 176, '18 °C', 'sk-s')
+    T(290, 160, 'Föhn', 'sk-t') + T(40, 176, '10 °C', 'sk-s') + T(290, 176, '20 °C', 'sk-s')
   ]);
   add('monsun', 'Der Monsun', ['GEO_ASIEN_S03'], [
     'Im Sommer erhitzt sich das Land viel stärker als das Meer.',
@@ -17168,7 +17315,7 @@ let ABL_BACK = null;
     `<rect class="sk-f s1" x="0" y="140" width="150" height="40"/><rect class="sk-f s6" x="150" y="140" width="170" height="40"/>` + T(75, 162, 'Meer', 'sk-s') + T(235, 162, 'Land: heiß', 'sk-s') + sun(296, 22, 9),
     A(235, 136, 235, 90) + A(60, 120, 200, 120, 'feuchte Luft') + T(270, 100, 'Tief', 'sk-t'),
     C(220, 62, 14, 's0') + C(240, 56, 16, 's0') + [216, 230, 244].map(x => P(`M${x} 80l-4 12`, 'sk-l')).join('') + T(290, 56, 'Regen', 'sk-s'),
-    A(200, 100, 60, 100, 'Winter: umgekehrt', 'sk-dash', 14)
+    A(200, 100, 60, 100, 'Winter: umgekehrt', 'sk-dash', -8)
   ]);
   add('tsunami', 'Wie ein Tsunami entsteht', ['GEO_GEWALTEN_S02'], [
     'Bei einem starken Seebeben hebt oder senkt sich der Meeresboden ruckartig – die ganze Wassersäule darüber wird bewegt.',
@@ -17456,7 +17603,7 @@ let ABL_BACK = null;
     'Durch eine enge Drossel wird es entspannt, kühlt stark ab und fließt zurück ins Innere. Der Kühlschrank pumpt also Wärme von innen nach außen.'
   ], [
     R(40, 20, 140, 150) + P('M60 40h100v20H60v20h100', 'sk-l sk-thick') + T(110, 110, 'innen: kalt', 'sk-s') + A(110, 140, 110, 92, '', 'sk-dash'),
-    B(200, 140, 50, 28, 'Kompressor', 's5', 'sk-s') + P('M160 80h30v70h10', 'sk-l'),
+    B(194, 140, 62, 28, 'Kompressor', 's5', 'sk-s') + P('M160 80h30v70h10', 'sk-l'),
     P('M250 150h30V30h-60v10', 'sk-l sk-thick') + P('M286 40h20M286 70h20M286 100h20', 'sk-l sk-red') + T(290, 18, 'Wärme raus', 'sk-s'),
     P('M220 40v-10H160v10', 'sk-l') + C(200, 30, 5, 's3') + T(200, 14, 'Drossel', 'sk-s')
   ]);
@@ -18053,7 +18200,7 @@ const WFH = (() => {
     R(0, 150, 320, 30, 's1') + R(86, 30, 10, 130, 's6') + R(224, 30, 10, 130, 's6') + P('M24 120L91 30Q160 120 229 30L296 120', 'sk-l sk-thick'),
     B(6, 112, 30, 22, '', 's6') + B(284, 112, 30, 22, '', 's6') + T(21, 102, 'Anker', 'sk-s') + T(299, 102, 'Anker', 'sk-s'),
     P('M40 128H280', 'sk-l sk-thick') + [110, 130, 150, 170, 190, 210].map(x => { const t = (x - 91) / 138; return P(`M${x} ${(30 + 180 * t * (1 - t)).toFixed(0)}V128`, 'sk-l'); }).join('') + T(160, 140, 'Fahrbahn', 'sk-s'),
-    A(91, 60, 91, 146, 'Druck', 'sk-red', 4) + A(66, 76, 46, 102, '', 'sk-green') + T(72, 96, 'Zug', 'sk-s', 'start')
+    A(91, 60, 91, 146, '', 'sk-red') + T(100, 112, 'Druck', 'sk-s', 'start') + A(66, 76, 46, 102, '', 'sk-green') + T(62, 70, 'Zug', 'sk-s', 'end')
   ]);
   add('drohne', 'Wie eine Drohne fliegt', ['TECH_ROBOTER_S05'], 'technik', [
     'Eine Quadrokopter-Drohne hat vier Propeller. Zwei drehen im Uhrzeigersinn, zwei dagegen – so heben sich ihre Drehmomente auf.',
@@ -18097,7 +18244,7 @@ const WFH = (() => {
     gear(90, 100, 30) + gear(240, 100, 14, 's2') + P('M90 70L240 86M90 130L240 114', 'sk-l sk-thick') + T(90, 150, 'Kettenblatt', 'sk-s') + T(240, 130, 'Ritzel', 'sk-s'),
     T(240, 30, 'großes Ritzel = leicht', 'sk-s') + gear(240, 100, 22, 's2'),
     T(240, 46, 'kleines Ritzel = schnell', 'sk-s') + C(240, 100, 8, 's4'),
-    B(250, 140, 56, 22, 'Schaltwerk', 's5') + A(278, 140, 260, 124)
+    B(242, 140, 72, 22, 'Schaltwerk', 's5') + A(278, 140, 260, 124)
   ]);
   add('druck3d', 'Wie ein 3D-Drucker druckt', ['TECH_ROBOTER_S04'], 'technik', [
     'Am Computer wird ein 3D-Modell in Hunderte dünne Schichten zerlegt.',
@@ -18195,7 +18342,7 @@ const WFH = (() => {
     'Löschen heißt, eine der drei Seiten zu entfernen: Wasser kühlt, eine Löschdecke erstickt, Gas abdrehen nimmt den Brennstoff.',
     'Brennendes Fett niemals mit Wasser löschen: Das Wasser verdampft schlagartig und schleudert das Fett als Feuerball hoch. Deckel drauf!'
   ], [
-    P('M160 20L260 170H60z', 'sk-l sk-thick') + T(160, 186, 'Brennstoff', 'sk-s') + T(76, 90, 'Sauerstoff', 'sk-s') + T(246, 90, 'Hitze', 'sk-s'),
+    P('M160 20L260 170H60z', 'sk-l sk-thick') + T(160, 183, 'Brennstoff', 'sk-s') + T(76, 90, 'Sauerstoff', 'sk-s') + T(246, 90, 'Hitze', 'sk-s'),
     F('M160 150q-26-24-8-58q4 18 14 20q-4-26 12-44q2 30 14 44q14 22-10 38z', 's4'),
     P('M48 30l40 40M88 30l-40 40', 'sk-l sk-red') + T(68, 22, 'eine Seite weg', 'sk-s'),
     B(232, 120, 76, 40, 'Fett: Deckel,|kein Wasser!', 's3')
@@ -18308,7 +18455,7 @@ const WFH = (() => {
     B(14, 50, 70, 100, '', 's0') + [30, 44, 58, 72].map(x => R(x - 3, 90, 6, 50, 's4')).join('') + P('M37 60v40M65 60v40', 'sk-l sk-thick') + T(49, 164, 'Reaktor', 'sk-s'),
     P('M84 80H120V130H84', 'sk-l sk-thick sk-red') + T(102, 72, '~300 °C', 'sk-s'),
     B(120, 70, 40, 70, 'Dampf-|erzeuger', 's1', 'sk-s') + P('M160 80H200', 'sk-l sk-thick') + gear(212, 80, 12, 's3') + B(232, 66, 40, 28, 'Gene-|rator', 's2', 'sk-s'),
-    P('M212 92V140H160', 'sk-l sk-blue') + B(200, 130, 56, 22, 'Kondensator', 's1', 'sk-s') + F('M270 170l8-60h24l8 60z', 's0') + T(290, 100, 'Kühlturm', 'sk-s')
+    P('M212 92V140H160', 'sk-l sk-blue') + B(196, 130, 64, 22, 'Kondensator', 's1', 'sk-s') + F('M270 170l8-60h24l8 60z', 's0') + T(290, 100, 'Kühlturm', 'sk-s')
   ]);
   add('brennstoffzelle', 'Wie eine Brennstoffzelle Strom erzeugt', ['TECH_ENERGIEPLUS_S02', 'CHEM_STOFF_S04'], 'energie', [
     'Auf der einen Seite strömt Wasserstoff ein, auf der anderen Sauerstoff aus der Luft. Dazwischen liegt eine dünne Membran.',
@@ -18908,9 +19055,9 @@ const WFM = (() => {
       ['Jede Herzhälfte hat einen Vorhof und eine Kammer. Die Vorhöfe sammeln das ankommende Blut, die kräftigen Kammern pumpen es weiter.',
         heart(160, 30, 3.2, 's0') + P('M160 50V170', 'sk-l') + P('M80 92H240', 'sk-l sk-dash') + T(120, 74, 'Vorhof', 'sk-s') + T(200, 74, 'Vorhof', 'sk-s') + T(124, 130, 'Kammer', 'sk-s') + T(196, 130, 'Kammer', 'sk-s')],
       ['Herzklappen wirken wie Rückschlagventile: Sie lassen das Blut nur in eine Richtung fließen. Ihr Schließen hört man als Herztöne.',
-        P('M100 92l16 10 16-10M188 92l16 10 16-10', 'sk-l sk-thick sk-red') + T(280, 100, 'Klappen', 'sk-s')],
+        P('M100 92l16 10 16-10M188 92l16 10 16-10', 'sk-l sk-thick sk-red') + T(280, 100, 'Klappen', 'sk-s') + P('M258 98L222 94', 'sk-l')],
       ['Der Sinusknoten im rechten Vorhof ist der natürliche Taktgeber. Er sendet etwa 60- bis 80-mal pro Minute einen Impuls, der erst die Vorhöfe und dann über den AV-Knoten die Kammern erregt.',
-        C(106, 60, 6, 's3') + C(156, 96, 5, 's3') + P('M106 66Q140 80 156 96L150 160M156 100L190 156', 'sk-l sk-red sk-dash') + T(60, 40, 'Sinusknoten', 'sk-s') + T(270, 150, 'AV-Knoten', 'sk-s')]
+        C(106, 60, 6, 's3') + C(156, 96, 5, 's3') + P('M106 66Q140 80 156 96L150 160M156 100L190 156', 'sk-l sk-red sk-dash') + T(60, 40, 'Sinusknoten', 'sk-s') + T(270, 150, 'AV-Knoten', 'sk-s') + P('M244 146L162 99', 'sk-l')]
     ], false],
     ['Gefäße und Blutdruck', [
       ['Arterien haben dicke, elastische Wände. Sie federn jeden Herzschlag ab – das spürt man als Puls.',
@@ -20318,7 +20465,7 @@ const WFM = (() => {
       ['Im Zweifel für den Angeklagten: Bleiben vernünftige Zweifel, wird freigesprochen.',
         big('in dubio pro reo', 'im Zweifel für den Angeklagten', 's2')],
       ['Viele kleinere Fälle enden ohne Hauptverhandlung, etwa mit einem Strafbefehl oder einer Einstellung gegen eine Geldauflage.',
-        row(['Strafbefehl', 'Einstellung gegen Auflage'], 70)]
+        row(['Strafbefehl', 'Einstellung|gegen Auflage'], 70)]
     ]]
   ]);
 
@@ -22439,7 +22586,9 @@ function nav2Ich(dash){
   /* Unterseiten ohne eigenen Zurück-Knopf bekommen einen, der zu „Ich“ zurückführt */
   [stats && stats.querySelector('#dashCrownStat'), ...links].filter(Boolean).forEach(b => b.addEventListener('click', () => setTimeout(() => nav2EnsureBack(() => nav2Go('ich')), 0)));
   fb.onclick = () => fbView(() => nav2Go('ich'));
-  sw.onclick = () => swStart(() => nav2Go('ich'));
+  const swOk = typeof swCandidates === 'function' && swCandidates().length >= 3;
+  if (!swOk){ sw.classList.add('nv-off'); sw.querySelector('.dsl-desc').textContent = 'Wird freigeschaltet, sobald es genug falsche Antworten gibt, um daraus eine Runde zu bauen'; }
+  sw.onclick = () => { if (swStart(() => nav2Go('ich')) === false){ sw.querySelector('.dsl-desc').textContent = 'Noch zu wenige falsche Antworten für eine Runde – spiel erst ein paar Quizze'; } };
   ssrB.onclick = () => startSpielSR(() => nav2Go('ich'));
   albB.onclick = () => renderAlbum();
   nav2WireSearch(() => nav2Go('ich'));
@@ -23007,6 +23156,268 @@ function renderVergessen(back){
     const CH = { OE:'Baltischer Weg', KT:'Erdbeben im Indischen Ozean 2004', VN:'Vietnam Veterans Memorial', LO:'Großer Brand von London', AFR:'Schlacht bei Adwa' };
     Object.entries(CH).forEach(([k, t]) => { if (ZEIT_BILD.k[k] !== undefined) ZEIT_BILD.k[k] = t; });
   } catch(e){ console.warn('bildfix', e); }
+})();
+/* ============================ HEUTE-RUNDE: MEGA-SCHRITT ZÄHLT AUCH BEI UMRISS-/REIHENFOLGE-QUIZ ============================
+   Bisher wurde der Schritt „Mega-Liste auffrischen“ nur nach normalen Listen abgehakt. War die fällige
+   Liste ein Umriss-Quiz (Länder, Bundesländer, Inseln, Flüsse, Flaggen) oder eine Reihenfolge, blieb er offen.
+   Jetzt zählt jedes Ergebnis der fälligen Liste – egal, ob aus der Runde oder aus „Spielen“ gestartet. */
+(function(){
+  const _mr = memMegaResult;
+  memMegaResult = function(id){
+    const r = _mr.apply(this, arguments);
+    try {
+      const h = heutePlan();
+      if (h.plan.includes('mega') && !h.done.mega && (!h.megaId || h.megaId === id)){ h.done.mega = todayNum(); heuteSave(h); }
+    } catch(e){}
+    return r;
+  };
+  /* Heute schon gespielt (z. B. vor diesem Update)? Dann gilt der Schritt als erledigt */
+  const _p = heutePlan;
+  heutePlan = function(){
+    const h = _p.apply(this, arguments);
+    try { const t = todayNum(), m = memStore().mem.m[h.megaId];
+      if (h.plan.includes('mega') && !h.done.mega && h.megaId && m && m.last === t){ h.done.mega = t; heuteSave(h); } } catch(e){}
+    return h;
+  };
+  const weiter = () => {
+    if (HEUTE_RUN !== 'mega') return;
+    const acts = document.querySelector('.path-done .mega-actions');
+    if (acts && !document.getElementById('megaHeute')){
+      acts.innerHTML = `<button class="primary" id="megaHeute">Weiter in der Runde</button>`;
+      document.getElementById('megaHeute').onclick = () => heuteStepDone('mega');
+    }
+  };
+  ['geoQuizDone', 'megaSeqDone'].forEach(fn => {
+    const _f = window[fn]; if (typeof _f !== 'function') return;
+    window[fn] = function(){ const r = _f.apply(this, arguments); try { weiter(); setTimeout(weiter, 300); } catch(e){} return r; };
+  });
+})();
+/* ============================ REIHENFOLGE-QUIZ: NUR ECHTE ABLÄUFE ============================
+   Vorher wurden bis zu 8 Schritte gleichmäßig über die ganze Skizze verteilt gezogen – auch Hintergrund-
+   wissen aus den Vertiefungen („Arterien haben dicke Wände“), das keinen festen Platz in einer Reihenfolge hat.
+   Jetzt: nur der eigentliche Ablauf (erste Szene), und je Skizze geprüft, welche Schritte eindeutig
+   aufeinander folgen. 0 = keine eindeutige Reihenfolge, dann gibt es stattdessen Verständnisfragen. */
+const ABL_ORD = {
+  platten:0, hochtief:0, wahlrecht:0, rente:0, kredit:0, hubschrauber:0, aufzug:0, haengebruecke:0, drohne:0,
+  fahrradschaltung:0, ampel:0, thermoskanne:0, passwort:0, mondphasen:0,
+  inflation:[0,1,3,4], photo:[0,1,3], jahreszeiten:[1,2,3], insulin:[0,1,2], gerinnung:[0,1,2], resistenz:[0,1,2],
+  zellatmung:[0,1,2], tsunami:[0,1,2], eugesetz:[0,3,4], bruttonetto:[0,1,3], gps:[0,1,2], syllogismus:[0,1,2],
+  verfassungsbeschwerde:[0,1,3], eauto:[0,1,2], led:[0,1,2], akku:[0,1,2], qrcode:[0,1,3], blockchain:[0,2,3],
+  schrittmacher:[0,1,2], schiff:[0,1,3], mauer:[0,1,3,4], industrie:[0,1,3,4], induktion:[0,1,2], toilette:[0,1,2],
+  schnellkochtopf:[0,1,2], feuer:[0,1,2], wlan:[0,1,2], pumpspeicher:[0,1,2], muskel:[0,2,3], baumwasser:[0,2,3]
+};
+/* Schritte des eigentlichen Ablaufs: bis zur zweiten Szene */
+function ablCore(k){ const a = ABL[k]; if (!a) return []; const s = a.steps; let n = s.findIndex((x, i) => i > 0 && x.sc); if (n < 0) n = s.length; return [...Array(n).keys()]; }
+function ablOrder(k){ const o = ABL_ORD[k]; if (o === 0) return []; const core = ablCore(k); return (o || core).filter(i => i < core.length).slice(0, 8); }
+function ablHasOrder(k){ return ablOrder(k).length >= 3; }
+/* Kurzfassung: nicht hinter einer Zahl abschneiden („Um den 20. März und den 22.“) */
+ablShort = function(c){ let x = String(c).replace(/^\d+\.\s*/, ''); const m = x.match(/^(.{20,}?[^\d\s][.!?])(\s|$)/); if (m) x = m[1]; return x.length > 120 ? x.slice(0, 117).replace(/\s+\S*$/, '') + ' …' : x; };
+(function(){
+  /* Quiz mit den geprüften Schritten */
+  const _q = ablQuiz;
+  ablQuiz = function(k, fromPlayer){
+    const a = ABL[k]; if (!a) return;
+    if (!ablHasOrder(k)) return afQuestions(k).length ? ablFragen(k, !!fromPlayer) : ablOpen(k);
+    const full = a.steps, keep = ablOrder(k);
+    /* Tagesaufgabe: lange Skizzen abwechselnd mit Verständnisfragen */
+    if (!fromPlayer && full.length >= 6 && (todayNum() + k.length) % 2 === 0 && afQuestions(k).length >= 3) return ablFragen(k, false);
+    if (!fromPlayer || !ABL_P){ ablOpen(k); ablStop(); }
+    /* Original-Quiz auf den geprüften Schritten laufen lassen, danach die echten Schritte zurück */
+    a.steps = keep.map(i => full[i]);
+    try { return _q.call(this, k, true); } finally { a.steps = full; }
+  };
+  /* „Reihenfolge üben“ nur anbieten, wo es eine eindeutige Reihenfolge gibt */
+  const _go = ablGo;
+  ablGo = function(){
+    const r = _go.apply(this, arguments);
+    try { const P = ABL_P; if (P && !ablHasOrder(P.k)){ const b = P.o.querySelector('.ab-qgo:not(.af-go)'); if (b) b.remove(); } } catch(e){}
+    return r;
+  };
+  /* „Was kommt danach?“ nur innerhalb des geprüften Ablaufs; falsche Antworten aus anderen Teilen der Skizze */
+  afNextQs = function(a, R){
+    const k = Object.keys(ABL).find(x => ABL[x] === a); const seq = k ? ablOrder(k) : []; const out = [];
+    if (seq.length < 3) return out;
+    for (let j = 0; j < seq.length - 1; j++){
+      const i = seq[j], nx = seq[j + 1];
+      const pool = [...Array(a.steps.length).keys()].filter(x => x !== i && x !== nx && !seq.slice(j + 1).includes(x));
+      const others = afShuffle(pool, R).slice(0, 3); if (others.length < 3) continue;
+      out.push({ k:'next', step:i, q: ablShort(a.steps[i].c), right: ablShort(a.steps[nx].c), opts: afShuffle([nx, ...others], R).map(x => ablShort(a.steps[x].c)) });
+    }
+    return out;
+  };
+})();
+/* ============================ SKIZZEN: TUSCHE MIT FARBE, DIE ETWAS BEDEUTET ============================
+   Linien bleiben Tusche, Flächen bleiben schraffiert. Neu: Eine Fläche bekommt nur dann Farbe, wenn ihre
+   Beschriftung zu einer Bedeutung gehört – überall in der App dieselbe (Blau = Wasser/Kälte, Rot = Wärme …).
+   Unbeschriftete oder neutrale Flächen bleiben grau schraffiert. Farbige Linien (rot/blau/grün) zeigen wieder
+   ihre echte Farbe. Unter der Skizze erklärt eine kleine Legende die Farben, die gerade zu sehen sind. */
+const SKF_CAT = [
+  /* Reihenfolge = Vorrang. Wörter werden in der Beschriftung gesucht (ohne Groß/Klein). */
+  ['luft',    'Luft · Gase',                 '#edf3f5', '#7c9fab', /wasserstoff|sauerstoff|\bo₂|\bco₂|\bh₂\b|\bgas\b|gase\b|erdgas|biogas|abgas|luft|dampf|methan|stickstoff|ozon/],
+  ['wasser',  'Wasser · Kälte',              '#dcebf8', '#3c7cc0', /wasser|\bmeer|\bsee\b|fluss|regen|wolke|\beis\b|gletscher|schnee|h₂o|kalt|kälte|kühl|tropf|ozean|grundwasser|\bflut|ebbe|tsunami|schleuse/],
+  ['energie', 'Energie · Strom · Licht',     '#fcf0c3', '#c4911a', /strom|energie|licht|sonne|batterie|akku|elektron|generator|spannung|\bvolt\b|\d\s?v\b|kraftwerk|solar|\batp\b|laser|blitz|wechselrichter|lader\b|wallbox|turbine|motor|kompressor|magnetron|transformator|umspann|\bwatt\b|\bled\b|photon|kernspaltung|kernfusion|uran|reaktor|brennstoffzelle|lithium|zink|nickel/],
+  ['waerme',  'Wärme · Feuer',               '#fbe1d5', '#cf5233', /wärme|warm|heiß|hitze|feuer|flamme|brenn|glut|magma|lava|heiz|°c|ofen|kessel|verbrennung|explosion|zündung|fieber/],
+  ['daten',   'Signale · Daten · Steuerung', '#e8e1f6', '#7253c0', /signal|daten|server|router|chip|prozessor|computer|browser|netzwerk|internet|kernnetz|\bmodell|sensor|steuergerät|steuerung|hash|\bcode\b|wlan|funk|satellit|\bgps\b|galileo|glonass|beidou|handy|smartphone|bildschirm|display|\bram\b|arbeitsspeicher|algorithm|programm|software|\bapp\b|kamera|antenne|frequenz|token|\bbits?\b|verschlüssel|schlüssel|zertifikat|postfach|e-?mail|\bdns\b|encoder|\blcd\b|oled/],
+  ['geld',    'Geld · Wirtschaft',           '#f4e7cd', '#a5772a', /geld|euro|€|\bbank|kredit|zins|\bsteuer\b|steuern|lohn|gehalt|brutto|netto|rente|aktie|dividende|börse|\bpreis|kosten|einkommen|\bdax\b|\betf\b|inflation|\bezb\b|warenkorb|schulden|tilgung|unternehmen|firma|handel|markt/],
+  ['staat',   'Staat · Recht · Politik',     '#e2e8f0', '#4b6588', /bundestag|bundesrat|präsident|kanzler|regierung|parlament|kommission|minister|\brat\b|gericht|\bbgh\b|bverfg|bverwg|\bbsg\b|\bbag\b|\bbfh\b|eugh|karlsruhe|staatsanwalt|anklage|urteil|verfassung|grundgesetz|gesetz|wahl|partei|\bstimme|erststimme|zweitstimme|abgeordnet|ausschuss|staat|polizei|verteidigung|klage|revision|berufung|\brechte?\b|kaiser|könig|\bddr\b|\bbund\b|\beu\b|trilog|verordnung|richtlinie/],
+  ['koerper', 'Körper · Organe',             '#f9dfe5', '#c24d6a', /herz|lunge|blut|leber|niere|darm|magen|muskel|\bhaut|knochen|gehirn|\bhirn|nerv|\bauge|\bohr|organ|körper|patient|mensch|arterie|aorta|vene|kapillar|immun|antikörper|hormon|insulin|bauchspeichel|speiseröhre|\bmund|\bzahn\b|zähne|trommelfell|netzhaut|pupille|lymph|tumor|krebs|metasta|gelenk|sehne/],
+  ['leben',   'Leben · Pflanzen · Zellen',   '#e0f0d4', '#4a9637', /pflanze|blatt|baum|wald|zelle|bakteri|mikrobiom|chlorophyll|chloroplast|gemüse|ernährung|getreide|wurzel|samen|blüte|erbse|\btier|käfer|mitochondri|\bdna\b|\brna\b|\bgene?\b|enzym|protein|ribosom|virus|viren|erreger|keim|hefe|zucker|\bstärke\b|zellulose|aminosäure/]
+];const SKF_BY = Object.fromEntries(SKF_CAT.map(c => [c[0], c]));
+/* Muster: blasse Grundfarbe mit schräger Schraffur in derselben Farbe */
+(function(){
+  const pat = c => `<pattern id="skc-${c[0]}" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="${c[2]}"/><line x1="0" y1="0" x2="0" y2="5" stroke="${c[3]}" stroke-opacity=".55" stroke-width=".8"/></pattern>`;
+  const defs = `<svg id="skColDefs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs>${SKF_CAT.map(pat).join('')}
+    <pattern id="skc-sonne" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#fde9a6"/><circle cx="2" cy="2" r=".6" fill="#d9a21b"/></pattern></defs></svg>`;
+  const put = () => { if (!document.getElementById('skColDefs')) document.body.insertAdjacentHTML('afterbegin', defs); };
+  if (document.body) put(); else document.addEventListener('DOMContentLoaded', put);
+})();
+function skfCat(label){
+  const t = String(label || '').toLowerCase().replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/-\s+(?=[a-zäöüß])/g, '');
+  if (!t.trim()) return null;
+  for (const c of SKF_CAT) if (c[4].test(t)) return c[0];
+  return null;
+}
+/* Beschriftung einer Fläche finden: Texte direkt danach oder Texte, deren Ankerpunkt in der Fläche liegt */
+function skfColorize(svg, over){
+  if (!svg || svg.indexOf('sk-f') < 0) return svg;
+  const texts = []; const reT = /<text class="([^"]*)" x="([-\d.]+)" y="([-\d.]+)"[^>]*>([^<]*)<\/text>/g; let m;
+  while ((m = reT.exec(svg))) texts.push({ x: +m[2], y: +m[3], t: m[4], i: m.index });
+  const num = (s, a) => { const r = new RegExp(`\\b${a}="([-\\d.]+)"`).exec(s); return r ? +r[1] : null; };
+  return svg.replace(/<(rect|circle|ellipse|path) class="sk-f (s\d|s-dark)"([^>]*)\/>/g, (whole, tag, sc, rest, idx) => {
+    if (sc === 's-dark') return whole;
+    let inside = [];
+    if (tag === 'rect'){ const x = num(rest, 'x'), y = num(rest, 'y'), w = num(rest, 'width'), h = num(rest, 'height');
+      if (x != null){ inside = texts.filter(t => t.x >= x - 1 && t.x <= x + w + 1 && t.y >= y - 1 && t.y <= y + h + 4);
+        if (!inside.length && w <= 120) inside = texts.filter(t => t.x >= x && t.x <= x + w && t.y > y + h && t.y <= y + h + 16); } }
+    else if (tag === 'circle' || tag === 'ellipse'){ const cx = num(rest, 'cx'), cy = num(rest, 'cy'), rx = num(rest, tag === 'circle' ? 'r' : 'rx'), ry = num(rest, tag === 'circle' ? 'r' : 'ry');
+      if (cx != null) inside = texts.filter(t => Math.pow((t.x - cx) / (rx + 1), 2) + Math.pow((t.y - 4 - cy) / (ry + 3), 2) <= 1); }
+    /* direkt folgende Beschriftung zählt immer */
+    const after = svg.slice(idx + whole.length).match(/^((?:<text[^>]*>[^<]*<\/text>)+)/);
+    let lines = inside.map(t => t.t);
+    if (after && !lines.length) lines = after[1].split('</text>').map(x => x.replace(/<[^>]+>/g, '')).filter(x => x.trim());
+    /* Silbentrennung über Zeilen zusammenführen („Gene-“ + „rator“ = „Generator“) */
+    lines = lines.reduce((acc, l) => { const p = acc[acc.length - 1]; if (p != null && /-\s*$/.test(p) && /^\s*[a-zäöüß]/.test(l)) acc[acc.length - 1] = p.replace(/-\s*$/, '') + l.trim(); else acc.push(l); return acc; }, []);
+    const lab = lines.join(' ').trim();
+    /* erste Zeile ist das Hauptwort („Lunge“), weitere Zeilen nur, wenn sie nichts ergibt */
+    let cat = over && over[lab] !== undefined ? over[lab] : null;
+    if (!cat && !(over && over[lab] === null)) for (const l of lines){ cat = skfCat(l); if (cat) break; }
+    /* Sonne: gelber Kreis mit Strahlen */
+    if (!cat && tag === 'circle' && sc === 's3' && /^(<path class="sk-l" d="M[-\d.]+ [-\d.]+L[-\d.]+ [-\d.]+"\/>){6}/.test(svg.slice(idx + whole.length))) cat = 'sonne';
+    return cat ? `<${tag} class="sk-f ${sc} skc skc-${cat}" data-skc="${cat}"${rest}/>` : whole;
+  });
+}
+/* Feste Zuordnungen, wo die Beschriftung allein nicht reicht (Skizze → Beschriftung → Kategorie oder null) */
+const SKF_OVER = {
+  feuer: { 'Fett: Deckel, kein Wasser!': 'waerme' },
+  kreislauf: { 'rechts': 'koerper', 'links Herz': 'koerper', 'links': 'koerper' }
+};
+(function(){
+  try { for (const k in ABL) (ABL[k].steps || []).forEach(s => { if (s.s) s.s = skfColorize(s.s, SKF_OVER[k]); }); } catch(e){ console.warn(e); }
+  if (typeof skzSvg === 'function'){ const _s = skzSvg; skzSvg = function(vb, inner, cls){ return _s.call(this, vb, skfColorize(inner), cls); }; }
+  /* etwas Rand um jede Skizze, damit Beschriftungen am Rand nicht abgeschnitten werden */
+  const _sv = ablSvg; ablSvg = function(){ return _sv.apply(this, arguments).replace('viewBox="0 -2 320 184"', 'viewBox="-6 -6 332 196"'); };
+  /* Legende im Abspieler: nur Farben, die im sichtbaren Teil vorkommen */
+  const _go = ablGo;
+  ablGo = function(){
+    const g = _go.apply(this, arguments);
+    try { const P = ABL_P; if (P) skfLegend(P.o.querySelector('.ab-svg'), P.o.querySelector('.ab-in')); } catch(e){}
+    return g;
+  };
+})();
+function skfLegend(svg, host){
+  if (!svg || !host) return;
+  let box = host.querySelector('.skf-leg');
+  if (!box){ box = document.createElement('div'); box.className = 'skf-leg'; svg.insertAdjacentElement('afterend', box); }
+  const seen = [];
+  svg.querySelectorAll('.ab-step').forEach(g => { if (g.style.display === 'none') return;
+    g.querySelectorAll('[data-skc]').forEach(el => { const c = el.dataset.skc; if (c !== 'sonne' && !seen.includes(c)) seen.push(c); }); });
+  box.innerHTML = seen.map(c => `<span><i style="background:${SKF_BY[c][2]};border-color:${SKF_BY[c][3]}"></i>${SKF_BY[c][1]}</span>`).join('');
+}
+/* ============================ BESCHRIFTUNGEN ANTIPPEN ============================
+   Eine Beschriftung, die im Text der Skizze vorkommt, lässt sich antippen: Es erscheint der Satz,
+   der sie erklärt – aus den geprüften Texten der Skizze selbst, nichts Neues dazuerfunden. */
+const SKF_STOP = new Set(['oben','unten','links','rechts','vorher','nachher','heute','später','danach','innen','außen','vorne','hinten','start','ziel','ende','nein','viele','alle','mehr','weniger']);
+function skfSentences(a){ return a.steps.flatMap((s, i) => (typeof afSentences === 'function' ? afSentences(s.c) : String(s.c).split(/(?<=[.!?])\s+/)).map(t => ({ t: t.trim(), i }))); }
+function skfFind(a, term, cur, scn){
+  const base = String(term).replace(/[„“"()…:,;!?]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (base.length < 3 || /^[\d\s.,%×÷=+−–→≈<>°/-]+$/.test(base) || SKF_STOP.has(base.toLowerCase())) return null;
+  const S = skfSentences(a), low = x => x.toLowerCase();
+  const tries = [base].concat(base.split(' ').filter(w => w.length >= 5 && !SKF_STOP.has(low(w))).sort((x, y) => y.length - x.length));
+  for (const t of tries){
+    const re = new RegExp('(^|[^a-zäöüß])' + low(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    const hit = S.filter(s => re.test(low(s.t)));
+    if (hit.length){
+      /* bevorzugt: Satz, in dem das Wort früh steht (er handelt davon), dann der aktuelle Schritt, dann dieselbe Szene */
+      const sc = h => (low(h.t).search(re) < 25 ? 0 : 2.5) + (h.i === cur ? 3 : 0) + (scn[h.i] === scn[cur] ? 0 : 1) + Math.min(3, Math.abs(h.i - cur)) * .1;
+      hit.sort((x, y) => sc(x) - sc(y)); return { term: base, s: hit[0] }; }
+  }
+  return null;
+}
+(function(){
+  const _open = ablOpen;
+  ablOpen = function(k){
+    const r = _open.apply(this, arguments);
+    try {
+      const P = ABL_P, a = ABL[k]; if (!P || !a) return r;
+      const scn = ablScn(a);
+      /* Beschriftungen vorbereiten: getrennte Zeilen („Bundes-“ / „präsident“) zusammenführen */
+      P.o.querySelectorAll('.ab-step').forEach(g => {
+        const ts = [...g.querySelectorAll('text')];
+        ts.forEach((t, j) => {
+          let lab = t.textContent; const nx = ts[j + 1];
+          if (/-$/.test(lab) && nx && /^[a-zäöüß]/.test(nx.textContent)) lab = lab.slice(0, -1) + nx.textContent;
+          if (j > 0 && /-$/.test(ts[j - 1].textContent) && /^[a-zäöüß]/.test(lab)) lab = ts[j - 1].textContent.slice(0, -1) + lab;
+          const f = skfFind(a, lab, +g.dataset.i, scn);
+          if (f){ t.classList.add('skf-tap'); t.dataset.term = f.term; }
+        });
+      });
+      const inn = P.o.querySelector('.ab-in');
+      inn.addEventListener('click', ev => {
+        const t = ev.target.closest && ev.target.closest('text.skf-tap');
+        const old = inn.querySelector('.skf-pop');
+        if (!t){ if (old && !ev.target.closest('.skf-pop')) old.remove(); return; }
+        ev.stopPropagation(); if (old) old.remove();
+        const g = t.closest('.ab-step'), f = skfFind(a, t.dataset.term, +g.dataset.i, scn); if (!f) return;
+        /* steht die Erklärung schon im Text darunter: dort markieren statt doppelt zeigen */
+        if (f.s.i === P.i){ const cap = P.o.querySelector('.ab-cap'); if (cap){ const re = new RegExp('(' + f.term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'i');
+          if (re.test(cap.textContent)){ cap.innerHTML = zeitEsc(cap.textContent).replace(re, '<mark class="skf-mark">$1</mark>'); return; } } }
+        const pop = document.createElement('div'); pop.className = 'skf-pop';
+        pop.innerHTML = `<b>${zeitEsc(f.term)}</b><span>${zeitEsc(f.s.t)}</span>${f.s.i !== P.i ? `<button class="skf-go" data-i="${f.s.i}">Zu Schritt ${f.s.i + 1}</button>` : ''}`;
+        inn.appendChild(pop);
+        const ir = inn.getBoundingClientRect(), tr = t.getBoundingClientRect();
+        const top = tr.bottom - ir.top + 6, left = Math.max(8, Math.min(ir.width - pop.offsetWidth - 8, tr.left - ir.left + tr.width / 2 - pop.offsetWidth / 2));
+        pop.style.top = top + 'px'; pop.style.left = left + 'px';
+        const go = pop.querySelector('.skf-go'); if (go) go.onclick = e2 => { e2.stopPropagation(); pop.remove(); ablStop(); ablGo(+go.dataset.i); };
+      }, true);
+      /* Hinweis beim ersten Mal */
+      if (P.o.querySelector('.skf-tap')){ let seen = 0; try { seen = +localStorage.getItem('skf_hint') || 0; } catch(e){}
+        if (seen < 3){ const h = document.createElement('p'); h.className = 'skf-hint'; h.textContent = 'Tipp: Beschriftungen in der Skizze antippen'; P.o.querySelector('.ab-svg').insertAdjacentElement('beforebegin', h); try { localStorage.setItem('skf_hint', String(seen + 1)); } catch(e){} } }
+    } catch(e){ console.warn(e); }
+    return r;
+  };
+  /* Beim Weiterblättern alte Erklärung schließen */
+  const _go2 = ablGo;
+  ablGo = function(){ try { const p = ABL_P && ABL_P.o.querySelector('.skf-pop'); if (p) p.remove(); } catch(e){} return _go2.apply(this, arguments); };
+})();
+/* ============================ EINHEITLICHES DESIGN: ICONS IN DER „ICH“-LISTE ============================
+   Einige Einträge (Rekorde, Vergessenskurve, Fehlerbuch …) hatten kein Symbol, andere schon. */
+const DSL_IC = {
+  nvErf: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/>',
+  nvVk: '<path d="M3 4v16h18"/><path d="M6 8c3 0 4 8 7 8 2.5 0 4-3 7-3"/>',
+  nvFb: '<path d="M5 4h11l3 3v13H5z"/><path d="M9 10l6 6M15 10l-6 6"/>',
+  nvSsr2: '<path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/>',
+  nvSw: '<path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+  nvAlb: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/>'
+};
+function dslIcons(){
+  document.querySelectorAll('#main .dash-statlink').forEach(b => {
+    if (b.querySelector('.dsl-ic') || !DSL_IC[b.id]) return;
+    b.insertAdjacentHTML('afterbegin', `<span class="dsl-ic"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round">${DSL_IC[b.id]}</svg></span>`);
+  });
+}
+(function(){
+  const _n = nav2Go;
+  nav2Go = function(k){ const r = _n.apply(this, arguments); if (k === 'ich') { try { dslIcons(); setTimeout(dslIcons, 0); } catch(e){} } return r; };
 })();
 
 /* ---- Sync-Boot: PIN abfragen, dann App starten ---- */
