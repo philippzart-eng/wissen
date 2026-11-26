@@ -4048,7 +4048,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-26j · Verbindungen, gemischte Heute-Runde, Gedächtnismodell passt sich an, bessere Fragen, neue Stationen';
+const APP_VERSION = '2026-11-26k · Finde den Fehler: immer mehrere Zahlen zur Auswahl';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -25457,11 +25457,22 @@ function openBildDetektiv(back){
 
 /* ---------------- 4 · Finde den Fehler ---------------- */
 function feStrip(h){ const d = document.createElement('div'); d.innerHTML = String(h || ''); return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+function feNums(t){ return (t.match(/\d+(?:[.,]\d+)?/g) || []).length; }
 function fePool(){
   if (fePool.c) return fePool.c;
-  const out = [];
+  const out = [], mut = /(^|[^\d.,\s]|[^\d]\s)[1-9]\d{2,3}(?![\d.,%]|\s\d{3})/;
   for (const pid in PATH_INLINE){ const p = PATH_INLINE[pid]; if (!p || !p.stationen) continue;
-    p.stationen.forEach(st => (st.lektion || []).forEach(pg => { const t = feStrip(pg.text); if (t.length > 120 && t.length < 520 && /(^|[^\d.,\s]|[^\d]\s)[1-9]\d{2,3}(?![\d.,%]|\s\d{3})/.test(t)) out.push({ t, st, pid }); })); }
+    p.stationen.forEach(st => {
+      const pages = (st.lektion || []).map(pg => feStrip(pg.text)).filter(Boolean);
+      // kürzester Ausschnitt (eine Seite oder zwei/drei aufeinanderfolgende) mit mindestens 3 Zahlen
+      let best = null;
+      for (let a = 0; a < pages.length; a++) for (let b = a; b < Math.min(pages.length, a + 3); b++){
+        const t = pages.slice(a, b + 1).join(' ');
+        if (t.length > 700 || feNums(t) < 3 || !mut.test(t)) continue;
+        if (!best || t.length < best.length) best = t;
+      }
+      if (best) out.push({ t:best, st, pid });
+    }); }
   return (fePool.c = out);
 }
 function feMutate(txt){
@@ -25487,7 +25498,7 @@ function openFehler(back){
     const bad = words.findIndex(w => mu.at >= w.s && mu.at < w.e);
     let tries = 0;
     nsMain(`${nsTop('Finde den Fehler', `${R.pts} Punkte`)}<p class="ns-kicker">Text ${R.i} von ${R.items.length} · ${nsEsc(it.st.titel)}</p>
-      <h2 class="ns-q">Eine Zahl stimmt nicht. Tipp sie an.</h2>
+      <h2 class="ns-q">Eine der Zahlen stimmt nicht. Tipp sie an.</h2>
       <p class="fe-text">${words.map((w, i) => `<span class="fe-w" data-i="${i}">${nsEsc(w.w)}</span>`).join(' ')}</p><div id="feFb"></div>`);
     nsWire(back);
     document.querySelectorAll('#main .fe-w').forEach(s => s.onclick = () => {
