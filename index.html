@@ -4093,7 +4093,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-26d · Vibration auf dem iPhone direkt beim Tippen, Testknopf';
+const APP_VERSION = '2026-11-26e · Wiederholen: Falsches kommt erst morgen wieder statt in Endlosschleife';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -24748,7 +24748,7 @@ schedule = function(card, grade){
   if (G === 1){ card.lapses = (card.lapses || 0) + 1; card.reps = 0; card.intv = 0; }
   else { card.reps = (card.reps || 0) + 1; card.intv = fsrsInterval(card.s); }
   card.ef = Math.round((1.3 + (10 - card.d) / 9 * 1.5) * 100) / 100;   // für ältere Anzeigen
-  card.last = today; card.due = today + card.intv;
+  card.last = today; card.due = today + Math.max(card.intv, 1);   // auch Fehler erst morgen wieder – sonst Endlosschleife im Wiederholen
   return card;
 };
 /* Wie gut sagt das Modell dein Gedächtnis vorher? */
@@ -24758,6 +24758,20 @@ function fsrsCalib(){
   const n = L.length, p = L.reduce((s, x) => s + x[0], 0) / n, a = L.reduce((s, x) => s + x[1], 0) / n * 100;
   return { n, p:Math.round(p), a:Math.round(a) };
 }
+
+/* Heute schon geübt und falsch: nicht sofort wieder fällig (alte Karten nachträglich korrigieren) */
+function fsrsNoSameDay(){
+  const t = todayNum();
+  const fix = o => { let n = 0; for (const k in o){ const c = o[k]; if (c && c.last === t && (c.due ?? 0) <= t){ c.due = t + 1; n++; } } return n; };
+  try { const z = loadZeitSR(); if (fix(z)) localStorage.setItem(ZEIT_SR_KEY, JSON.stringify(z)); } catch(e){}
+  try { const w = loadWissenSR(); if (fix(w)) localStorage.setItem('sr_wissen', JSON.stringify(w)); } catch(e){}
+  try { const g = loadGlobal(); if (g.mem && (fix(g.mem.p || {}) + fix(g.mem.m || {}))) localStorage.setItem('wissen_global', JSON.stringify(g)); } catch(e){}
+}
+try { fsrsNoSameDay(); } catch(e){}
+(function(){
+  const _g = renderGedaechtnis;
+  renderGedaechtnis = function(){ try { fsrsNoSameDay(); } catch(e){} return _g.apply(this, arguments); };
+})();
 /* ==========================================================================
    Aktiv abrufen statt wiedererkennen: Sitzt eine Station schon (Stabilität
    ≥ 7 Tage), kommen kurze Multiple-Choice-Antworten als Eingabe – mit
