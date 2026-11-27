@@ -4204,7 +4204,7 @@ const WISSEN_ST_T = {};
 /* KARTE_GEO: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* ZEIT_NETZ: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
 /* XLINK: als JSON ausgelagert, wird beim ersten Zugriff gelesen */
-const APP_VERSION = '2026-11-27f · Reels 2.0: Story-Drehbuch, Kartenflug, Zeitstrahl, Rate-Pause, Originalfilme';
+const APP_VERSION = '2026-11-27g · Videos aus Wikipedia für alle Reels';
 const chevSVG = '<svg class="chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
 
 /* ===== MEGA-LISTEN — Daten ===== */
@@ -16758,7 +16758,7 @@ function rlgPlan(c){
   const seen = new Set(); let gi = 0;
   c.scenes.forEach(s => {
     const v = s.v || {}, key = JSON.stringify(v);
-    const tyOnly = !v.sk && !v.med && v.map == null && !v.ava && v.tl == null && v.clip == null;
+    const tyOnly = !v.sk && !v.med && v.map == null && !v.ava && v.tl == null && v.clip == null && !v.clipf;
     if (s.k === 'ask') { seen.add(key); return; }
     if (tyOnly || seen.has(key)) s.g = gi++;
     seen.add(key);
@@ -26860,7 +26860,7 @@ const RL_CLIPS = [
 ];
 const RLC_KEY = 'wissen_rlclip_v1', RLC_MS = 14000;
 let RLC_CACHE = (() => { try { return JSON.parse(localStorage.getItem(RLC_KEY) || '{}'); } catch(e){ return {}; } })();
-const RLC_FLIGHT = {};
+const RLC_FLIGHT = {}, RLV_MEM = {};
 function rlcPage(f){ return 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(f); }
 function rlcInfo(f){
   const hit = RLC_CACHE[f]; if (hit && todayNum() - hit.d < 30) return Promise.resolve(hit.l);
@@ -26881,16 +26881,16 @@ function rlcPick(l){
   return ok[0] || null;
 }
 function rlcHTML(i){
-  const c = RL_CLIPS[i]; if (!c) return '';
-  return `<div class="rl-sk rl-clip" data-clip="${i}"><span class="bild-ph"></span><video muted playsinline webkit-playsinline preload="none" disablepictureinpicture></video>
-    <span class="rl-clip-badge">▶ Originalfilm</span><a class="rl-clip-src" href="${rlcPage(c.f)}" target="_blank" rel="noopener">Wikimedia Commons</a></div>`;
+  const c = typeof i === 'string' ? RLV_MEM[i] : RL_CLIPS[i]; if (!c) return '';
+  return `<div class="rl-sk rl-clip" data-clip="${zeitEsc(String(i))}"><span class="bild-ph"></span><video muted playsinline webkit-playsinline preload="none" disablepictureinpicture></video>
+    <span class="rl-clip-badge">▶ ${typeof i === 'string' ? 'Video' : 'Originalfilm'}</span><a class="rl-clip-src" href="${rlcPage(c.f)}" target="_blank" rel="noopener">Wikimedia Commons</a></div>`;
 }
 function rlcPlay(sc){
   const box = sc.querySelector('.rl-clip'); if (!box) return;
-  const c = RL_CLIPS[+box.dataset.clip], v = box.querySelector('video'); if (!c || !v) return;
+  const ck = box.dataset.clip, c = /^\d+$/.test(ck) ? RL_CLIPS[+ck] : RLV_MEM[ck], v = box.querySelector('video'); if (!c || !v) return;
   const start = () => { try { v.currentTime = c.t0 || 0; } catch(e){} const p = v.play(); if (p && p.catch) p.catch(() => {}); };
   if (v.dataset.ready){ start(); return; }
-  rlcInfo(c.f).then(l => {
+  (c.l ? Promise.resolve(c.l) : rlcInfo(c.f)).then(l => {
     const best = rlcPick(l || []);
     if (!best){ box.classList.add('off'); box.querySelector('.bild-ph').outerHTML = `<span class="rl-clip-off">Dieses Video kann dein Gerät hier nicht abspielen.<br>Tippe auf „Wikimedia Commons“, um es dort anzusehen.</span>`; return; }
     v.src = best.s; v.dataset.ready = '1';
@@ -27044,6 +27044,7 @@ function rltPlay(cv){
   const _vis = rlVis;
   rlVis = function(v){
     if (v && v.clip != null) return rlcHTML(v.clip);
+    if (v && v.clipf) return rlcHTML(v.clipf);
     if (v && v.tl != null) return `<div class="rl-sk rl-tl"><canvas class="rltl-cv" data-tl="${zeitEsc(String(v.tl))}"></canvas></div>`;
     if (v && v.map != null && typeof lkOrt === 'function' && lkOrt(v.map))
       return `<div class="rl-sk rl-map"><div class="lk-mini"><canvas class="lk-cv rlf-cv" data-done="1" data-lk="${v.map}"${v.from != null ? ` data-from="${v.from}"` : ''}></canvas><div class="lk-cap">${lkPlaceLine(v.map)}</div></div></div>`;
@@ -27079,18 +27080,18 @@ function rlsCheck(obj, src){
 }
 function rlsFmt(sec){ return `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, '0')}`; }
 function rlsDur(c){
-  const sec = c.scenes.reduce((a, x) => a + (x.lazyAsk || x.k === 'ask' ? 6000 : x.v && x.v.clip != null ? RLC_MS : rlReadMs(rlSceneText(x))) / 1000, 0) + (c.q || c.yq ? 6 : 0);
+  const sec = c.scenes.reduce((a, x) => a + (x.lazyAsk || x.k === 'ask' ? 6000 : x.v && (x.v.clip != null || x.v.clipf) ? RLC_MS : rlReadMs(rlSceneText(x))) / 1000, 0) + (c.q || c.yq ? 6 : 0);
   c.dur = sec; c.scenes[0].t = c.scenes[0].t.replace(/^▶ [\d:]+ · /, '') ; c.scenes[0].t = `▶ ${rlsFmt(sec)} · ${c.scenes[0].t}`;
 }
 function rlsApply(c, noDur){
   if (!c || !c.sid || c._rls) return false;
   const S = rlsGet(c.sid); if (!S) return false;
   const sc = c.scenes, title = sc[0];
-  const keepHead = sc.slice(1).filter(s => !s.lazyAsk && (s.pre || (s.v && s.v.clip != null)));
+  const keepHead = sc.slice(1).filter(s => !s.lazyAsk && (s.pre || (s.v && (s.v.clip != null || s.v.clipf))));
   const ask = sc.find(s => !s.lazyAsk && s.k === 'ask' && !s.pre);
   const pers = sc.filter(s => !s.lazyAsk && s.k === 'm' && /^(Wer dahintersteht|Ebenfalls wichtig)$/.test(s.h));
   const sum = sc.find(s => !s.lazyAsk && s.k === 'sum');
-  const vs = sc.filter(s => !s.lazyAsk && s.k === 'm' && !pers.includes(s) && !(s.v && s.v.clip != null)).map(s => s.v).filter(Boolean);
+  const vs = sc.filter(s => !s.lazyAsk && s.k === 'm' && !pers.includes(s) && !(s.v && (s.v.clip != null || s.v.clipf))).map(s => s.v).filter(Boolean);
   const V = j => vs.length ? vs[j % vs.length] : title.v;
   const body = [];
   if (S.hook) body.push({ k:'m', h:'Stell dir vor', t:S.hook, say:S.hook, v:V(0), pan:1 });
@@ -27180,7 +27181,7 @@ function rlpMapFrom(c){
       const isQ = (j >= c.scenes.length && j < n) || (s && s.k === 'ask');
       if (isQ){ clearTimeout(RL.timer); RL._wt = setTimeout(() => { if (RL.sc === j && rlCard() === box && !sc.querySelector('.done')) box.classList.add('rl-wait'); }, 5000); }
       /* 7 · Film: länger stehen lassen */
-      if (s && !s.lazyAsk && s.v && s.v.clip != null){
+      if (s && !s.lazyAsk && s.v && (s.v.clip != null || s.v.clipf)){
         rlcPlay(sc);
         if (!RL.paused){ clearTimeout(RL.timer); const tk = ++RL.token; rlSetBar(j, RLC_MS);
           RL.timer = setTimeout(() => { if (tk === RL.token && !RL.paused) rlShow(j + 1); }, RLC_MS); }
@@ -27196,7 +27197,7 @@ function rlpMapFrom(c){
   rlActivate = function(i){
     try { const c = FEED.deck[i]; if (c && c.t === 'v' && RL.i !== i){ c._pre = null; } } catch(e){}
     const r = _act.apply(this, arguments);
-    try { [i, i + 1, i + 2].forEach(k => { const c = FEED.deck[k]; if (c && c.t === 'v' && c.sid) rlsFetch(c); }); } catch(e){}
+    try { [i, i + 1, i + 2].forEach(k => { const c = FEED.deck[k]; if (c && c.t === 'v' && c.sid) rlsFetch(c); if (c && c.t === 'v') rlvAdd(c); }); } catch(e){}
     return r;
   };
   /* Vorab-Tipp: nicht auflösen, nur merken */
@@ -27233,6 +27234,58 @@ function zrClip(id){
   img.remove();
   rlcPlay(document.querySelector('#main .zr-clipwrap'));
 }
+
+/* ---------- Videos aus dem Wikipedia-Artikel jedes Reels ---------- */
+const RLV_KEY = 'wissen_rlvid_v1', RLV_FLIGHT = {};
+let RLV_CACHE = (() => { try { return JSON.parse(localStorage.getItem(RLV_KEY) || '{}'); } catch(e){ return {}; } })();
+const RLV_SKIP = /(logo|intro|trailer|jingle|signet|wikipedia|wikimedia|interview_mit|pronunciation|aussprache|de-|en-)/i;
+function rlvSave(){ try { const k = Object.keys(RLV_CACHE); if (k.length > 2500) k.sort((a, b) => RLV_CACHE[a].d - RLV_CACHE[b].d).slice(0, k.length - 2500).forEach(x => delete RLV_CACHE[x]); localStorage.setItem(RLV_KEY, JSON.stringify(RLV_CACHE)); } catch(e){} }
+function rlvStrip(h){ const d = document.createElement('div'); d.innerHTML = String(h || ''); return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+function rlvFind(title){
+  const hit = RLV_CACHE[title]; if (hit && todayNum() - hit.d < 60) return Promise.resolve(hit.v || null);
+  if (RLV_FLIGHT[title]) return RLV_FLIGHT[title];
+  const u = 'https://de.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&redirects=1&generator=images&gimlimit=60&prop=videoinfo'
+    + '&viprop=mediatype%7Cmime%7Csize%7Cderivatives%7Curl%7Cextmetadata&viextmetadatafilter=ImageDescription%7CObjectName&viextmetadatalanguage=de&titles=' + encodeURIComponent(title);
+  return RLV_FLIGHT[title] = fetch(u).then(r => r.ok ? r.json() : null).then(j => {
+    if (!j) return null; /* Netzfehler: nichts merken, später neu versuchen */
+    const words = title.toLowerCase().split(/[\s_()-]+/).filter(w => w.length > 3);
+    const vids = ((j.query || {}).pages || []).map(p => ({ p, vi: (p.videoinfo || [])[0] }))
+      .filter(x => x.vi && x.vi.mediatype === 'VIDEO' && !RLV_SKIP.test(x.p.title) && (x.vi.height || 0) >= 160 && !(x.vi.duration && x.vi.duration < 2));
+    vids.sort((a, b) => words.filter(w => b.p.title.toLowerCase().includes(w)).length - words.filter(w => a.p.title.toLowerCase().includes(w)).length);
+    let v = null;
+    if (vids.length){ const x = vids[0], em = x.vi.extmetadata || {};
+      const desc = rlvStrip((em.ImageDescription || {}).value), name = rlvStrip((em.ObjectName || {}).value) || x.p.title.replace(/^(Datei|File):/, '').replace(/\.[a-z0-9]+$/i, '').replace(/_/g, ' ');
+      const cap = (desc && desc.length > 12 ? desc : name);
+      v = { f: x.p.title.replace(/^(Datei|File):/, '').replace(/ /g, '_'), cap: (cap.length > 150 ? cap.slice(0, cap.lastIndexOf(' ', 147)) + ' …' : cap) + ` · Video aus dem Wikipedia-Artikel „${title}“`,
+        l: (x.vi.derivatives || []).map(d => ({ s: d.src, t: d.type || '', h: +d.height || 0 })).concat(x.vi.url ? [{ s: x.vi.url, t: x.vi.mime || '', h: 9999 }] : []) };
+    }
+    RLV_CACHE[title] = { d: todayNum(), v }; rlvSave(); return v;
+  }).catch(() => null).finally(() => { delete RLV_FLIGHT[title]; });
+}
+function rlvAdd(c){
+  if (!c || !c.scenes || c._vid) return;
+  if (c.scenes.some(s => !s.lazyAsk && s.v && (s.v.clip != null || s.v.clipf))){ c._vid = 1; return; }
+  const src = typeof rlgSource === 'function' ? rlgSource(c) : null; if (!src || !src.t) { c._vid = 1; return; }
+  c._vid = 1;
+  rlvFind(src.t).then(v => {
+    if (!v || c.scenes.some(s => !s.lazyAsk && s.v && s.v.clipf)) return;
+    const key = 'w:' + v.f; RLV_MEM[key] = v;
+    c.scenes.splice(Math.min(2, c.scenes.length), 0, { k:'m', h:'Video', t: v.cap, say: v.cap, v:{ clipf: key } });
+    c._rlg = undefined; c.scenes.forEach(s => { if (!s.lazyAsk) delete s.g; });
+    rlsDur(c); rlsRerender(c);
+  });
+}
+/* Aus dem Speicher sofort einsetzen, damit Videos schon beim ersten Anzeigen da sind */
+(function(){
+  const _fin = rlFinish;
+  rlFinish = function(pool){
+    const r = _fin.apply(this, arguments);
+    try { pool.v.forEach(c => { if (c.scenes.some(s => !s.lazyAsk && s.v && (s.v.clip != null || s.v.clipf))) return;
+      const src = typeof rlgSource === 'function' ? rlgSource(c) : null; const hit = src && src.t && RLV_CACHE[src.t];
+      if (hit && hit.v){ const key = 'w:' + hit.v.f; RLV_MEM[key] = hit.v; c.scenes.splice(Math.min(2, c.scenes.length), 0, { k:'m', h:'Video', t: hit.v.cap, say: hit.v.cap, v:{ clipf: key } }); c._vid = 1; rlsDur(c); } }); } catch(e){}
+    return r;
+  };
+})();
 /* ==========================================================================
    Gemischt üben (Interleaving): In der Wiederholung folgen nie zwei Fragen aus
    demselben Bereich aufeinander, und in der Heute-Runde mischen sich fällige
